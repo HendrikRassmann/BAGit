@@ -1,0 +1,94 @@
+\chapter{Einleitung}
+\label{chap:ein}
+
+% TODO: Vorkommen :
+%Die Bezeichnung "Vorkommen" mag ein fester Begriff sein, in meinem Unwissen erscheint er mit als nicht ausreichemd bezugsgenau. Ich verstehe es als "Liste von Schriftsätzen, in der die ähnlichen Wörter vorkommen" oder als "Auflistung der in Bezug......ähnlichen Wörter in anderen Schriftsätzen."
+
+
+
+\paragraph{Keilschrift}
+
+% Cuneiform and why is it interesting
+Die Keilschrift ist neben der ägyptischen Hieroglyphenschrift das älteste uns bekannte Schriftsystem 
+der Welt. Sie wurde vor mehr als fünftausend Jahren in Mesopotamien entwickelt und bis mindestens 
+ins erste Jahrhundert n.\,Chr. zum Schreiben verschiedener Sprachen genutzt. Beispiele für in 
+Keilschrift geschriebene Sprachen sind das Sumerische, Akkadische und Hethitische. Keilschrifttafeln 
+sind kulturhistorisch von hohem Wert, da sie Aufschluss über das Leben dieser frühen Hochkulturen geben. 
+Die überlieferten Texte umfassen dabei alle Bereiche des Lebens: von Verwaltungstexten über religiöse 
+Texte bis hin zu privater Briefkorrespondenz. \cite{Rot15}
+
+% Questions/problems/tasks that exist in this domain
+Keilschriftzeichen wurden primär durch Eindrücken eines Griffels mit dreieckiger Grundfläche in Ton erstellt.
+%
+Schriftzeichen setzen sich aus zwei Elementen zusammen: Keilen und Winkelhaken. 
+Während für einen Keil die Spitze des Griffels in den Ton gedrückt und daraufhin über die Kante abgerollt wird, 
+entstehen Winkelhaken durch das Eindrücken der Rückseite des Griffels. Schriftzeichen sind also dreidimensionale
+Strukturen. \cite{stylus}
+Eine beispielhafte Darstellung von Keilschrift findet sich in Abbildung \ref{abb1}.
+
+\begin{figure}[h]
+	\centering
+	%\includegraphics[width= 0.7\textwidth]{Bilder/intro.jpg}
+	\caption[Bla]{Ausschnitt aus einer Keilschrifttafel \protect\footnotemark} \label{abb1}
+\end{figure}
+
+
+\footnotetext{G. G. W. Müller. Mainzer Photoarchiv, Hethitologie Portal Mainz, 2002-2019. \\ \url{http://www.hethport.adwmainz.de/fotarch}} 
+
+Es eröffnen sich viele interessante Aufgabengebiete bei der Betrachtung von Keilschrifttafeln. Genannt seien hier 
+die Entschlüsselung der Bedeutung einzelner Keilschriftzeichen einer Sprache und darauf aufbauend die 
+Übersetzung der zahlreichen gefundenen Tafeln, sowie die Analyse von Schreibstilen und -charakteristiken,
+mithilfe derer zum Beispiel Zuordnungen von Texten in einen zeitlichen oder politischen Kontext erfolgen kann.
+
+
+\paragraph{Wordspotting}
+% Solution to this question -> Wordspotting
+
+Bei allen genannten Aufgaben könnten automatische Handschriftanalysesysteme den Altorientalisten und
+Philologen eine große Hilfe sein. Eine Art von Systemen, die beispielsweise genutzt werden kann, um
+den Prozess der Transliteration, der Umschrift von Keilschrifttexten in ein anderes Schriftsystem
+wie dem lateinischen, zu unterstützen, sind Wordspotting"=Systeme.
+
+Als Wordspotting wird die Aufgabe der automatischen Detektion von Anfragewörtern in Dokumenten bezeichnet
+\cite{MHR}. Dabei kann das Anfragewort als Zeichenkette oder als Beispielbild (\emph{Anfragebild}) übergeben werden. Im ersten Fall wird von 
+\emph{Query-by-String-}{(QbS"~)}Anfragen gesprochen, im zweiten Fall von \emph{Query-by-Example-}(QbE-)Anfragen. Das Ergebnis 
+der Anfrage ist eine Liste von Vorkommen der in Bezug auf die gewählte Vergleichsmethode ähnlichen Wörter. 
+
+Ein mögliches konkretes Anwendungsszenario gestaltet sich wie folgt: Eine bisher nicht transliterierte 
+Sammlung von Keilschrifttafeln soll analysiert werden. Dabei treten  
+einige seltene Schriftzeichen auf. Nun sollen andere Vorkommen dieser Schriftzeichen gefunden und
+angezeigt werden. In dieser Situation kann ein QbE"=Wordspotting"=System zu Hilfe gezogen werden.
+
+In dieser Situation gibt es kein annotiertes Trainingsmaterial für das Wordspotting-System und die
+zu durchsuchenden Dokumente liegen unsegmentiert in Bildform vor. \emph{Segmentierung} bezeichnet hier die 
+Bestimmung zusammenhängender Regionen wie beispielsweise Zeilen oder Wörter, in die ein Dokument eingeteilt werden kann. 
+Diese Art der Vorverarbeitung kann im konkreten Szenario nicht vorausgesetzt werden.
+
+In der vorliegenden Arbeit soll ein Wordspotting"=System betrachtet werden, welches von \text{Rothacker}
+in \cite{LDiss} vorgestellt wurde. Es arbeitet auf der Basis von Bag"=of"=Features"=Hidden"=Markov"=Modellen, kurz
+BoF-HMMs.
+%
+% Issue with this solution
+\textsc{Rothacker} hat in seinen Untersuchungen festgestellt, dass die Deskriptorgröße, die Größe des von dem 
+Deskriptor beschriebenen Bildbereichs, ein für die Klassifikationsleistung des Systems entscheidender Parameter ist. 
+Weiterhin stellt er fest, dass dieser von den Charakteristiken der betrachteten Bildersammlung abhängig ist. 
+Da im anvisierten Anwendungsszenario kein annotierter Trainingsdatensatz vorliegt, um die Deskriptorgröße zu bestimmen, 
+stellt er in \cite[Kap. 5.4.1]{LDiss} eine Methode zur unüberwachten Deskriptorgrößenschätzung vor.
+
+
+
+% Solution to this issue
+Im Laufe der Arbeit soll das vorgestellte System hinsichtlich der Frage nach dem Einfluss der Größe des SIFT"=Deskriptors 
+sowie der Anwendbarkeit dieser Methode auf einen aus Bildern mit hethitischer Keilschrift bestehenden Datensatz evaluiert werden. 
+Da das System zum Wordspotting auf englischer Handschrift entwickelt wurde, soll vergleichend ein bei der Evaluation von 
+Wordspotting"=Systemen verbreiteter Datensatz betrachtet werden. Zudem soll der Einfluss weiterer Parameter des genutzten 
+Systems auf die Abhängigkeit der Klassifikationsleistung von der Deskriptorgröße beurteilt werden.
+
+
+\paragraph{Gliederung}
+
+Die Arbeit ist wie folgt gegliedert: In Kapitel \ref{chap:grund} sollen die Grundlagen erläutert werden, welche zum Verständnis des Wordspotting"=Systems erforderlich sind. Nachfolgend werden in Kapitel \ref{chap:verw} verwandte Arbeiten präsentiert. Aufbauend auf den Grundlagen folgt in Kapitel \ref{chap:meth} eine Beschreibung das verwendeten Systems und der angewandten Methodik zur Deskriptorgrößenschätzung. Die in dieser Arbeit verwendeten Datensätze sowie die Ergebnisse der durchgeführten Experimente werden in Kapitel \ref{chap:eval} dargestellt und erläutert. Abschließend wird ein Fazit formuliert und ein Ausblick auf mögliche weiterführende Forschungsthemen gegeben.
+
+
+
+

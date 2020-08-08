@@ -1,0 +1,133 @@
+% Add Packages
+% -------------------------------------------------------------------
+% URLs
+\usepackage{url}
+
+% -------------------------------------------------------------------
+% Misc Utility
+\usepackage[cmex10]{amsmath}
+\usepackage[ruled,linesnumbered]{algorithm2e}
+%\usepackage{algorithmicx}
+\usepackage{array}
+\usepackage{mdwmath}
+\usepackage{mdwtab}
+\usepackage{eqparbox}
+
+% -------------------------------------------------------------------
+% Grafikpakete einbinden
+\usepackage{amssymb}
+\usepackage{flafter}
+\usepackage{listings}
+\usepackage{subfig}
+
+
+% -------------------------------------------------------------------
+% Korrekte Darstellung der Umlaute
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage[utf8]{inputenc}
+\usepackage[english,german,ngerman]{babel}
+\usepackage{microtype}
+	
+% -------------------------------------------------------------------
+% Anführungszeichen
+\usepackage[babel,german=quotes]{csquotes}
+
+
+% -------------------------------------------------------------------
+% Keilschriftzeichen
+
+% -------------------------------------------------------------------
+% Classic thesis:
+\usepackage{classicthesis-ldpkg} 
+% Options for classicthesis.sty:
+\usepackage[eulerchapternumbers,subfig,eulermath,pdfspacing,parts,dottedtoc]{classicthesis}
+
+% -------------------------------------------------------------------
+% Setup and Finetuning
+\newlength{\abcd} % for ab..z string length calculation
+\newcommand{\myfloatalign}{\centering} % how all the floats will be aligned
+\setlength{\extrarowheight}{3pt} % increase table row height
+
+% -------------------------------------------------------------------
+%Equation and figure numbering
+\numberwithin{equation}{section} 
+%sets equation numbers <chapter>.<section>.<index>
+\numberwithin{table}{section} 
+%sets equation numbers <chapter>.<section>.<index>
+\numberwithin{figure}{section} 
+%sets figure numbers <chapter>.<section>.<index>
+
+% -------------------------------------------------------------------
+% Captions look and feel
+\captionsetup{format=hang,font=small}
+
+
+% -------------------------------------------------------------------
+% TikZ
+\usepackage{tikz}
+\usetikzlibrary{automata, positioning, arrows}
+\usepackage{pgfplots}
+
+\pgfplotsset{%
+	plotstyle-unten/.style={%
+		grid=major, 
+		grid style={dotted,gray!25}, % Set the style
+		xlabel={Deskriptorgröße $g$}, 
+		ylabel={mAP [\%]},
+		%every node near coord/.style={font=\footnotesize},
+		legend style=
+		{at={(0.5,-0.2)},anchor=north,legend columns=-1,column sep=1ex,font=\small} % Put the legend below the plot
+	}
+}
+
+
+\pgfplotsset{%
+	plotstyle-neben/.style={%
+		grid=major, % Display a grid
+		grid style={dashed,gray!30}, % Set the style
+		%width=0.7\textwidth,
+		%height=0.525\textwidth,
+		%label style={font=\small},
+		%tick label style={font=\small},
+		%scaled x ticks=false,
+		%scaled y ticks=false,
+		xlabel={Deskriptorgröße $g$}, 
+		ylabel={mAP [\%]},
+		%legend style={at={(0.5,-0.2)},anchor=north,legend columns=-1,column sep=1ex,font=\small}, % Put the legend below the plot
+		legend style={at={(1.05,0.5)},anchor=west,font=\small},
+		legend cell align=left,
+		%x tick label style={rotate=90,anchor=east} % Display labels sideways
+		%every node near coord/.style={font=\footnotesize},
+		/pgf/number format/.cd,
+		use comma,
+		1000 sep={\,}
+	}
+}
+
+\pgfplotsset{%
+	plotstyle2/.style={%
+		grid=major, % Display a grid
+		grid style={dashed,gray!30}, % Set the style
+		width=0.7\textwidth,
+		height=0.525\textwidth,
+		label style={font=\small},
+		tick label style={font=\small},
+		scaled x ticks=false,
+		scaled y ticks=false,
+		%legend style={at={(0.5,-0.2)},anchor=north,legend columns=-1,column sep=1ex,font=\small}, % Put the legend below the plot
+		legend style={at={(1.05,0.5)},anchor=west,font=\small},
+		legend cell align=left,
+		%x tick label style={rotate=90,anchor=east} % Display labels sideways
+		every node near coord/.style={font=\footnotesize},
+		/pgf/number format/.cd,
+		use comma,
+		1000 sep={\,}
+	}
+}
+
+
+% -------------------------------------------------------------------
+% Optional, auf jeden Fall evaluieren! \TODO
+\usepackage{flafter} 
+%\usepackage[]{algorithm2e}
