@@ -3,19 +3,23 @@
 
 \section{Problemstellung}
 
+
 \subsection{Auftrag (Job)}
 Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt, nämlich seine
 
 \begin{description}
-	\item[Von Schedule unabhängige Eigenschaften] \hfil \\
-\textbf{Dauer} (processing time) $p_j$: Dauer die der Auftrag auf Maschinen mit genormter Arbeitsgeschwindigkeit benötigt um abgeschlossen zu werden.
-\textbf{Einreihung} (queueing time) $q_j$:Der Zeitpunkt, zudem ein Auftrag bekannt wird.
+\item[Von Schedule unabhängige Eigenschaften] \hfil \\
+\textbf{Dauer} (processing time) $p_j$: Dauer die der Auftrag auf Knoten mit genormter Arbeitsgeschwindigkeit benötigt um abgeschlossen zu werden.
+\textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zudem ein Auftrag $j$ bekannt wird.
 \textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden.
 \item[Durch Schedule bestimmte Eigenschaften]\hfill \\ 
-\textbf{adf}(completion time) $c_j$: dafadsfadsf
-\item[weitere, hier nicht beachtet]
+\textbf{Bearbeitungsbeginn}(start time) $s_j$: Der Zeitpunkt, zudem ein Auftrag $j$ begonnen wird. 
+\textbf{Abschluss}(completion time) $c_j$: Der Zeitpunkt, zudem ein Auftrag $j$ abgeschlossen wird.
+\textbf{Zugewiesene Knoten} (scheduled on nodes) $n_j$: Die Menge an Knoten, auf denen ein Auftrag $j$ ausgeführt wird.
+
+\item[Darüber hinaus] \hfil \\
+können Aufträge mit zusätlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
 \end{description}
-Darüberhinaus,auch etc, hier aber nicht relevant
 
 
 \subsection{MachineEnv}
@@ -25,7 +29,7 @@ Problemstellung, einleitung in Kurz
 
 Notation aus
 
-\subsection{Zielfunktionen}
+\section{Zielfunktionen}
 
 \paragraph{Makespan}
 
@@ -34,9 +38,9 @@ Weiterhin stellt er fest, dass dieser von den Charakteristiken der betrachteten 
 Da im anvisierten Anwendungsszenario kein annotierter Trainingsdatensatz vorliegt, um die Deskriptorgröße zu bestimmen, 
 stellt er in \cite[Kap. 5.4.1]{LDiss} eine Methode zur unüberwachten Deskriptorgrößenschätzung vor.
 
-\subsection{Online, Offline}
+\section{Online, Offline}
 
-\subsection{Scheduling Algorithmen}
+\section{Scheduling Algorithmen}
 
 \paragraph{FIFO}
 Schriftzeichen setzen sich aus zwei Elementen zusammen: Keilen und Winkelhaken. 
