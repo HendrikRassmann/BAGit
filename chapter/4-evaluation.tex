@@ -1,0 +1,46 @@
+\chapter{Evaluation}
+\label{chap:ein}
+
+\section{Reproduktion}
+
+Der hier verwendete Simulations Aufbau erlaubt auf Wunsch eine deterministische sequentielle Ausführung. Dies erlaubt weiterführende Untersuchungen, die in Kapitel 4.2.2 ausgeführt werden [relativen link einfügen].
+
+\section{Weiterführende Untersuchungen}
+
+\subsection{Backfilling und Fit als Funktionen höherer Ordnung}
+
+Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwandelungen der FiFo Funktion. Beide wählen den nächsten Auftrag abhängig vom Einreihungszeitpunkt $q_j$, jedoch unter Einschränkungen. "FiFo-Fit" wählt der ersten Auftrag unter den startbaren Aufträgen aus, "FiFo-BackFilling" wählt den ersten Auftrag, oder einen Auftrag, der den Bearbeitungsbeginn des ersten Auftrags nicht verzögert. "-Fit" und "-Backfilling" fügen also einen relevanten Kontext hinzu. Es liegt nahe, diese Erweiterungen als Funktionen höherer Ordnung zu betrachten. Ihre Domäne besteht aus einer Scheduling Funktion, den wartenden Aufträgen und einen Kontext - Anzahl an verfügbaren Knoten oder die Abschlusszeitpunkte und die Parallelität der laufenden Aufträge -, und bilden diese partiell auf einen Auftrag ab. 
+Da FirstFit-Backfilling von [PaperZitat] als Sieger auserkohren wurde, wird im folgenden Untersucht, ob LPT oder GPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.
+
+\paragraph{GPT}
+lorem Ipsum
+
+\paragraph{LPT}
+lorem Isumpdsfdsakfj
+
+
+
+\subsection{Property Based Testing zum Erkenntnisgewinn}
+
+\paragraph{Testen statt Simullieren}
+Während das Simullieren des Rechenclusters gute Auskunft darüber gibt, wie sich das System bei einer langen Reihe an Aufträgen verhällt, kristalliesiert sich dabei lediglich das durchschnittliche Verhalten heraus. Obwohl diese Analyse sinnvoll ist, um verschiedene Scheduling Funktionen asymptotisch mit einander zu vergleichen, wird durch das Mitteln von hunderten von Läufen nicht ersichtlich, in welchen Fällen eine normalerweise unterlegene Scheduling Funktion einer Anderen überlegen ist.\\
+Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Ein guter Einstiegspunkt in dieses Thema ist [initial Paper 1999]. Hier nur eine kleine Zusammenfassung der für uns wichtigen Aspekte. \\
+Ein Test besteht aus einer zu testenden Funktion, eine Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumptf. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall "kein Rauschen" enthällt.
+Eine Zahl wird geschrumpt, in dem sie verringer wird, ein Tupel von Zahlen, in dem eines der Elemente geschrumpft wird, und eine Liste, in dem Elemnter der Liste weggelassen oder geschrumpft werden.\\
+Um ein minimales Beispiel zu finden, in dem Scheduling Funktion $S_1$ Ziel Funktion $T$ besser minimiert als Scheduler $S_2$, können wir die Eigenschaft $T(S_1(x)) >= T (S_2(1))$, mit einem Auftragsgenerator$X$: $(Anzahl Konten,[(\pi_j <= Anzahl Knoten,p_j,q_j)])$ überprüfen.
+Ein vom Testframework gefundenes minimales Gegenbeispiel, zeigt uns einen Speziellen Fall, in dem $S_1$ ein besseres Ergebnis erzielt als $S_2$
+Für die meinsten Scheduling Funktionen ist das minimal Beispiel eines mit 3 Aufträgen, und einer kleinen Anzahl an Knoten [genaues nochmal testen].
+
+Hier nun einige Beispiele.
+
+\paragraph{Optimistisches Backfilling}
+Das vorgestellte "-Backfilling" verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum "-Fit" verglichene Wartezeit gering zuhalten, wird erfüllt, in dem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten nicht verzögert. Dies wird erreicht, in dem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet. Warum aber darf ein Auftrag $P'$, der wenige Knoten benötigt, nicht starten, vorausgesetzt, er nimmt nur so wenige Knoten in anspruch, dass $P$ wie geplant starten kann ($P$ benötigt noch $n$ Knoten zum starten, sobald er starten wird, sind aber $n+k, k>0$ Knoten frei, $\pi_{P'} <= k$).\\
+Es ist intuitiv, des es einen Haken gibt, ohne in Scheduling Theorie geübt zu sein, ist es aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische -Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing ohne viel Mühe eines generiert werden.
+\\(Bild einfügen)
+\\Wie in der Grafik erkenn bar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten $P_1$, allerdings den zweitbesten Kandidaten $P_2$. Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel ausfällt, kann wiederum durch eine Statistische Asuwertung untersucht werden.
+\\(vergleichendes Bild einfügen)
+
+\subsection{Simulation von Fehlerhaftem Verhalten}
+
+\paragraph{Lorem}
+ipsum
