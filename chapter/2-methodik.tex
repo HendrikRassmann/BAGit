@@ -41,27 +41,25 @@ lorem ipsum
 \section{Online, Offline}
 
 \section{Scheduling Algorithmen}
+Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheided. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. (Hier zitat einfügen aus lehrbuch "liste sortieren, mehrere möglichkeiten liste zu sortireren")
 
-\paragraph{FIFO}
-Schriftzeichen setzen sich aus zwei Elementen zusammen: Keilen und Winkelhaken. 
+\paragraph{FiFo}
+\textbf{First in First out} wählt zu jedem Zeitpunkt denjenigen Auftrag, der sich bereits am längsten in der Warteschlange befindet. Stehen nicht genug Knoten zur verfügung, um diesen Auftrag zu starten, müssen alle anderen Aufträge warten. FiFo minimiert. Dieses Verfahren ist zwar fair, führt allerdings zu viel ungenutzter Rechenzeit.
 
 \paragraph{SPT}
-ölkjfdsaölkdsajflösajfölsajföljasfdlkjaf
+\textbf{Shortest Processing Time first} wählt den Auftrag mit der die kürzesten angegebene Dauer. Dadurch wird versucht, die average waiting time gering zu halten. Darunter leidet die Fairness, und die maximum waiting time eines nach hinten verdrängten langen Auftrags steigt.
 
 \paragraph{GPT}
-dsafksadkjfadslkfflkadsfölkdsafölkadsf
+\textbf{Greatest Processing Time first} wählt genau invers zu spt aus den Auftrag mit der längsten angegebenen Dauer. Dadurch wird der makespan zu gunsten des average flow time minimiert.
 
 \paragraph{First Fit}
-dsafksadfölkdsajfölksadf
+\textbf{First Fit} ist eine Abwandeelung von FiFo. Hier wird  der Auftrag, der bereits am längsten wartet und sofort gestartet werden kann, ausgewählt. Dies verringert ungenutze Rechenzeit, allerdings werden Aufträge mit einer hohen Parallelität nach hinten verdrängt.
 
 \paragraph{Backfilling}
-dsafjölksadfjsaölkdfjdsafölksajdölkf
+\textbf{Backfilling} ist eine weitere Abwandlung von FiFo. Zu erst wird der Auftrag bestimmt, der bereits am längsten wartet. Sollte dieser nicht gestartet werden können, dürfen andere Aufträge gestartet werden, vorausgesetzt, sie werden früher abgeschlossen, als der zu erst gewählte Auftrag beginnen wird. So wird ungenutzte Rechenzeit vermieden, ohne das lange große Aufträge im Vergleich zu FiFo benachteiligt werden.
 
 \paragraph{Random}
-dsaflkjdsafkajdfkjödsajföadsjfökads
-
-
-
+\textbf{Random} wählt immer einen zufälligen Auftrag aus. Kann dieser nicht gestartet werden, so wird kein Auftrag gestartet.
 
 \section{Simulation}
 
