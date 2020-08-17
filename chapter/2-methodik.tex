@@ -1,6 +1,8 @@
 \chapter{Methodik}
 \label{chap:ein}
 \section{Problemstellung}
+Notation aus \cite{Kar97}
+
 
 \subsection{Auftrag (Job)}
 Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt, nämlich seine
@@ -27,18 +29,16 @@ Problemstellung, einleitung in Kurz
 Notation aus
 
 \section{Zielfunktionen}
-
-\paragraph{Makespan}
-
-Weiterhin stellt er fest, dass dieser von den Charakteristiken der betrachteten Bildersammlung abhängig ist. 
-\paragraph{avgWaiting Time}
-Da im anvisierten Anwendungsszenario kein annotierter Trainingsdatensatz vorliegt, um die Deskriptorgröße zu bestimmen, 
-stellt er in \cite[Kap. 5.4.1]{LDiss} eine Methode zur unüberwachten Deskriptorgrößenschätzung vor.
+Bevor verschiedene Scheduler mit einander verglichen werden können, muss zu erst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sollten seien, Fairness zwischiden den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeittig eine hohe Auslastung der Knoten sicherzustellen. Diese Ziele sind oft unvereinbar.
 
 \paragraph{maximum waiting time}
-lorem ipsum
+Die Wartezeit eines Auftrags $j$ wird defniert als die Zeitspanne zwischend Einreihung $q_j$ und Abschluss $c_j$. Die größte Wartezeit verhällt sich umgekehrt zur Fairness eines Schedulers.
 
-\section{Online, Offline}
+\paragraph{Makespan}
+Die Bearbeitungsspanne ist die vergangene Zeit zwischen dem frühsten Bearbeitungsbeginn und dem spätesten Abschluss.
+
+\paragraph{Average Waiting Time}
+Die durchschnittliche Wartezeit ist die summierte Wartezeit aller Aufträge.
 
 \section{Scheduling Algorithmen}
 Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheided. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. (Hier zitat einfügen aus lehrbuch "liste sortieren, mehrere möglichkeiten liste zu sortireren")
