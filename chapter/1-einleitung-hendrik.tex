@@ -1,6 +1,20 @@
 \chapter{Einleitung}
 \label{chap:ein}
 
+
+--WW2 Operations Research?\\
+--scheduling\\
+---Die richtige Zuteilung von Rechenaufgaben auf unterschiedliche Ressourcen ist nicht erst seit dem Zeitalter der Cloud wichtig (super aktuelles paper einfügen). Dies war schon ein kritischer Bereich von Operations Research (WW2 OpsResearch Paper einfügen, idealerweise mit turing und so bla bla), als "Computer" noch ein Beruf war.
+--darauf weiter eingehen\\
+
+In der Ära der Mainframe Computer wurden simple Wartelisten, die von einem Operator(in) betreut wurden, nach und nach durch ausgeklügelte Systeme ersetzt (einfügen: ich hätte gerne so eine "history of Computing" mäßige Quelle). Heute übernimmt diese Aufgabe auf fast jedem Computer ein Betriebssystem, das sicherstellt, dass alle Prozesse mit Rechenzeit versorgt werden, während dem Benutzer gleichzeitig eine niedrige Antwortzeit seiner Eingaben geboten wird. Ein Rechenkluster hingegen kann nicht einfach wie ein Computer mit vielen Prozessorkernen behandelt werden. Zum einen ist eine vorzeitige Unterbrechung einer Berechnung enweder sehr teuer oder technisch kompliziert, fordert die Planung und Programmierung von checkpoints \cite{IPS15}, oder ist gar unmöglich.\\
+Zum anderen muss die Antwortzeit des Systems bei neuen Eingaben nicht im Millisekundenbereich liegen. Außerdem kann sich die Rechenleistung der einzelen Knoten eines Klusters um einen beliebig großen Faktor unterscheiden.  Des weiteren können Aufträge strikte Beschränkungen haben, welchen wievielen Knoten sie benötigen, um ausgeführt werden zu können.\\
+
+
+
+--Aufbau der Arbeit
+
+
 %ENDE
 Da der angehängte Programmcode die üblichen Englischen Bezeichnungen verwendet, werden in dieser Arbeit auf Deutsch vorgestellte Konzepte zusätzlich zu üblicher Mathematischer Notation auch immer einmal auf Englisch betitelt.
 
