@@ -1,32 +1,42 @@
 \chapter{Methodik}
 \label{chap:ein}
 \section{Problemstellung}
-Notation aus \cite{Kar97}
+
+Ein Rechenkluster, bestehend aus einer Vielzahl von Knoten-Rechnern mit potenziell verschiedenen Rechenleistungen soll eine Menge von Aufträgen an Berechnungen durchführen. Die unterschiedlichen Aufträge sind dabei nicht im voraus bekannt (OnLine Scheduling), und könnten gestartet werden, sobald sie angemeldet werden. Die Reihenfolge der Bearbeitung ist dabei nicht von bedeutung, Aufträge hängen nicht von einander ab. Die Aufträge sollen dabei durch eine geeignete Methode auf die Knoten aufgeteilt werden. Diese Aufteilung wird Schedule genannt. Hier werden Eigenschaften von Aufträgen und Knoten, sowie Kriterien zur Bemessung der Eignung der verschiedenen Methoden vorgestellt.\\
+Es wird die Notation aus \cite{Kar97} verwendet.
 
 
 \subsection{Auftrag (Job)}
-Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt, nämlich seine
+Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt.
 
 \begin{description}
 \item[Von Schedule unabhängige Eigenschaften] \hfil \\
-\textbf{Dauer} (processing time) $p_j$: Dauer die der Auftrag auf Knoten mit genormter Arbeitsgeschwindigkeit benötigt um abgeschlossen zu werden.
-\textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zudem ein Auftrag $j$ bekannt wird.
-\textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden.
+\textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
+\textbf{Dauer} (processing time) $p_j$: Dauer die der Auftrag auf Knoten mit genormter Arbeitsgeschwindigkeit benötigt um abgeschlossen zu werden.\\
+\textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zudem ein Auftrag $j$ bekannt wird.\\
+\textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden.\\
 \item[Durch Schedule bestimmte Eigenschaften]\hfill \\ 
-\textbf{Bearbeitungsbeginn}(start time) $s_j$: Der Zeitpunkt, zudem ein Auftrag $j$ begonnen wird. 
-\textbf{Abschluss}(completion time) $c_j$: Der Zeitpunkt, zudem ein Auftrag $j$ abgeschlossen wird.
-\textbf{Zugewiesene Knoten} (scheduled on nodes) $n_j$: Die Menge an Knoten, auf denen ein Auftrag $j$ ausgeführt wird.
+\textbf{Bearbeitungsbeginn}(start time) $s_j$: Der Zeitpunkt, zudem ein Auftrag $j$ begonnen wird. \\
+\textbf{Abschluss}(completion time) $c_j$: Der Zeitpunkt, zudem ein Auftrag $j$ abgeschlossen wird.\\
+\textbf{Zugewiesene Knoten} (scheduled on nodes) $n_j$: Die Menge an Knoten, auf denen ein Auftrag $j$ ausgeführt wird.\\
 
 \item[Darüber hinaus] \hfil \\
 können Aufträge mit zusätlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
 \end{description}
 
-\subsection{MachineEnv}
-badbakl
+\subsection{Maschinenumfeld (Machine Enviroment)}
+Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus einer Anzahl an Knoten, einer Warteliste bereits bekannter, wartender Auftwärge ($Q$) und einem Scheduler. Die Knoten werden charakterisiert durch:
 
-Problemstellung, einleitung in Kurz
+\begin{description}
+	\item[Feststehende Eigenschaften] \hfil \\
+	\textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
+	\textbf{Geschwindigkeit} (spped) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $k_sp = 2$.\\
+	\item[Variable Eigenschaften] \hfil \\
+	\textbf{Führt aus} (Runns) $R_k$: Die Menge an Aufträgen, die auf diesem Knoten ausgeführt werden. In dieser Arbeit werden wie in \cite{Arn99} nur der Spezialfall betrachtet, in dem Knoten nur einen Auftrag gleichzeitig ausfürhren.\\
+\end{description}
 
-Notation aus
+
+\subsection{Scheduler}
 
 \section{Zielfunktionen}
 Bevor verschiedene Scheduler mit einander verglichen werden können, muss zu erst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sollten seien, Fairness zwischiden den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeittig eine hohe Auslastung der Knoten sicherzustellen. Diese Ziele sind oft unvereinbar.
