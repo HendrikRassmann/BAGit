@@ -30,13 +30,15 @@ Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus ein
 \begin{description}
 	\item[Feststehende Eigenschaften] \hfil \\
 	\textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
-	\textbf{Geschwindigkeit} (spped) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $k_sp = 2$.\\
+	\textbf{Geschwindigkeit} (spped) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $sp_k = 2$. Ein Auftrag $j'$ mit $p_j' = 10$ und $\pi_j' = 2$ benötigt $5$ Zeiteinheiten auf zwei knoten mit $sp_{k_1, k_2} = 1$.\\
 	\item[Variable Eigenschaften] \hfil \\
 	\textbf{Führt aus} (Runns) $R_k$: Die Menge an Aufträgen, die auf diesem Knoten ausgeführt werden. In dieser Arbeit werden wie in \cite{Arn99} nur der Spezialfall betrachtet, in dem Knoten nur einen Auftrag gleichzeitig ausfürhren.\\
 \end{description}
 
 
 \subsection{Scheduler}
+Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen (einfügen Quelle mafi buch steffen evtl.). Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Dauer gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")(richtiges Zitat Format heraus finden und einfügen)\cite{Kar97}.\\
+Kern der Problemstellung ist das finden von Schedulern, die ein effektives Betreiben des Systems erlauben und leicht berechen bar sind.
 
 \section{Zielfunktionen}
 Bevor verschiedene Scheduler mit einander verglichen werden können, muss zu erst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sollten seien, Fairness zwischiden den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeittig eine hohe Auslastung der Knoten sicherzustellen. Diese Ziele sind oft unvereinbar.
@@ -51,7 +53,10 @@ Die Bearbeitungsspanne ist die vergangene Zeit zwischen dem frühsten Bearbeitun
 Die durchschnittliche Wartezeit ist die summierte Wartezeit aller Aufträge.
 
 \section{Scheduling Algorithmen}
-Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheided. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. (Hier zitat einfügen aus lehrbuch "liste sortieren, mehrere möglichkeiten liste zu sortireren")
+Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheided. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in zwei Kategorien einteilen.  Referenziell Transparent oder Intransparent. Details dazu in \ref{chap:higher-order}.
+
+\subsection{Referenziell transparente Scheduler}
+Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hängt einzig von den Aufträgen in der Warteschlange ab, nicht vom sonstigen (evtentuell unbekannten) Zustand des Systems.
 
 \paragraph{FiFo}
 \textbf{First in First out} wählt zu jedem Zeitpunkt denjenigen Auftrag, der sich bereits am längsten in der Warteschlange befindet. Stehen nicht genug Knoten zur verfügung, um diesen Auftrag zu starten, müssen alle anderen Aufträge warten. FiFo minimiert. Dieses Verfahren ist zwar fair, führt allerdings zu viel ungenutzter Rechenzeit.
@@ -61,6 +66,9 @@ Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgew�
 
 \paragraph{GPT}
 \textbf{Greatest Processing Time first} wählt genau invers zu spt aus den Auftrag mit der längsten angegebenen Dauer. Dadurch wird der makespan zu gunsten des average flow time minimiert.
+
+\subsection{Referenziell intransparente Scheduler}
+Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie etwa dem Zustand der Knoten, oder vom Zustand anderer parallel laufender Aufträge. In einem echten verteilten System kann dies zu Problemen führen, wenn der globale Zustand nicht oder nur schwer ermittelt werden kann.
 
 \paragraph{First Fit}
 \textbf{First Fit} ist eine Abwandeelung von FiFo. Hier wird  der Auftrag, der bereits am längsten wartet und sofort gestartet werden kann, ausgewählt. Dies verringert ungenutze Rechenzeit, allerdings werden Aufträge mit einer hohen Parallelität nach hinten verdrängt.
@@ -76,11 +84,20 @@ Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgew�
 dasfsaefsafaefdsa
 
 \subsection{Discrete Event Simulation}
+Soll ein System zu diskreten Zeitpunkten simulliert werden, stehen 3 Paradigmen zur Auswahl \cite{SimPy}.
+\label{paradigma}
+\paragraph{Aktivitäts Orientiert}
+\label{activity}
+Das System wird immer von einem Zustand $S$ zu einem bestimmten Zeitpunkt $t_n$ zu eine Zustand $S'$ in $t_{n+1}$ transformiert. Es wird also vom Startzustand $S_0$ aus einmal für jeden Zeitpunkt ein Zustand produziert.\\
+Dieses Paradigma liefert eine einfache Implementierung, jedoch auch eine höhere Laufzeit als die beiden Alternativen.
+\paragraph{Ereignis Orientiert}
+Hier wird zu von einem Zustand $S_n$ ausgehend der nächste Zustand gefunden, der sich von $S_n$ abgesehen von der aktuellen Zeit $t$ unterscheidet. Es werden also, wenn bekannt ist, dass die nächste Aktion zum Zeitpunkt $t_{n+k}$ stattfindet, alle diskreten Zeiteinheiten ziwschen $n$ und $n+k$ übersprungen.\\
+Dieses Paradigma kann Rechenzeit einsparen, wenn der zusätzliche Overhead und die Frequenz der Aktionen klein genug ist.
+\paragraph{Prozess Orientiert}
+Dieses Paradigma funktioniert ähnlich wie Ereignis Orientiert, allerdings werden alle Aktivitäten durch Prozesse abgebildet. Dabei ähnelt jede Aktivität einem Prozess wie in einem Betriebssystem. Ein Prozess unterbricht seine eigene Ausführung, entweder für eine bestimmte Zeit, oder bis eine Bedingung erfüllt ist.\\
+Dies modulariesiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Will man zum Beispiel festlegen soll, welche von 2 Aktionen, die selbe Bedingung warten, zuerst ausgeführt wird, ist dies Aktivitäts oder Ereignis Orientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse worauf warten.
 
-dsafeas
 
-\paragraph{biste diskret mann}
-dsafdsafasb
 
 \subsection{statistisch auswerten}
 
