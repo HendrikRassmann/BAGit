@@ -12,7 +12,7 @@ Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder me
 \begin{description}
 \item[Von Schedule unabhängige Eigenschaften] \hfil \\
 \textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
-\textbf{Dauer} (processing time) $p_j$: Dauer die der Auftrag auf Knoten mit genormter Arbeitsgeschwindigkeit benötigt um abgeschlossen zu werden.\\
+\textbf{Bearbeitungszeit} (processing time) $p_j$: Dauer die der Auftrag auf einem Knoten mit genormter Arbeitsgeschwindigkeit benötigt um abgeschlossen zu werden.\\
 \textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zudem ein Auftrag $j$ bekannt wird.\\
 \textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden.\\
 \item[Durch Schedule bestimmte Eigenschaften]\hfill \\ 
@@ -37,7 +37,7 @@ Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus ein
 
 
 \subsection{Scheduler}
-Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen (einfügen Quelle mafi buch steffen evtl.). Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Dauer gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")(richtiges Zitat Format heraus finden und einfügen)\cite{Kar97}.\\
+Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen (einfügen Quelle mafi buch steffen evtl.). Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")(richtiges Zitat Format heraus finden und einfügen)\cite{Kar97}.\\
 Kern der Problemstellung ist das finden von Schedulern, die ein effektives Betreiben des Systems erlauben und leicht berechen bar sind.
 
 \section{Zielfunktionen}
@@ -62,10 +62,10 @@ Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hän
 \textbf{First in First out} wählt zu jedem Zeitpunkt denjenigen Auftrag, der sich bereits am längsten in der Warteschlange befindet. Stehen nicht genug Knoten zur verfügung, um diesen Auftrag zu starten, müssen alle anderen Aufträge warten. FiFo minimiert. Dieses Verfahren ist zwar fair, führt allerdings zu viel ungenutzter Rechenzeit.
 
 \paragraph{SPT}
-\textbf{Shortest Processing Time first} wählt den Auftrag mit der die kürzesten angegebene Dauer. Dadurch wird versucht, die average waiting time gering zu halten. Darunter leidet die Fairness, und die maximum waiting time eines nach hinten verdrängten langen Auftrags steigt.
+\textbf{Shortest Processing Time first} wählt den Auftrag mit der die kürzesten angegebene Bearbeitungszeit. Dadurch wird versucht, die average waiting time gering zu halten. Darunter leidet die Fairness, und die maximum waiting time eines nach hinten verdrängten langen Auftrags steigt.
 
 \paragraph{GPT}
-\textbf{Greatest Processing Time first} wählt genau invers zu spt aus den Auftrag mit der längsten angegebenen Dauer. Dadurch wird der makespan zu gunsten des average flow time minimiert.
+\textbf{Greatest Processing Time first} wählt genau invers zu spt aus den Auftrag mit der längsten angegebenen Bearbeitungszeit. Dadurch wird der makespan zu gunsten des average flow time minimiert.
 
 \subsection{Referenziell intransparente Scheduler}
 Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie etwa dem Zustand der Knoten, oder vom Zustand anderer parallel laufender Aufträge. In einem echten verteilten System kann dies zu Problemen führen, wenn der globale Zustand nicht oder nur schwer ermittelt werden kann.
