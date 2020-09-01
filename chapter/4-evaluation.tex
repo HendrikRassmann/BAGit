@@ -28,17 +28,20 @@ In \cite{Arn99} wird zwischen der Bearbeitungszeit ("processing time") und der L
 Bei der Simulation von SPT und LPT Läufen entstand folgendes Problem: Die Ergebnisse von \cite{Arn99} ließen sich korrekt Reproduzieren, solange alle Aufträge sequentiell waren. Sobald auch parallele Aufträge untergemischt wurden, entstanden geringe Abweichungen. (bild einfügen)\\
 Es scheint, als würde der SPT Algorithmus in \cite{Arn99} nicht den Auftrag $j$ mit der geringsten Bearbeitungszeit $p_j$ auswählen, sondern denjenigen, der die geringste Zeit in Anspruch nimmt. Zum Beispiel würde $j_1$ mit $p_{j_1} = 10, \pi_{j_1} = 5$ gegenüber $j_2$ mit $p_{j_2} = 4, \pi_{j_1} = 1$ vorgezogen werden, da $j_1$ für $10/5 = 2$  Zeiteinheiten und $j_2$ für $4/1 = 4$ Zeiteinheiten ausgeführt wird.\\
 Dies erfordert eine Einfach Apassung bzw. Interpretation des SPT Algorithmus. Es wird nach genannter Bearbeitungszeit geteilt durch den jeweiligen Grad an Parallelität sortiert. Diese Anpassung ergibt allerdings nur Sinn, solange alle Knoten mit der selben Geschwindigkeit arbeiten. Sobald Knoten unterschiedliche Geschwindigkeitseigenschaften besitzen, muss man die Bearbeitungszeit $j_p$ durch die Summe der Geschwindigkeiten der schnellsten freien Knoten teilen, um ein korrektes Ergebnis zu erhalten. Jedoch kann nun nicht bestimmt werden, wie lange ein Auftrag laufen wird, wenn nicht genügend Knoten zur Verfügung stehen. Zwar könnte man ähnlich dem Backfilling-Verfahren für jeden Auftrag vorhersehen, wann genügend Knoten bereitstehen werden, und dann die in der Zukunft freien Knoten zur Bestimmung der Laufzeit nutzen. Dies ist aber eine unverhälltnismäßige Verkomplizierung eines eigentlich eleganten Algorithmus.\\
-Dieses Problem wird in \cite{Arn99} auch beschrieben, und es wird ohne nähere Erläuterung angegeben, den ''statischen Bedarf'' der Aufträge zur Selektion zu verwenden. Aus diesen Gründen werden in dieser Arbeit LPT und SPT nach dem Quotienten aus Bearbeitungszeit und Parallelität auswählen. Dies erscheint wie eine sinnvole Interpretation von ''statischem Bedarf''.
+Dieses Problem wird auch in \cite{Arn99} beschrieben, und es wird ohne nähere Erläuterung angegeben, den ''statischen Bedarf'' der Aufträge zur Selektion zu verwenden. Aus diesen Gründen werden in dieser Arbeit LPT und SPT nach dem Quotienten aus Bearbeitungszeit und Parallelität auswählen. Dies erscheint wie eine sinnvole Interpretation von ''statischem Bedarf''.
+\paragraph{Grafischer Abgleich}
+Bevor das Simulationsmodell erweitert werden kann, sollte zuerst abgeglichen werden, ob das nachgebaute Modell näherungsweise ähnliche Läufe erzeugt. Dazu werden die in \cite{Arn99} beschriebenen Experimente nachgestellt, und die grafischen Auswertungen nebeneinander gestellt.\\
+Bal Bla Bla bilder einfügen
 \begin{figure}
 \centering
 \subfloat[label 1]{{\includegraphics[scale=0.2]{./images/seq0.png}}}
 \qquad
 \subfloat[label 2]{{\includegraphics[scale=0.1]{./images/makespan_avgflowtime_seq.png}	
-}}	
-
-
+}}
 \end{figure}
 
+\paragraph{Unterschiedlich schnelle Knoten}
+Da bla blau
 
 \section{Weiterführende Untersuchungen}
 
