@@ -20,29 +20,63 @@ Darüberhinaus lässt sich durch eine Alternative zum Standardverhaltens leicht 
 
 
 \subsection{Vergleich von Läufen}
-\paragraph{Geschwindigkeit der Knoten}
+\subsubsection{Geschwindigkeit der Knoten}
 Um abschätzen zu können, ob die vorgestellte Simulation erfolgreich reproduziert werden konnte, werden zu erst die Auswertungen von rein sequentiellen Auftragszusammenstellungen verglichen. Obwohl die Parameter zur Erstellung der Aufträge angegeben wurden, sowie die Tatsache, dass alle Knoten mit der selben Geschwindigkeit operieren, fehlt die Angabe über diese Geschwindigkeit. Experimentell lässt sich ermitteln, dass dieser Wert etwa $100$ beträgt.
 
-\paragraph{LPT,SPT}
+\subsubsection{LPT,SPT}
 In \cite{Arn99} wird zwischen der Bearbeitungszeit ("processing time") und der Laufzeit ("runtime") eines Auftrags unterschieden. Dabei bezeichnet Laufzeit den "Quotienten aus der Bearbeitungszeit $p_j$ und der kummulativen Geschwindigkeit der zugewiesenen Knoten".\\
 Bei der Simulation von SPT und LPT Läufen entstand folgendes Problem: Die Ergebnisse von \cite{Arn99} ließen sich korrekt Reproduzieren, solange alle Aufträge sequentiell waren. Sobald auch parallele Aufträge untergemischt wurden, entstanden geringe Abweichungen. (bild einfügen)\\
 Es scheint, als würde der SPT Algorithmus in \cite{Arn99} nicht den Auftrag $j$ mit der geringsten Bearbeitungszeit $p_j$ auswählen, sondern denjenigen, der die geringste Zeit in Anspruch nimmt. Zum Beispiel würde $j_1$ mit $p_{j_1} = 10, \pi_{j_1} = 5$ gegenüber $j_2$ mit $p_{j_2} = 4, \pi_{j_1} = 1$ vorgezogen werden, da $j_1$ für $10/5 = 2$  Zeiteinheiten und $j_2$ für $4/1 = 4$ Zeiteinheiten ausgeführt wird.\\
 Dies erfordert eine Einfach Apassung bzw. Interpretation des SPT Algorithmus. Es wird nach genannter Bearbeitungszeit geteilt durch den jeweiligen Grad an Parallelität sortiert. Diese Anpassung ergibt allerdings nur Sinn, solange alle Knoten mit der selben Geschwindigkeit arbeiten. Sobald Knoten unterschiedliche Geschwindigkeitseigenschaften besitzen, muss man die Bearbeitungszeit $j_p$ durch die Summe der Geschwindigkeiten der schnellsten freien Knoten teilen, um ein korrektes Ergebnis zu erhalten. Jedoch kann nun nicht bestimmt werden, wie lange ein Auftrag laufen wird, wenn nicht genügend Knoten zur Verfügung stehen. Zwar könnte man ähnlich dem Backfilling-Verfahren für jeden Auftrag vorhersehen, wann genügend Knoten bereitstehen werden, und dann die in der Zukunft freien Knoten zur Bestimmung der Laufzeit nutzen. Dies ist aber eine unverhälltnismäßige Verkomplizierung eines eigentlich eleganten Algorithmus.\\
 Dieses Problem wird auch in \cite{Arn99} beschrieben, und es wird ohne nähere Erläuterung angegeben, den ''statischen Bedarf'' der Aufträge zur Selektion zu verwenden. Aus diesen Gründen werden in dieser Arbeit LPT und SPT nach dem Quotienten aus Bearbeitungszeit und Parallelität auswählen. Dies erscheint wie eine sinnvole Interpretation von ''statischem Bedarf''.
-\paragraph{Grafischer Abgleich}
-Bevor das Simulationsmodell erweitert werden kann, sollte zuerst abgeglichen werden, ob das nachgebaute Modell näherungsweise ähnliche Läufe erzeugt. Dazu werden die in \cite{Arn99} beschriebenen Experimente nachgestellt, und die grafischen Auswertungen nebeneinander gestellt.\\
-Bal Bla Bla bilder einfügen
+\subsubsection{Grafischer Abgleich Abbildugen 1,2 und 3}
+Bevor das Simulationsmodell erweitert werden kann, sollte zuerst abgeglichen werden, ob das nachgebaute Modell näherungsweise ähnliche Läufe erzeugt. Dazu werden die in \cite{Arn99} beschriebenen Experimente nachgestellt, und die grafischen Auswertungen nebeneinander gestellt.
+Da die Untersuche des Random Schedulingalgorithmus im Verlaufe des Papers aufgegeben wird und mehr Läufe benötigt um stabile Werte zu erzeugen, wird dieser hier nicht betrachet.\\
+Abbildungnen eins bis drei lassen sich ohne Probleme, abgesehen von den nicht angegeben Geschwindigkeiten der Knoten, reproduzieren.
 \begin{figure}
 \centering
-\subfloat[label 1]{{\includegraphics[scale=0.2]{./images/seq0.png}}}
-\qquad
-\subfloat[label 2]{{\includegraphics[scale=0.1]{./images/makespan_avgflowtime_seq.png}	
-}}
+\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_1.png}
+\caption{Figure 1, Vergleich von Sequentiellen Aufträgen}
+\label{figure1}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_2.png}
+	\caption{Figure 2, Vergleich von Sequentiellen Aufträgen, Erstellungszeit wird variiert5}
+	\label{figure1}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_3.png}
+	\caption{Figure 1, Vergleich von Sequentiellen Aufträgen}
+	\label{figure3}
 \end{figure}
 
-\paragraph{Unterschiedlich schnelle Knoten}
-Da bla blau
+\FloatBarrier
 
+\subsubsection{Unterschiedlich schnelle Knoten in Abbildung 4}
+Ab dem vierten Experiment offenbart sich folgendes Problem: Die Geschwindigkeiten der Knoten variieren. Sie entsprechen den Messungen von "22 Knoten des lokalen Netzwerks". Jedoch werden diese gemessen Geschwindigkeiten weder in der besprochenen, noch in früheren Veröffentlichungen dargelegt (hier andere paper einfügen). Dies stellt eine sehr hohe Hürde zur Reproduktion dar.\\
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/x-004}
+	\caption{Figure 5, Unterschiedlich schnelle Knoten}
+	\label{figure5}
+\end{figure}
+
+Um die in \ref{chap:higher-order} vorgeschlagenen Scheduler auch in Eperimentaufbau 4 bis 9 antreten zu lassen, wird eine ungefähre Verteilung der Geschwindikeiten geschätzt.
+Hier für wird Abbildung 5 \ref{figure5} herangezogen. In diesem Experiment wird die Bearbeitungsspanne (makespan) angegeben. Dadurch lässt sich eine untere Schranke für die gesamte Rechenleistung des Klusters finden. Wenn durch FirstFit jeder Knoten zu jedem Zeitpunkt ausgelastet wäre, müsste die durchschnittliche Rechenleistung aller Knoten im beschriebenen Versuchsaufbau 384 betragen. Dies wird am Wert für einen Auftragsmix aus 50\% sequentiellen Aufträgen abgelesen. 100 Knoten unbekannter Geschwindigkeit benötigen etwa 3000 Sekunden um 500 Aufträge mit einer durschnittlichen Bearbeitungszeit von 230500 Sekunden fertigzustellen.
+\begin{align*}
+\frac{250*(51* 10^3 + 410*10^3)*s}{100x} &= 3000s \\
+\frac{250*461}{300} &= x
+\end{align*}
+Die Frage nach der Art der verwendeten Verteilung lässt sich nicht kären. Deswegen wird hier die einfachste Verteilung gewählt: 2 Klassen von Knoten, mit unbekannten Geschwindgkeiten und Anzahlen. Der zweidimensionale Lösungsraum kann durch eine weitere Annahme auf einen eindimensionalen Raum reduziert: Die Menge der langsamen Knoten soll die selbe Gesamtleistung besitzen wie die Menge der schnellen Knoten.\\
+Dies führt zu einer größeren Anzahl langsamer und einer geringeren Anzahl schnellerer Knoten. Diese Konstellationen sind sicherlich interessanter als ihre Umkehrung. Gäbe es viele schnelle und wenige langsame Knoten, wären ähnliche Ergebnisse dadurch zu erreichen, die langsamen Knoten wegzulassen, wodurch sich die Situation nicht viel von den zuvor untersuchten unterscheiden würde.\\
+Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Klaster.
+
+
+
+\FloatBarrier
 \section{Weiterführende Untersuchungen}
 
 \subsection{Backfilling und Fit als Funktionen höherer Ordnung}
