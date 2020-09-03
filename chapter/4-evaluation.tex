@@ -78,6 +78,7 @@ Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Klast
 \FloatBarrier
 
 \subsubsection{Experimente 4 bis 9}
+Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werden. Trozdem werden die Versuche nachgestellt, um die Algorithmen in \ref{chap:higher-order} gegen die fünf bekannten antreten zu lassen.
 
 
 \section{Weiterführende Untersuchungen}
@@ -86,7 +87,8 @@ Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Klast
 \label{chap:higher-order}
 
 Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwandelungen der FiFo Funktion. Beide wählen den nächsten Auftrag abhängig vom Einreihungszeitpunkt $q_j$, jedoch unter Einschränkungen. "FiFo-Fit" wählt den ersten unter den startbaren Aufträgen aus, "FiFo-BackFilling" wählt den ersten Auftrag, oder einen, der den Bearbeitungsbeginn des ersten Auftrags nicht verzögert. "-Fit" und "-Backfilling" fügen also einen relevanten Kontext hinzu. Es liegt nahe, diese Erweiterungen als Funktionen höherer Ordnung zu betrachten. Ihre Domäne besteht aus einer Scheduling Funktion, den wartenden Aufträgen und einen Kontext - Anzahl an verfügbaren Knoten oder die Abschlusszeitpunkte und die Parallelität der laufenden Aufträge -, und bilden diese partiell auf einen Auftrag ab. 
-Da FirstFit-Backfilling von [PaperZitat] als Sieger auserkohren wurde, LPT und GPT aber nicht im Backfilling Kontext untersucht wurden, wird im folgenden untersucht, ob LPT oder GPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.
+Da FirstFit-Backfilling von [PaperZitat] als Sieger auserkohren wurde, LPT und GPT aber nicht im Backfilling Kontext untersucht wurden, wird im folgenden untersucht, ob LPT oder GPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.\\
+In \ref{proptest} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird hier auch mit untersucht, allerdings nur im FiFo Kontext.
 
 \paragraph{GPT}
 lorem Ipsum
@@ -95,6 +97,7 @@ lorem Ipsum
 lorem Isumpdsfdsakfj
 
 
+\FloatBarrier
 
 \subsection{Property Based Testing zum Erkenntnisgewinn}
 \label{proptest}
