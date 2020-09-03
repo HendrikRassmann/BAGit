@@ -54,29 +54,32 @@ Abbildungnen eins bis drei lassen sich ohne Probleme, abgesehen von den nicht an
 
 \FloatBarrier
 
-\subsubsection{Unterschiedlich schnelle Knoten in Abbildung 4}
+\subsubsection{Unterschiedlich schnelle Knoten ab Abbildung 4}
 Ab dem vierten Experiment offenbart sich folgendes Problem: Die Geschwindigkeiten der Knoten variieren. Sie entsprechen den Messungen von "22 Knoten des lokalen Netzwerks". Jedoch werden diese gemessen Geschwindigkeiten weder in der besprochenen, noch in früheren Veröffentlichungen dargelegt (hier andere paper einfügen). Dies stellt eine sehr hohe Hürde zur Reproduktion dar.\\
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/x-004}
-	\caption{Figure 5, Unterschiedlich schnelle Knoten}
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_5}
+	\caption{Unterschiedlich schnelle Knoten:\\
+	75 Knoten mit Geschwindigkeit 275, 25 Knoten mit Geschwindigkeit 825}
 	\label{figure5}
 \end{figure}
 
 Um die in \ref{chap:higher-order} vorgeschlagenen Scheduler auch in Eperimentaufbau 4 bis 9 antreten zu lassen, wird eine ungefähre Verteilung der Geschwindikeiten geschätzt.
-Hier für wird Abbildung 5 \ref{figure5} herangezogen. In diesem Experiment wird die Bearbeitungsspanne (makespan) angegeben. Dadurch lässt sich eine untere Schranke für die gesamte Rechenleistung des Klusters finden. Wenn durch FirstFit jeder Knoten zu jedem Zeitpunkt ausgelastet wäre, müsste die durchschnittliche Rechenleistung aller Knoten im beschriebenen Versuchsaufbau 384 betragen. Dies wird am Wert für einen Auftragsmix aus 50\% sequentiellen Aufträgen abgelesen. 100 Knoten unbekannter Geschwindigkeit benötigen etwa 3000 Sekunden um 500 Aufträge mit einer durschnittlichen Bearbeitungszeit von 230500 Sekunden fertigzustellen.
+Hier für wird Abbildung 5 \ref{figure5} herangezogen. In diesem Experiment wird die Bearbeitungsspanne (makespan) angegeben. Dadurch lässt sich eine untere Schranke für die gesamte Rechenleistung des Klusters finden. Wenn durch FirstFit jeder Knoten zu jedem Zeitpunkt ausgelastet wäre, müsste die durchschnittliche Rechenleistung aller Knoten im beschriebenen Versuchsaufbau 384 betragen. Dies wird am Wert für einen Auftragsmix aus 50\% sequentiellen Aufträgen abgelesen. 100 Knoten unbekannter Geschwindigkeit benötigen etwa 3000 Sekunden um 500 Aufträge mit einer durschnittlichen Bearbeitungszeit von 230500 Sekunden fertigzustellen. Um die durch die Algorithmen und die online eingehenden Aufträge entstehenden Effizienzeinbußen auszugleichen, wird die Geschwindigkeit der Knoten zusätzlich um 7,5\% erhöht.
 \begin{align*}
 \frac{250*(51* 10^3 + 410*10^3)*s}{100x} &= 3000s \\
 \frac{250*461}{300} &= x
 \end{align*}
 Die Frage nach der Art der verwendeten Verteilung lässt sich nicht kären. Deswegen wird hier die einfachste Verteilung gewählt: 2 Klassen von Knoten, mit unbekannten Geschwindgkeiten und Anzahlen. Der zweidimensionale Lösungsraum kann durch eine weitere Annahme auf einen eindimensionalen Raum reduziert: Die Menge der langsamen Knoten soll die selbe Gesamtleistung besitzen wie die Menge der schnellen Knoten.\\
 Dies führt zu einer größeren Anzahl langsamer und einer geringeren Anzahl schnellerer Knoten. Diese Konstellationen sind sicherlich interessanter als ihre Umkehrung. Gäbe es viele schnelle und wenige langsame Knoten, wären ähnliche Ergebnisse dadurch zu erreichen, die langsamen Knoten wegzulassen, wodurch sich die Situation nicht viel von den zuvor untersuchten unterscheiden würde.\\
-Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Klaster.
-
-
+Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Klaster. Der Wert 0,75 erzeugt visuell vergleichbare Ergebnisse.
 
 \FloatBarrier
+
+\subsubsection{Experimente 4 bis 9}
+
+
 \section{Weiterführende Untersuchungen}
 
 \subsection{Backfilling und Fit als Funktionen höherer Ordnung}
