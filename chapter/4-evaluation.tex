@@ -78,11 +78,55 @@ Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Klast
 \FloatBarrier
 
 \subsubsection{Experimente 4 bis 9}
-Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werden. Trozdem werden die Versuche nachgestellt, um die Algorithmen in \ref{chap:higher-order} gegen die fünf bekannten antreten zu lassen.
+Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werden. Trozdem werden die Versuche nachgestellt, um die Algorithmen in \ref{chap:higher-order} gegen die fünf bekannten antreten zu lassen. Die Auswertung kann in \ref{weiter} gefunden werden.
 
 
 \section{Weiterführende Untersuchungen}
+\label{weiter}
 
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_4_1}
+	\caption{Varieren des Anteils von sequenziellen Aufträgen}
+	\label{figure_4_1}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_4_2}
+	\caption{Varieren des Anteils von sequenziellen Aufträgen}
+	\label{figure_4_2}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_6_1}
+	\caption{Varieren des Anteils von großen parallelen Aufträgen}
+	\label{figure_6_1}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_6_2}
+	\caption{Varieren des Anteils von großen parallelen Aufträgen}
+	\label{figure_6_2}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_7_1}
+	\caption{Varieren der Zeitspanne des Anmeldens von Aufträgen}
+	\label{figure_7_1}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_7_2}
+	\caption{Varieren der Zeitspanne des Anmeldens von Aufträgen}
+	\label{figure_7_2}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_8_1}
+	\caption{Varieren des erlaubten relativen Fehlers in der Angabe der Laufzeit}
+	\label{figure_8_1}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_8_2}
+	\caption{Varieren des erlaubten relativen Fehlers in der Angabe der Laufzeit}
+	\label{figure_8_2}
+\end{figure}
+
+
+\FloatBarrier
 \subsection{Backfilling und Fit als Funktionen höherer Ordnung}
 \label{chap:higher-order}
 
@@ -90,12 +134,21 @@ Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwa
 Da FirstFit-Backfilling von [PaperZitat] als Sieger auserkohren wurde, LPT und GPT aber nicht im Backfilling Kontext untersucht wurden, wird im folgenden untersucht, ob LPT oder GPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.\\
 In \ref{proptest} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird hier auch mit untersucht, allerdings nur im FiFo Kontext.
 
-\paragraph{GPT}
-lorem Ipsum
+\paragraph{SPT}
+In Abbildung \ref{figure_4_1} wird die durschnittliche Zeit eines Auftrags im System gemessen. Dabei schneidet SPT-Fit besser ab als alle anderen Algorithmen. Den zweiten Platz belegt FiFo-Fit. Für die durschnittliche Systemzeit ist es wichtig, so schnell wie möglich Aufträge fertig zu stellen. Deshalb eigenen sich ''-Fit'' Funktionen, besonders in Kombination mit SPT. Erstaunlicherweise ist ''-Fit'' jedoch im Bezug zur Systemzeit nicht vollständig monoton. So gilt für die Messungen zwar SPT $<$ LPT $<$ FiFo, jedoch Fit$($FiFo$)$ $<$ Fit$($LPT$)$.\\
+In Abbildung \ref{figure_7_2} erzielt SPT-Fit die selben Werte wie FiFo-Fit und LPT-Fit. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit von einer relativen Fehlerrate in der Angabe von Bearbeitungszeiten ermittelt.\\
+
 
 \paragraph{LPT}
-lorem Isumpdsfdsakfj
+In Abbildung \ref{figure_6_1} gibt es eine Klasse an Algorithmen, die gleich gute Ergebnisse erzielen. Darunter FiFo-Fit, SPT-Fit, LPT-Fit, LPT-Backfill und FiFo-Optimistic-Backfill. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit des anteils von großen parallelen Aufträgen gemessen. LPT-Fit ist hier deshalb eine gute Wahl, da LPT im Vergleich zu SPT und FiFo für eine geringere Spanne sorgt (vgl. auch \ref{figure3}). ''-Fit'' und ''-Backfill'' sorgt dafür, dass lange Phasen zum Anfang des Laufs, in denen einige Knoten nicht genutzt werden, während lange Aufträge abgearbeitet werden, gefüllt werden können.\\
+Diese Beobachtung wiederholt sich in Abbildung \ref{figure_7_1}. Auch hier wird die Bearbeitungsspanne als Maß angelegt.\\
 
+\paragraph{Optimistisches Backfilling}
+Dieser Algorithmus wird in \ref{optfill} vorgestellt.\\
+Beim Optimistischen Backfilling stellt sich vorallem die Frage, wie groß der Unterschied zum ''normalen'' Backfilling ist, und ob es ein Unterschied zu unseren Gunsten ist. Hierfür wurde nur FiFo in beiden Kontexten herangezogen.\\
+In \ref{figure_4_1} bietet das Optimistische Verfahren einen leichten, jedoch erkennbaren Vorteil Hier wird die durchschnittliche Systemzeit von Aufträgen in Abhängigkeit des Anteils sequentieller Aufträge ermittelt. Es erscheint nachvollziebar, dass, vorausgesetzt es gibt etwa gleich viele sequezielle als auch parallele Aufträge, eine Leistungssteigerung durch das Optimistische Verfahren erzielt werden kann. Da dieses weniger restriktiv ist, welche Aufträge gestartet werden dürfen, um Lücken zu füllen.\\
+So auch in \ref{figure_7_1}. Hier wird die gesamte Bearbeitungszeit in Abhängigkeit eines erlaubten Fehlers untersucht. Die selbe Argumentation erscheint plausibel. Wenn die Bearbeitungszeit eines Auftrags nicht korrekt angegben wurde, werden weniger Aufträge gestartet um Lücken zu füllen. Das Optimistische Backfilling darf trotzdem Aufträge die wenige Knoten benötigen starten, und nutzt so die Freiräume besser aus.\\
+In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es erscheit, als wären die in \ref{optfill} genannten Konstellationen selten genug, als dass sie die nicht genutzten Chancen des ''normalen'' Backfilling überwiegen. Zumindest in den hier untersuchten Experimenten lässt sich die optimistische Variante als Ersatz empfehlen. In den meisten Fällen ist kein deutlicher Unterschied erkennbar, aber wenn, dann immer zu unseren Gunsten. Die Auswirkung auf LPT und SPT könnten in Zukunft untersucht werden. 
 
 \FloatBarrier
 
@@ -110,14 +163,83 @@ Um ein minimales Beispiel zu finden, in dem Scheduling Funktion $S_1$ Ziel Funkt
 Ein vom Testframework gefundenes minimales Gegenbeispiel, zeigt uns einen Speziellen Fall, in dem $S_1$ ein besseres Ergebnis erzielt als $S_2$
 Für die meinsten Scheduling Funktionen ist das minimal Beispiel eines mit 3 Aufträgen, und einer kleinen Anzahl an Knoten [genaues nochmal testen].
 
-Hier nun einige Beispiele.
+Hier nun einige Beispiele:\\
 
 \paragraph{Optimistisches Backfilling}
-Das vorgestellte "-Backfilling" verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum "-Fit" verglichene Wartezeit gering zuhalten, wird erfüllt, in dem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten nicht verzögert. Dies wird erreicht, in dem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet. Warum aber darf ein Auftrag $P'$, der wenige Knoten benötigt, nicht starten, vorausgesetzt, er nimmt nur so wenige Knoten in anspruch, dass $P$ wie geplant starten kann ($P$ benötigt noch $n$ Knoten zum starten, sobald er starten wird, sind aber $n+k, k>0$ Knoten frei, $\pi_{P'} <= k$).\\
-Es ist intuitiv, des es einen Haken gibt, ohne in Scheduling Theorie geübt zu sein, ist es aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische -Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing ohne viel Mühe eines generiert werden.
-\\(Bild einfügen)
-\\Wie in der Grafik erkenn bar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten $P_1$, allerdings den zweitbesten Kandidaten $P_2$. Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel ausfällt, kann wiederum durch eine Statistische Asuwertung untersucht werden.
-\\(vergleichendes Bild einfügen)
+\label{optfill}
+Das vorgestellte ''-Backfilling'' Verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum ''-Fit'' verglichene Wartezeit gering zuhalten, wird erfüllt, in dem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten, nicht verzögert. Dies wird erreicht, in dem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet.\\
+Warum aber darf ein Auftrag $P'$, der wenige Knoten benötigt, nicht starten, vorausgesetzt, er nimmt nur so wenige Knoten in Anspruch, dass $P$ wie geplant starten kann ($P$ benötigt noch $n$ Knoten zum starten, sobald er starten wird, sind aber $n+k, k>0$ Knoten frei, und $\pi_{P'} <= k$).\\
+Es ist intuitiv, des es einen Haken gibt. Ohne in Scheduling Theorie geübt zu sein, ist es aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische -Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing ohne viel Mühe eines in wenigen Sekunden generiert werden.
+
+\begin{figure}
+\centering
+\begin{verbatim}
+Is fifo\_optimistic allways better than fifo\_backfill by maximumLateness?
+No! counterexample:
+queueintT, processingT, realProcessingT, degreeOfParallelism
+id: 0, qT: 1, pT: 3, rPT: 3, doP: 1
+id: 1, qT: 0, pT: 3, rPT: 3, doP: 2
+id: 2, qT: 0, pT: 1, rPT: 1, doP: 2
+id: 3, qT: 0, pT: 1, rPT: 1, doP: 3
+
+maximumLateness of fifo\_optimistic: 4
+[0]:112-3
+[1]:112-3
+[2]:-0003
+
+maximumLateness of fifo\_backfill: 3
+[0]:1123---
+[1]:11-3000
+[2]:--23---
+\end{verbatim}
+\caption{Vergleich vom Normalem und Optimistischem Backfilling}
+\label{onlateness}
+\end{figure}
+
+\FloatBarrier
+
+Hier ist der Optimistische Algorithmus zu vorfeudig. Auftrag 0 wird gestartet, obwohl er (als einziger) nicht seit beginn angemeldet ist. Dadurch wird Auftrag 3 nach hinten geschoben, und die maximale Wartezeit für 3 steigt. Trozdem is die Auslastung des optimistischen Algorithmus deutlich besser. Der findet man auch einen Fall, in dem sowohl die maximale Verspätung, als auch die gesamt Bearbeitungszeit schlechter sind?\\
+
+
+\begin{figure}
+\centering
+\begin{verbatim}
+Is fifo_optimistic allways better than <function System.fifo_backfill at 0x7f42574fd7b8> by <function maximumLateness at 0x7f42408ff400> ?
+No! counterexample:
+
+queueintT, processingT, realProcessingT, degreeOfParallelism
+id: 0, qT: 1, pT: 1, rPT: 1, doP: 4
+id: 1, qT: 1, pT: 3, rPT: 3, doP: 1
+id: 2, qT: 1, pT: 3, rPT: 3, doP: 1
+id: 3, qT: 0, pT: 4, rPT: 4, doP: 3
+id: 4, qT: 0, pT: 1, rPT: 1, doP: 2
+
+maximumLateness offifo_optimistic: 4
+makespan of fifo_optimistic: 8
+[0]:334-0---
+[1]:334-0---
+[2]:33--0222
+[3]:-1110---
+
+maximumLateness offifo_backfill: 3
+makespan of fifo_backfill: 7
+[0]:3340---
+[1]:33-0111
+[2]:33-0222
+[3]:--40---
+\end{verbatim}
+\caption{Vergleich vom Normalem und Optimistischem Backfilling in Spanne und Verspätung}
+\label{onlatenessmakespan}
+\end{figure}
+
+Natürlich. Auch hier kann ein durch Property Based Testing ein Fall konstruiert werden. Allerdings besteht hier das kleinste gefundene Beispiel bereits aus 5 Aufträgen. Es ist also zu erwarten, dass solche Konstellationen selten genug sind. Eine genauere Untersuchung dazu im Abschnitt \ref{chap:higher-order}
+Dauert ca ne Minute auf crappy laptop\\
+\FloatBarrier
+
+Wie in der Grafik \ref{onlateness} nach einem Schritt erkennbar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten (Auftrag 4), allerdings den zweitbesten Kandidaten (Auftrag 0). Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel auszahlt, kann wiederum durch eine Statistische Asuwertung untersucht werden.
+
+NextUP: QT unique 
+processingTime nur als "kleiner" zählen, wenn sich dadurch echte bearbeitungszeit verringgert
 
 \subsection{Simulation von Fehlerhaftem Verhalten}
 \label{simErrors}
