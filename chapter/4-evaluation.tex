@@ -24,7 +24,8 @@ Darüberhinaus lässt sich durch eine Alternative zum Standardverhaltens leicht 
 Um abschätzen zu können, ob die vorgestellte Simulation erfolgreich reproduziert werden konnte, werden zu erst die Auswertungen von rein sequentiellen Auftragszusammenstellungen verglichen. Obwohl die Parameter zur Erstellung der Aufträge angegeben wurden, sowie die Tatsache, dass alle Knoten mit der selben Geschwindigkeit operieren, fehlt die Angabe über diese Geschwindigkeit. Experimentell lässt sich ermitteln, dass dieser Wert etwa $100$ beträgt.
 
 \subsubsection{LPT,SPT}
-In \cite{Arn99} wird zwischen der Bearbeitungszeit ("processing time") und der Laufzeit ("runtime") eines Auftrags unterschieden. Dabei bezeichnet Laufzeit den "Quotienten aus der Bearbeitungszeit $p_j$ und der kummulativen Geschwindigkeit der zugewiesenen Knoten".\\
+\label{spt-lpt-time}
+In \cite{Arn99} wird zwischen der Bearbeitungszeit ("processing time") und der Laufzeit ("runtime") eines Auftrags unterschieden. Dabei bezeichnet Laufzeit den "Quotienten aus der Bearbeitungszeit $p_j$ und der kummulativen Geschwindigkeit der zugewiesenen Knoten". Das Ergebnis wird hochgerundet.\\
 Bei der Simulation von SPT und LPT Läufen entstand folgendes Problem: Die Ergebnisse von \cite{Arn99} ließen sich korrekt Reproduzieren, solange alle Aufträge sequentiell waren. Sobald auch parallele Aufträge untergemischt wurden, entstanden geringe Abweichungen. (bild einfügen)\\
 Es scheint, als würde der SPT Algorithmus in \cite{Arn99} nicht den Auftrag $j$ mit der geringsten Bearbeitungszeit $p_j$ auswählen, sondern denjenigen, der die geringste Zeit in Anspruch nimmt. Zum Beispiel würde $j_1$ mit $p_{j_1} = 10, \pi_{j_1} = 5$ gegenüber $j_2$ mit $p_{j_2} = 4, \pi_{j_1} = 1$ vorgezogen werden, da $j_1$ für $10/5 = 2$  Zeiteinheiten und $j_2$ für $4/1 = 4$ Zeiteinheiten ausgeführt wird.\\
 Dies erfordert eine Einfach Apassung bzw. Interpretation des SPT Algorithmus. Es wird nach genannter Bearbeitungszeit geteilt durch den jeweiligen Grad an Parallelität sortiert. Diese Anpassung ergibt allerdings nur Sinn, solange alle Knoten mit der selben Geschwindigkeit arbeiten. Sobald Knoten unterschiedliche Geschwindigkeitseigenschaften besitzen, muss man die Bearbeitungszeit $j_p$ durch die Summe der Geschwindigkeiten der schnellsten freien Knoten teilen, um ein korrektes Ergebnis zu erhalten. Jedoch kann nun nicht bestimmt werden, wie lange ein Auftrag laufen wird, wenn nicht genügend Knoten zur Verfügung stehen. Zwar könnte man ähnlich dem Backfilling-Verfahren für jeden Auftrag vorhersehen, wann genügend Knoten bereitstehen werden, und dann die in der Zukunft freien Knoten zur Bestimmung der Laufzeit nutzen. Dies ist aber eine unverhälltnismäßige Verkomplizierung eines eigentlich eleganten Algorithmus.\\
@@ -198,7 +199,7 @@ maximumLateness of fifo\_backfill: 3
 
 \FloatBarrier
 
-Hier ist der Optimistische Algorithmus zu vorfeudig. Auftrag 0 wird gestartet, obwohl er (als einziger) nicht seit beginn angemeldet ist. Dadurch wird Auftrag 3 nach hinten geschoben, und die maximale Wartezeit für 3 steigt. Trozdem is die Auslastung des optimistischen Algorithmus deutlich besser. Der findet man auch einen Fall, in dem sowohl die maximale Verspätung, als auch die gesamt Bearbeitungszeit schlechter sind?\\
+Hier ist der Optimistische Algorithmus zu vorfreudig. Auftrag 0 wird gestartet, obwohl er (als einziger) nicht seit beginn angemeldet ist. Dadurch wird Auftrag 3 nach hinten geschoben, und die maximale Wartezeit für 3 steigt. Trozdem is die Auslastung des optimistischen Algorithmus deutlich besser. Der findet man auch einen Fall, in dem sowohl die maximale Verspätung, als auch die gesamt Bearbeitungszeit schlechter sind?\\
 
 
 \begin{figure}
@@ -236,10 +237,12 @@ Natürlich. Auch hier kann ein durch Property Based Testing ein Fall konstruiert
 Dauert ca ne Minute auf crappy laptop\\
 \FloatBarrier
 
-Wie in der Grafik \ref{onlateness} nach einem Schritt erkennbar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten (Auftrag 4), allerdings den zweitbesten Kandidaten (Auftrag 0). Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel auszahlt, kann wiederum durch eine Statistische Asuwertung untersucht werden.
+Wie in der Grafik \ref{onlateness} nach einem Schritt erkennbar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten (Auftrag 4), allerdings den zweitbesten Kandidaten (Auftrag 0). Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel auszahlt, kann wiederum durch eine Statistische Asuwertung untersucht werden.\\
 
-NextUP: QT unique 
-processingTime nur als "kleiner" zählen, wenn sich dadurch echte bearbeitungszeit verringgert
+Außerdem ist es interessant zu beobachten, welche Informationen implizit aus diesem Gegenbeispiel gezogegen werden können. Zum Beispiel, dass im ersten Lauf \ref{onlateness} nur ein einziger online Auftrag (d.h. nicht schon zum Zeitpunkt 0 bekannt) nötig ist, aber um das optimistische Verfahren in beiden Metriken zu schlagen, werden 3 online Aufträge sowie ein zusätzlicher Auftrag benötigt. Es fällt auch auf, dass in diesem Beispiel FiFo-Backfill nie vom Backfilling Gebrauch macht. Es verhällt sich immer wie das blanke FiFo Verfahren. 
+Des weiteren fällt auf, dass das Shrinking Verfahren herausgefunden hat, dass zur Berechnung der Laufzeiten von parallelen Aufträgen hochgerundet wird (s. \ref{spt-lpt-time}). Da dies der Lesbarkeit der Tests zuwider läuft, kann die Bearbeitungszeit jedes Auftrags einfach auf das nächste Vielfache der Parallelität gesetzt werden.
+
+dadurch gefunden: nach QT als optimisierung zu sortieren reicht nicht, auch hier nach id mit
 
 \subsection{Simulation von Fehlerhaftem Verhalten}
 \label{simErrors}
