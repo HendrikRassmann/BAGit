@@ -37,7 +37,7 @@ Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus ein
 
 
 \subsection{Scheduler}
-Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen (einfügen Quelle mafi buch steffen evtl.). Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")(richtiges Zitat Format heraus finden und einfügen)\cite{Kar97}.\\
+Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen (einfügen Quelle mafi buch steffen evtl.). Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")(richtiges Zitat Format heraus finden und einfügen)\cite{Kar97}. Zugunsten der reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mnit der niedrigeren ID gewählt.\\
 Kern der Problemstellung ist das finden von Schedulern, die ein effektives Betreiben des Systems erlauben und leicht berechen bar sind.
 
 \section{Zielfunktionen}

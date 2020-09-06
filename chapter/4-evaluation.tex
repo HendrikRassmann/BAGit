@@ -4,15 +4,16 @@
 
 Der hier verwendete Simulations Aufbau erlaubt auf Wunsch eine deterministische sequentielle Ausführung. Dies erlaubt weiterführende Untersuchungen, die in Kapitel 4.2.2 ausgeführt werden [relativen link einfügen].
 
-\subsection{TLA+ Spec}
-Blabla bal
-bla
-TLA
-Mathematische spezifikation
+
+%\subsection{TLA+ Spec}
+%Blabla bal
+%bla
+%TLA
+%Mathematische spezifikation
 
 \subsection{Simulations Aufbau}
 Wahl des Paradigmas \ref{paradigma} fällt in dieser Arbeit zunächst auf Ereignis-Orientiert \ref{activity}. Dies mag erstaunen, da eine Prozess-Orientierte Ansicht, im Falle eines verteilten Systems, wie eine offensichtlich gute Wahl wirkt..\\
-In diesem Fall sind die sich daraus ergebenden Vorteile zweierlei. Erstens, ist es dadurch einfacher, nahe an der TLA+ Spezifikation zu bleiben. Man behällt die Sichtweise auf das System als Zustand und einer Menge an möglichen Aktionen/Zustandsübergängen. Durch die Definition eines Standardverhaltens, nämlich zuerst alle fertigen Aufträge zu Beenden, dann Aufträge zu starten, bis keine Aufträge mehr startbar sind, und dann eine Zeiteinheit vergehen zu lassen, erzielt man ein deterministisches Verhalten (solange die Scheduling Alorithmen deterministisch sind). Dieses reproduzierbare Verhalten ist gegeüber der Prozessorientierten sicht ein Vorteil, da Fehler leichter gefunden und behoben werden können.\\
+In diesem Fall sind die sich daraus ergebenden Vorteile zweierlei. Erstens, ist es dadurch einfacher, nahe an einer Automaten-Spezifikation zu bleiben. Man behällt die Sichtweise auf das System als Zustand und einer Menge an möglichen Aktionen/Zustandsübergängen. Durch die Definition eines Standardverhaltens, nämlich zuerst alle fertigen Aufträge zu Beenden, dann Aufträge zu starten, bis keine Aufträge mehr startbar sind, und dann eine Zeiteinheit vergehen zu lassen, erzielt man ein deterministisches Verhalten (solange die Scheduling Alorithmen deterministisch sind). Dieses reproduzierbare Verhalten ist gegeüber der Prozessorientierten sicht ein Vorteil, da Fehler leichter gefunden und behoben werden können.\\
 Zweitens leitet sich aus deterministischem Verhalten ein großer Vorteil für das Property Based Testing zum Erkenntnisgewinn \ref{proptest} ab.\\
 Es werden "flaky Tests"(def flakie einfügen) verhindert, also Tests, die mit dem selben Systemzustand bei mehrfacher Ausführung sowohl fehlschlagen als auch gelingen. In diesen Fällen müssten sonst mehrere Tests durchgeführt werden.\\
 Was das Shrinking (ref einfügen) angeht, könnte hier ein  Aktivitäts Orientierter Ansatz Sinn ergeben, da immer kleinere Läufe erzeugt werden, sodass sich der Zusatzaufwand des Ereignis Orientierte Paradigmas immer weniger lohnt. Jedoch ist der Overhead so gering, dass er im Vergleich zu den hohen Laufzeiteinbußen in der Ausführung von natürlichen Auftragslisten nicht Ausschlag gebend ist.\\
@@ -184,14 +185,14 @@ id: 2, qT: 0, pT: 1, rPT: 1, doP: 2
 id: 3, qT: 0, pT: 1, rPT: 1, doP: 3
 
 maximumLateness of fifo\_optimistic: 4
-[0]:112-3
-[1]:112-3
-[2]:-0003
+[0]:112|-3
+[1]:112|-3
+[2]:-00|03
 
 maximumLateness of fifo\_backfill: 3
-[0]:1123---
-[1]:11-3000
-[2]:--23---
+[0]:112|3--|-
+[1]:11-|300|0
+[2]:--2|3--|-
 \end{verbatim}
 \caption{Vergleich vom Normalem und Optimistischem Backfilling}
 \label{onlateness}
@@ -217,17 +218,17 @@ id: 4, qT: 0, pT: 1, rPT: 1, doP: 2
 
 maximumLateness offifo_optimistic: 4
 makespan of fifo_optimistic: 8
-[0]:334-0---
-[1]:334-0---
-[2]:33--0222
-[3]:-1110---
+[0]:334|-0-|--
+[1]:334|-0-|--
+[2]:33-|-02|22
+[3]:-11|10-|--
 
 maximumLateness offifo_backfill: 3
 makespan of fifo_backfill: 7
-[0]:3340---
-[1]:33-0111
-[2]:33-0222
-[3]:--40---
+[0]:334|0--|-
+[1]:33-|011|1
+[2]:33-|022|2
+[3]:--4|0--|-
 \end{verbatim}
 \caption{Vergleich vom Normalem und Optimistischem Backfilling in Spanne und Verspätung}
 \label{onlatenessmakespan}
@@ -239,10 +240,45 @@ Dauert ca ne Minute auf crappy laptop\\
 
 Wie in der Grafik \ref{onlateness} nach einem Schritt erkennbar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten (Auftrag 4), allerdings den zweitbesten Kandidaten (Auftrag 0). Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel auszahlt, kann wiederum durch eine Statistische Asuwertung untersucht werden.\\
 
-Außerdem ist es interessant zu beobachten, welche Informationen implizit aus diesem Gegenbeispiel gezogegen werden können. Zum Beispiel, dass im ersten Lauf \ref{onlateness} nur ein einziger online Auftrag (d.h. nicht schon zum Zeitpunkt 0 bekannt) nötig ist, aber um das optimistische Verfahren in beiden Metriken zu schlagen, werden 3 online Aufträge sowie ein zusätzlicher Auftrag benötigt. Es fällt auch auf, dass in diesem Beispiel FiFo-Backfill nie vom Backfilling Gebrauch macht. Es verhällt sich immer wie das blanke FiFo Verfahren. 
-Des weiteren fällt auf, dass das Shrinking Verfahren herausgefunden hat, dass zur Berechnung der Laufzeiten von parallelen Aufträgen hochgerundet wird (s. \ref{spt-lpt-time}). Da dies der Lesbarkeit der Tests zuwider läuft, kann die Bearbeitungszeit jedes Auftrags einfach auf das nächste Vielfache der Parallelität gesetzt werden.
+Außerdem ist es interessant zu beobachten, welche Informationen implizit aus diesem Gegenbeispiel gezogegen werden können. Zum Beispiel, dass im ersten Lauf \ref{onlateness} nur ein einziger online Auftrag (d.h. nicht schon zum Zeitpunkt 0 bekannt) nötig ist, aber um das optimistische Verfahren in beiden Metriken zu schlagen, werden 3 online Aufträge sowie ein zusätzlicher Auftrag benötigt. Es fällt auch auf, dass in diesem Beispiel FiFo-Backfill nie vom Backfilling Gebrauch macht. Es verhällt sich immer wie das blanke FiFo Verfahren. Warum also nicht einen Auftragsmix finden, in dem das normale Backfilling sowohl FiFo als auch das optimistische Backfilling trumpf, und zwar sowohl was die Bearbeitungsspanne als auch die längste Wartezeit angeht? Auch hier soll der Leser aufgefordert sein, selber nach einem Beispiel zu suchen.\\
 
-dadurch gefunden: nach QT als optimisierung zu sortieren reicht nicht, auch hier nach id mit
+\begin{figure}
+	\centering
+	\begin{verbatim}
+id: 0, qT: 0, pT: 1, rPT: 1, doP: 2
+id: 1, qT: 0, pT: 1, rPT: 1, doP: 3
+id: 2, qT: 0, pT: 2, rPT: 2, doP: 1
+id: 3, qT: 0, pT: 1, rPT: 1, doP: 3
+id: 4, qT: 0, pT: 1, rPT: 1, doP: 2
+
+maximumLateness of fifo_optimistic : 3
+makespan of fifo_optimistic : 4
+[0]:013|4
+[1]:013|4
+[2]:223|-
+[3]:-1-|-
+
+maximumLateness of fifo_backfill : 2
+makespan of fifo_backfill : 3
+[0]:013
+[1]:013
+[2]:413
+[3]:422
+
+maximumLateness of fifo : 3
+makespan of fifo : 4
+[0]:013|4
+[1]:013|4
+[2]:-13|-
+[3]:-22|-
+\end{verbatim}
+\caption{Backfill besser als Optimistic und Fifo, bez. Bearbeitunsspanne und längster Wartezeit}
+\label{everything}
+\end{figure}
+
+Des weiteren fällt auf, dass das Shrinking Verfahren herausgefunden hat, dass zur Berechnung der Laufzeiten von parallelen Aufträgen hochgerundet wird (s. \ref{spt-lpt-time}). Da dies der Lesbarkeit der Tests zuwider läuft, kann die Bearbeitungszeit jedes Auftrags einfach auf das nächste Vielfache der Parallelität gesetzt werden.
+Zusätlich wird oft die Gleichstände-auflösenden Ids zurückgegriffen. Es kann explizit gefordert werden, dass alle Einreihungszeitpunkte der Aufträge verschieden sind. Allerdings verlangsamt dies die Suche nach einem Gegenbeispiel, und das kleinste gefundene Gegenbeispiel hat eine Bearbeitungsspanne von 13 Zeiteinheiten oder mehr.\\
+\FloatBarrier
 
 \subsection{Simulation von Fehlerhaftem Verhalten}
 \label{simErrors}
