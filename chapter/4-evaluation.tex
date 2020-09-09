@@ -158,12 +158,13 @@ In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es e
 \label{proptest}
 \paragraph{Testen statt Simullieren}
 Während das Simullieren des Rechenclusters gute Auskunft darüber gibt, wie sich das System bei einer langen Reihe an Aufträgen verhällt, kristalliesiert sich dabei lediglich das durchschnittliche Verhalten heraus. Obwohl diese Analyse sinnvoll ist, um verschiedene Scheduling Funktionen asymptotisch mit einander zu vergleichen, wird durch das Mitteln von hunderten von Läufen nicht ersichtlich, in welchen Fällen eine normalerweise unterlegene Scheduling Funktion einer Anderen überlegen ist.\\
-Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Ein guter Einstiegspunkt in dieses Thema ist [initial Paper 1999]. Hier nur eine kleine Zusammenfassung der für uns wichtigen Aspekte. \\
+Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Ein guter Einstiegspunkt in dieses Thema ist [initial Paper 1999 einfügen]. Hier nur eine kleine Zusammenfassung der für uns wichtigen Aspekte. \\
 Ein Test besteht aus einer zu testenden Funktion, eine Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumptf. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall "kein Rauschen" enthällt.
 Eine Zahl wird geschrumpt, in dem sie verringer wird, ein Tupel von Zahlen, in dem eines der Elemente geschrumpft wird, und eine Liste, in dem Elemnter der Liste weggelassen oder geschrumpft werden.\\
+
 Um ein minimales Beispiel zu finden, in dem Scheduling Funktion $S_1$ Ziel Funktion $T$ besser minimiert als Scheduler $S_2$, können wir die Eigenschaft $T(S_1(x)) >= T (S_2(1))$, mit einem Auftragsgenerator$X$: $(Anzahl Konten,[(\pi_j <= Anzahl Knoten,p_j,q_j)])$ überprüfen.
-Ein vom Testframework gefundenes minimales Gegenbeispiel, zeigt uns einen Speziellen Fall, in dem $S_1$ ein besseres Ergebnis erzielt als $S_2$
-Für die meinsten Scheduling Funktionen ist das minimal Beispiel eines mit 3 Aufträgen, und einer kleinen Anzahl an Knoten [genaues nochmal testen].
+Ein vom Testframework gefundenes minimales Gegenbeispiel, zeigt uns einen Speziellen Fall, in dem $S_1$ ein besseres Ergebnis erzielt als $S_2$ (\cite{TestOpt}).
+Für die meinsten Scheduling Funktionen ist das minimal Beispiel eines mit 3 Aufträgen, und einer kleinen Anzahl an Knoten.
 
 Hier nun einige Beispiele:\\
 
@@ -279,6 +280,69 @@ makespan of fifo : 4
 Des weiteren fällt auf, dass das Shrinking Verfahren herausgefunden hat, dass zur Berechnung der Laufzeiten von parallelen Aufträgen hochgerundet wird (s. \ref{spt-lpt-time}). Da dies der Lesbarkeit der Tests zuwider läuft, kann die Bearbeitungszeit jedes Auftrags einfach auf das nächste Vielfache der Parallelität gesetzt werden.
 Zusätlich wird oft die Gleichstände-auflösenden Ids zurückgegriffen. Es kann explizit gefordert werden, dass alle Einreihungszeitpunkte der Aufträge verschieden sind. Allerdings verlangsamt dies die Suche nach einem Gegenbeispiel, und das kleinste gefundene Gegenbeispiel hat eine Bearbeitungsspanne von 13 Zeiteinheiten oder mehr.\\
 \FloatBarrier
+
+\subsection{Vergleich von Simulation und PBT}
+
+Die Simulation vergleicht Scheduling Algorithmen anhand ihrer Leistung beim bearbeiten von - aus der Luft gegriffenen - Auftragszusammenstellungen. Das PBT findet zu Scheduling Algorithmen einen dazu passenden Auftrags- und Knotenmix, in dem sich die Leistungen unterscheiden. Rückschlüsse können basierend auf der Komplexität dieser Szenarien gezogen werden. Die Vermutung, dass komplizierte, oder gestellt Konstellationen im Normalbetrieb selten sind, und dass ein Algorithmus, der nur in solchen Situationen zu schlagen ist, sich auch im Normalbetrieb bewährt, ist noch zu überprüfen.\\
+
+Vorab ist zu wählen, nach welcher Zielfunktion bemessen werden soll. Da auch \cite{Arn99} sich vorallem auf die Bearbeitungsspanne konzentrieren, wollen wir das hier auch tun. Außerdem ist auch zu klären, was die kleinste Situation ist, in dem zwei verschieden Scheduler zwei verschiedene Ergebnisse liefern. Offensichtlich müssen dafür mindestens zwei Knoten beteiligt sein, und mehr als 2 Aufträge vorhanden sein. Zunächst wird diese überlegung überprüft. Dafür wird ein neuer Scheduler ’’FId’’ geschaffen, der immer den Auftrag mit der niedrigsten Id auswählt. Dann wird nach einem Test gesucht, in dem sich ein FId System anders verhällt, wenn die Ids in der Auftragsliste vor Start der Simulation permutiert werden. Diese Vermutung lässt sich schnell bestätigen (s. \ref{minX}).\\
+\begin{figure}
+\centering
+\begin{verbatim}
+makespan : 2
+id: 0, qT: 0, pT: 1, rPT: 1, doP: 2
+id: 1, qT: 0, pT: 1, rPT: 1, doP: 1
+id: 2, qT: 0, pT: 1, rPT: 1, doP: 1
+[0]:01
+[1]:02
+
+makespan : 3
+id: 0, qT: 0, pT: 1, rPT: 1, doP: 1
+id: 1, qT: 0, pT: 1, rPT: 1, doP: 2
+id: 2, qT: 0, pT: 1, rPT: 1, doP: 1
+[0]:012
+[1]:-1-
+\end{verbatim}
+\caption{minimales Beispiel, in dem sich die Wahl der Scheduling Funktion auswirkt}
+\label{minX}
+\end{figure}
+
+Nun können bisher vorgestellten Scheduler miteinander verglichen werden. Die "Gestelltheit" des kleinsten Beispiels setzt sich dabei aus der Anzahl an Aufträgen, Knoten, und online Aufträgen zusammen. Hier sei noch angemerkt, dass dies, ebenso wie das Simullieren, keine exakten Ergebnisse liefert. Es ist immer möglich, dass es einen noch einfacheren Fall gibt, den das Shrinking Verfahren nicht gefunden hat. Es werden für jede Paarung 100000 Beispiele ausprobiert. Ebenso gibt es mehrere "kleinste" Beispiele. Zum Beispiel kann FiFo lpt mit 
+3-2-1 oder 4-2-0 schlagen. Das Shrinking Verfahren betrachtet dabei ersteres Ergebnis als "kleiner". Hierfür kann ''gezieltes PBT'' (\cite{testTarget}) verwendet werden. Hierbei wird ein Wert angegeben, den das Test Framework minimiert, zum Beispiel die Differenz zwischen den zwei Bearbeitungsspannen. Dadurch veringert sich zwar die Zeit, die gebraucht wird, um ein Gegenbeispiel zu finden, allerdings variiert dadurch die größe der Beispiele stärker. Aus diesem Grund wird darauf hier verzichtet.\\
+
+
+\begin{table}[]
+	\resizebox{\textwidth}{!}{\begin{tabular}{lllllllllll}
+		\hline
+		J+k+o      & fifo  & spt   & lpt   & Fifo-fit & Fifo-back & Fifo-optim & Spt-fit & Spt-back & Lpt-fit & Lpt-back \\ \hline
+		fifo       & +     & 3+2+0 & 3+2+1 & 6+2+2    & X         & 8+3+4      & 3+4+0   & 3+2+0    & 3+2+1   & 3+9+1    \\
+		spt        & 3+2+1 & +     & 3+2+1 & 4+2+1    & 4+2+1     & 4+2+1      & 6+8+0   & 6+10+5   & 3+3+1   & 4+5+3    \\
+		lpt        & 3+2+0 & 3+2+0 & +     & 4+4+2    & 3+2+0     & 3+2+2      & 3+2+0   & 3+2+0    & 4+2+2   & 7+5+2    \\
+		Fifo-fit   & 3+2+2 & 3+2+2 & 3+2+0 & +        & 5+4+2     & 3+2+1      & 3+2+0   & 3+2+0    & 3+2+1   & 4+3+0    \\
+		Fifo-back  & 5+2+0 & 3+2+2 & 3+2+0 & 5+6+4    & +         & 7+6+2      & 3+3+0   & 3+2+2    & 3+2+1   & 3+2+1    \\
+		Fifo-optim & 3+3+1 & 3+2+0 & 3+2+0 & 4+2+1    & 3+4+0     & +          & 3+4+0   & 3+2+2    & 3+2+1   & 3+2+1    \\
+		Spt-fit    & 3+2+2 & 3+2+2 & 3+2+0 & 3+2+1    & 3+2+2     & 3+2+0      & +       & 3+3+0    & 3+2+1   & 5+5+4    \\
+		Spt-back   & 3+2+0 & 5+2+2 & 3+2+1 & 3+2+1    & 3+2+1     & 3+2+1      & 5+4+2   & +        & 3+2+1   & 3+2+1    \\
+		Lpt-fit    & 3+2+2 & 3+2+1 & 3+2+0 & 3+2+0    & 3+2+1     & 3+2+0      & 3+2+0   & 3+2+0    & +       & 4+4+3    \\
+		Lpt-back   & 3+2+1 & 3+2+2 & 3+3+0 & 3+2+0    & 3+4+1     & 4+2+1      & 3+2+0   & 3+2+0    & 5+4+2   & +        \\ \hline
+	\end{tabular}}
+	\caption{adsf}
+	\label{tab:my-table}
+\end{table}
+
+
+
+
+bild einfügen\\
+
+interessant: fifobackfill kann nicht von fifo geschlagen werden\\
+aber sptbackfill von spt schon: Der grund: online - algos\\
+spt kann backfill nicht in offline scenarien schlagen
+
+
+ab hier lieber richtiges modelchecking und breath first ausprobieren
+\FloatBarrier
+
 
 \subsection{Simulation von Fehlerhaftem Verhalten}
 \label{simErrors}
