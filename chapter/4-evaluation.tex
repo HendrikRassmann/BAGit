@@ -326,26 +326,43 @@ Nun können bisher vorgestellten Scheduler miteinander verglichen werden. Die "G
 		Lpt-fit    & 3+2+2 & 3+2+1 & 3+2+0 & 3+2+0    & 3+2+1     & 3+2+0      & 3+2+0   & 3+2+0    & +       & 4+4+3    \\
 		Lpt-back   & 3+2+1 & 3+2+2 & 3+3+0 & 3+2+0    & 3+4+1     & 4+2+1      & 3+2+0   & 3+2+0    & 5+4+2   & +        \\ \hline
 	\end{tabular}}
-	\caption{adsf}
-	\label{tab:my-table}
+	\caption{Größe des kleinsten gefundenen Falls, in dem Spalte eine kleinere Spanne hat als Zeile}
+	\label{tabAbsFit}
 \end{table}
 
+\begin{table}[]
+	\resizebox{\textwidth}{!}{\begin{tabular}{lllllllllllll}
+		\cline{1-13}
+		& V/G & fifo & spt & lpt & Fifo-fit & Fifo-back & Fifo-optim & Spt-fit & Spt-back & Lpt-fit & Lpt-back &  \\ \cline{1-13}
+		0.756 & fifo & 0 & 5 & 6 & 10 & nn & 15 & 7 & 5 & 6 & 13 & 8.375 \\
+		0.667 & spt & 6 & 0 & 6 & 7 & 7 & 7 & 14 & 21 & 7 & 12 & 9.667 \\
+		0.766 & lpt & 5 & 5 & 0 & 10 & 5 & 7 & 5 & 5 & 8 & 14 & 7.111 \\
+		1.203 & Fifo-fit & 7 & 7 & 5 & 0 & 11 & 6 & 5 & 5 & 6 & 7 & 6.556 \\
+		0.867 & Fifo-back & 7 & 7 & 5 & 15 & 0 & 15 & 6 & 7 & 6 & 6 & 8.222 \\
+		1.281 & Fifo-optim & 7 & 5 & 5 & 7 & 7 & 0 & 7 & 7 & 6 & 6 & 6.333 \\
+		1.032 & Spt-fit & 7 & 7 & 5 & 6 & 7 & 5 & 0 & 6 & 6 & 14 & 7 \\
+		1.082 & Spt-back & 5 & 9 & 6 & 6 & 6 & 6 & 11 & 0 & 6 & 6 & 6.778 \\
+		1.127 & Lpt-fit & 7 & 6 & 5 & 5 & 6 & 5 & 5 & 5 & 0 & 11 & 6.111 \\
+		1.483 & Lpt-back & 6 & 7 & 6 & 5 & 8 & 7 & 5 & 5 & 11 & 0 & 6.667 \\ \cline{1-13}
+		&  & 6.333 & 6.444 & 5.444 & 7.889 & 7.125 & 8.111 & 7.222 & 7.333 & 6.889 & 9.889 & 
+	\end{tabular}}
+	\caption{Durchsnittliche Größe jeder Zeile und Spalte; links das Verhältnis aus durchschn. Gewinn und Verlierer Größe}
+	\label{tabRelFit}
+\end{table}
+
+Hierbei ist zu beachten, dass FiFo nicht nie seine Backfill-Variante besiegen kann. Dies liegt daran, dass das Auswahlkriterium von FiFo die Einreihungszeit ist. Per Definition kann also kein online eingereihter Auftrag erscheinen, der dieses Kriterium besser erfüllt, als die bereits bekannten Aufträge. Für SPT und LPT gilt dies nicht.\\
+Aus diesem Grund wird hier der durchschnitt der nicht-null Werte verrechnet. Dies benachteiligt FiFo-Backfill und bevorteilt FiFo.\\
+Vergleicht man die Tablle mit \ref{figure_6_1} fällt auf, dass die ermittelten Werte bezüglich der kleinsten Szenarien nur begrenzte Vorhersagekraft über die tatsächliche Rangordnung der Algorithmen besitzen. Die referenziell Transparenten Scheduler schneiden schlecht ab, die Backfilling- und Fit Allogrithmen besser, mit Ausnahme von SPT-Backfilling.\\
+
+Monotonie Maß einfügen
 
 
 
-bild einfügen\\
-
-interessant: fifobackfill kann nicht von fifo geschlagen werden\\
-aber sptbackfill von spt schon: Der grund: online - algos\\
-spt kann backfill nicht in offline scenarien schlagen
-
-
-ab hier lieber richtiges modelchecking und breath first ausprobieren
+Diese mäßige Korrelation hat vermutlich mehrere Ursachen.
 \FloatBarrier
 
 
 \subsection{Simulation von Fehlerhaftem Verhalten}
 \label{simErrors}
-
+Wird wohl Fliegen müssen
 \paragraph{Lorem}
-ipsum
