@@ -154,6 +154,9 @@ In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es e
 
 \FloatBarrier
 
+\paragraph{Backfilling und Fit von 2 Funktionen} Darüber hinaus ist es natürlich auch möglich, Backfilling und Fit in Abhängikeit von zwei Funktionen zu definieren. Das würde bedeutet, zuerst nach der ersten Funktion auszuwählen. Kann diese nicht gestartet werden, würde nach der zweiten Funktion aufgefüllt oder ein startbarer Auftrag gestartet. So könnten Schwächen einer Scheduling Funktion durch die Wahl einer anderen aufgewogen werden. Etwa könnten die längste Wartezeit des LPT-Backfill Algorithmus durch das auffüllen nach FiFo veringert werden, die geringe Bearbeitungsspanne allerdings beibehalten werden.\\
+
+
 \subsection{Property Based Testing zum Erkenntnisgewinn}
 \label{proptest}
 \paragraph{Testen statt Simullieren}
@@ -352,17 +355,9 @@ Nun können bisher vorgestellten Scheduler miteinander verglichen werden. Die "G
 
 Hierbei ist zu beachten, dass FiFo nicht nie seine Backfill-Variante besiegen kann. Dies liegt daran, dass das Auswahlkriterium von FiFo die Einreihungszeit ist. Per Definition kann also kein online eingereihter Auftrag erscheinen, der dieses Kriterium besser erfüllt, als die bereits bekannten Aufträge. Für SPT und LPT gilt dies nicht.\\
 Aus diesem Grund wird hier der durchschnitt der nicht-null Werte verrechnet. Dies benachteiligt FiFo-Backfill und bevorteilt FiFo.\\
-Vergleicht man die Tablle mit \ref{figure_6_1} fällt auf, dass die ermittelten Werte bezüglich der kleinsten Szenarien nur begrenzte Vorhersagekraft über die tatsächliche Rangordnung der Algorithmen besitzen. Die referenziell Transparenten Scheduler schneiden schlecht ab, die Backfilling- und Fit Allogrithmen besser, mit Ausnahme von SPT-Backfilling.\\
+Vergleicht man die Tabelle mit \ref{figure_6_1} fällt auf, dass die ermittelten Werte bezüglich der kleinsten Szenarien nur begrenzte Vorhersagekraft über die tatsächliche Rangordnung der Algorithmen besitzen. Die referenziell Transparenten Scheduler schneiden schlecht ab, die Backfilling- und Fit Allogrithmen besser, mit Ausnahme von SPT-Backfilling.\\
 
-Monotonie Maß einfügen
+Monotonie Maß einfügen blablabla\\
 
-
-
-Diese mäßige Korrelation hat vermutlich mehrere Ursachen.
+Diese mäßige Korrelation hat vermutlich mehrere Ursachen. Zu
 \FloatBarrier
-
-
-\subsection{Simulation von Fehlerhaftem Verhalten}
-\label{simErrors}
-Wird wohl Fliegen müssen
-\paragraph{Lorem}
