@@ -2,16 +2,17 @@
 \label{chap:ein}
 
 
---WW2 Operations Research?\\
---scheduling\\
----Die effiziente Zuteilung von Rechenaufgaben auf unterschiedliche Ressourcen ist nicht erst seit dem Zeitalter der Cloud wichtig. Dies war schon ein kritischer Bereich von Operations Research (WW2 OpsResearch Paper einfügen, idealerweise mit turing und so bla bla), als "Computer" noch ein Beruf war.
---darauf weiter eingehen\\
+%--WW2 Operations Research?\\
+%--scheduling\\
+-Die effiziente Zuteilung von Rechenaufgaben auf unterschiedliche Ressourcen ist nicht erst seit dem Zeitalter der Cloud wichtig. Dies war schon ein kritischer Bereich von Operations Research (WW2 OpsResearch Paper einfügen, idealerweise mit turing und so bla bla), als "Computer" noch ein Beruf war.\\
+%--darauf weiter eingehen\\
 
-In der Ära der Mainframe Computer wurden simple Wartelisten, die von einem Operator(in) betreut wurden, nach und nach durch ausgeklügelte Systeme ersetzt (einfügen: ich hätte gerne so eine "history of Computing" mäßige Quelle). Heute übernimmt diese Aufgabe auf fast jedem Computer ein Betriebssystem, das sicherstellt, dass alle Prozesse mit Rechenzeit versorgt werden, während dem Benutzer gleichzeitig eine niedrige Antwortzeit seiner Eingaben geboten wird. Ein Rechencluster hingegen kann nicht einfach wie ein Computer mit vielen Prozessorkernen behandelt werden. Zum einen ist eine vorzeitige Unterbrechung einer Berechnung entweder sehr teuer oder technisch kompliziert, fordert die Planung und Programmierung von checkpoints \cite{IPS15}, oder ist gar unmöglich \cite{adams1979hitchhiker}.\\
+In der Ära der Mainframe Computer wurden simple Wartelisten, die von einem Operator(in) betreut wurden, nach und nach durch ausgeklügelte Systeme ersetzt %(einfügen: ich hätte gerne so eine "history of Computing" mäßige Quelle).
+Heute übernimmt diese Aufgabe auf fast jedem Computer ein Betriebssystem, das sicherstellt, dass alle Prozesse mit Rechenzeit versorgt werden, während dem Benutzer gleichzeitig eine niedrige Antwortzeit seiner Eingaben geboten wird. Ein Rechencluster hingegen kann nicht einfach wie ein Computer mit vielen Prozessorkernen behandelt werden. Zum einen ist eine vorzeitige Unterbrechung einer Berechnung entweder sehr teuer oder technisch kompliziert, fordert die Planung und Programmierung von checkpoints \cite{IPS15}, oder ist gar unmöglich \cite{adams1979hitchhiker}.\\
 Zum anderen muss die Antwortzeit des Systems bei neuen Eingaben nicht im Millisekundenbereich liegen. Außerdem kann sich die Rechenleistung der einzelnen Knoten eines Clusters um einen beliebig großen Faktor unterscheiden.  Des weiteren können Aufträge strikte Beschränkungen haben, welchen wievielen Knoten sie benötigen, um ausgeführt werden zu können.\\
 Da Experimente an echten Rechenclustern höchstens zur Validierung von Forschungsergebnissen durchführbar sind, werden solche Systeme in der Regel simmuliert.\\
 In dieser Arbeit werden zunächst relevante Grundlagen geschildert.
-Danach wird ein solches Simmulationsmodel nachgebaut und erweitert. Zum Vorbild hält hier \cite{Arn99}. In jenem Paper wird ein Modell vorgestellt, simuliert, ausgewertet und experimentell validiert. Das vorgestellte Modell soll hier nachgebildet werden. Zur Überprüfung der Nachbildung werden Simulationsläufe analysiert, und die Ergebnisse mit den Ergebnissen in \cite{Arn99} verglichen.\\
+Danach wird ein solches Simulationsmodell nachgebaut und erweitert. Zum Vorbild hält hier \cite{Arn99}. In jenem Paper wird ein Modell vorgestellt, simuliert, ausgewertet und experimentell validiert. Das vorgestellte Modell soll hier nachgebildet werden. Zur Überprüfung der Nachbildung werden Simulationsläufe analysiert, und die Ergebnisse mit den Ergebnissen in \cite{Arn99} verglichen.\\
 Darüber hinaus wird das Modell erweitert, in dem Kombinationen von Scheduling Algorithmen durch die Sichtweise der Funktionalen Programmierung betrachtet werden.
 Zusätzlich sollen verschieden Algorithmen zur Zuteilung von Rechenknoten und Aufträgen (im Folgenden Scheduling Algorithmen oder Scheduler(s)) statistisch verglichen werden, und durch Modellchecking Verfahren intuitiv anschaubar gemacht werden. Anschließend wird überprüft, wie gut die so gewonnen Intuitionen das tatsächliche Verhalten vorhersagen.\\
 

@@ -2,7 +2,7 @@
 \label{chap:ein}
 \section{Problemstellung}
 
-Ein Rechenkluster, bestehend aus einer Vielzahl von Knoten-Rechnern mit potenziell verschiedenen Rechenleistungen soll eine Menge von Aufträgen an Berechnungen durchführen. Die unterschiedlichen Aufträge sind dabei nicht im voraus bekannt (OnLine Scheduling), und könnten gestartet werden, sobald sie angemeldet werden. Die Reihenfolge der Bearbeitung ist dabei nicht von bedeutung, Aufträge hängen nicht von einander ab. Die Aufträge sollen dabei durch eine geeignete Methode auf die Knoten aufgeteilt werden. Diese Aufteilung wird Schedule genannt. Hier werden Eigenschaften von Aufträgen und Knoten, sowie Kriterien zur Bemessung der Eignung der verschiedenen Methoden vorgestellt.\\
+Ein Rechencluster, bestehend aus einer Vielzahl von Knoten-Rechnern mit potenziell verschiedenen Rechenleistungen soll eine Menge von Aufträgen an Berechnungen durchführen. Die unterschiedlichen Aufträge sind dabei nicht im voraus bekannt (OnLine Scheduling), und könnten gestartet werden, sobald sie angemeldet werden. Die Reihenfolge der Bearbeitung ist dabei nicht von Bedeutung, Aufträge hängen nicht von einander ab. Die Aufträge sollen dabei durch eine geeignete Methode auf die Knoten aufgeteilt werden. Diese Aufteilung wird Schedule genannt. Hier werden Eigenschaften von Aufträgen und Knoten, sowie Kriterien zur Bemessung der Eignung der verschiedenen Methoden vorgestellt.\\
 Es wird die Notation aus \cite{Kar97} verwendet.
 
 
@@ -21,30 +21,32 @@ Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder me
 \textbf{Zugewiesene Knoten} (scheduled on nodes) $n_j$: Die Menge an Knoten, auf denen ein Auftrag $j$ ausgeführt wird.\\
 
 \item[Darüber hinaus] \hfil \\
-können Aufträge mit zusätlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
+können Aufträge mit zusätzlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
 \end{description}
 
 \subsection{Maschinenumfeld (Machine Enviroment)}
-Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus einer Anzahl an Knoten, einer Warteliste bereits bekannter, wartender Auftwärge ($Q$) und einem Scheduler. Die Knoten werden charakterisiert durch:
+Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus einer Anzahl an Knoten, einer Warteliste bereits bekannter, wartender Aufträge ($Q$) und einem Scheduler. Die Knoten werden charakterisiert durch:
 
 \begin{description}
 	\item[Feststehende Eigenschaften] \hfil \\
 	\textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
-	\textbf{Geschwindigkeit} (spped) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $sp_k = 2$. Ein Auftrag $j'$ mit $p_j' = 10$ und $\pi_j' = 2$ benötigt $5$ Zeiteinheiten auf zwei knoten mit $sp_{k_1, k_2} = 1$.\\
+	\textbf{Geschwindigkeit} (speed) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $sp_k = 2$. Ein Auftrag $j'$ mit $p_j' = 10$ und $\pi_j' = 2$ benötigt $5$ Zeiteinheiten auf zwei knoten mit $sp_{k_1, k_2} = 1$.\\
 	\item[Variable Eigenschaften] \hfil \\
-	\textbf{Führt aus} (Runns) $R_k$: Die Menge an Aufträgen, die auf diesem Knoten ausgeführt werden. In dieser Arbeit werden wie in \cite{Arn99} nur der Spezialfall betrachtet, in dem Knoten nur einen Auftrag gleichzeitig ausfürhren.\\
+	\textbf{Führt aus} (Runs) $R_k$: Die Menge an Aufträgen, die auf diesem Knoten ausgeführt werden. In dieser Arbeit werden wie in \cite{Arn99} nur der Spezialfall betrachtet, in dem Knoten nur einen Auftrag gleichzeitig ausführen.\\
 \end{description}
 
 
 \subsection{Scheduler}
-Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen (einfügen Quelle mafi buch steffen evtl.). Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")(richtiges Zitat Format heraus finden und einfügen)\cite{Kar97}. Zugunsten der reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mnit der niedrigeren ID gewählt.\\
-Kern der Problemstellung ist das finden von Schedulern, die ein effektives Betreiben des Systems erlauben und leicht berechen bar sind.
+Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung formen 
+%(einfügen Quelle mafi buch steffen evtl.)
+. Diese Abbildung ist dabei nicht notwendiger deterministisch, wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")\cite{Kar97}. Zugunsten der Reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mit der niedrigeren ID gewählt.\\
+Kern der Problemstellung ist das finden von Schedulern, die ein effektives Betreiben des Systems erlauben und leicht einfach zu berechnen sind.
 
 \section{Zielfunktionen}
-Bevor verschiedene Scheduler mit einander verglichen werden können, muss zu erst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sollten seien, Fairness zwischiden den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeittig eine hohe Auslastung der Knoten sicherzustellen. Diese Ziele sind oft unvereinbar.
+Bevor verschiedene Scheduler mit einander verglichen werden können, muss zu erst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sollten seien, Fairness zwischen den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeitig eine hohe Auslastung der Knoten sicherzustellen. Diese Ziele sind oft unvereinbar.
 
 \paragraph{maximum waiting time}
-Die Wartezeit eines Auftrags $j$ wird defniert als die Zeitspanne zwischend Einreihung $q_j$ und Abschluss $c_j$. Die größte Wartezeit verhällt sich umgekehrt zur Fairness eines Schedulers.
+Die Wartezeit eines Auftrags $j$ wird definiert als die Zeitspanne zwischen Einreihung $q_j$ und Abschluss $c_j$. Die größte Wartezeit verhält sich umgekehrt zur Fairness eines Schedulers.
 
 \paragraph{Makespan}
 Die Bearbeitungsspanne ist die vergangene Zeit zwischen dem frühsten Bearbeitungsbeginn und dem spätesten Abschluss.
@@ -53,13 +55,13 @@ Die Bearbeitungsspanne ist die vergangene Zeit zwischen dem frühsten Bearbeitun
 Die durchschnittliche Wartezeit ist die summierte Wartezeit aller Aufträge.
 
 \section{Scheduling Algorithmen}
-Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheided. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in zwei Kategorien einteilen.  Referenziell Transparent oder Intransparent. Details dazu in \ref{chap:higher-order}.
+Bei allen im folgenden vorgestellten Algorithmen, wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheidet. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in zwei Kategorien einteilen.  Referenziell Transparent oder Intransparent. Details dazu in \ref{chap:higher-order}.
 
 \subsection{Referenziell transparente Scheduler}
-Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hängt einzig von den Aufträgen in der Warteschlange ab, nicht vom sonstigen (evtentuell unbekannten) Zustand des Systems.
+Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hängt einzig von den Aufträgen in der Warteschlange ab, nicht vom sonstigen (eventuell unbekannten) Zustand des Systems.
 
 \paragraph{FiFo}
-\textbf{First in First out} wählt zu jedem Zeitpunkt denjenigen Auftrag, der sich bereits am längsten in der Warteschlange befindet. Stehen nicht genug Knoten zur verfügung, um diesen Auftrag zu starten, müssen alle anderen Aufträge warten. FiFo minimiert. Dieses Verfahren ist zwar fair, führt allerdings zu viel ungenutzter Rechenzeit.
+\textbf{First in First out} (im Folgenden FiFo) wählt zu jedem Zeitpunkt denjenigen Auftrag, der sich bereits am längsten in der Warteschlange befindet. Stehen nicht genug Knoten zur Verfügung, um diesen Auftrag zu starten, müssen alle anderen Aufträge warten. FiFo minimiert. Dieses Verfahren ist zwar fair, führt allerdings zu viel ungenutzter Rechenzeit.
 
 \paragraph{SPT}
 \textbf{Shortest Processing Time first} wählt den Auftrag mit der die kürzesten angegebene Bearbeitungszeit. Dadurch wird versucht, die average waiting time gering zu halten. Darunter leidet die Fairness, und die maximum waiting time eines nach hinten verdrängten langen Auftrags steigt.
@@ -71,7 +73,7 @@ Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hän
 Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie etwa dem Zustand der Knoten, oder vom Zustand anderer parallel laufender Aufträge. In einem echten verteilten System kann dies zu Problemen führen, wenn der globale Zustand nicht oder nur schwer ermittelt werden kann.
 
 \paragraph{First Fit}
-\textbf{First Fit} ist eine Abwandeelung von FiFo. Hier wird  der Auftrag, der bereits am längsten wartet und sofort gestartet werden kann, ausgewählt. Dies verringert ungenutze Rechenzeit, allerdings werden Aufträge mit einer hohen Parallelität nach hinten verdrängt.
+\textbf{First Fit} ist eine Abwandelung von FiFo. Hier wird  der Auftrag, der bereits am längsten wartet und sofort gestartet werden kann, ausgewählt. Dies verringert ungenutzte Rechenzeit, allerdings werden Aufträge mit einer hohen Parallelität nach hinten verdrängt.
 
 \paragraph{Backfilling}
 \textbf{Backfilling} ist eine weitere Abwandlung von FiFo. Zu erst wird der Auftrag bestimmt, der bereits am längsten wartet. Sollte dieser nicht gestartet werden können, dürfen andere Aufträge gestartet werden, vorausgesetzt, sie werden früher abgeschlossen, als der zu erst gewählte Auftrag beginnen wird. So wird ungenutzte Rechenzeit vermieden, ohne das lange große Aufträge im Vergleich zu FiFo benachteiligt werden.
@@ -81,21 +83,19 @@ Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie
 
 \section{Simulation}
 
-dasfsaefsafaefdsa
-
 \subsection{Discrete Event Simulation}
-Soll ein System zu diskreten Zeitpunkten simulliert werden, stehen 3 Paradigmen zur Auswahl \cite{SimPy}.
+Soll ein System zu diskreten Zeitpunkten simuliert werden, stehen 3 Paradigmen zur Auswahl \cite{SimPy}.
 \label{paradigma}
 \paragraph{Aktivitäts Orientiert}
 \label{activity}
 Das System wird immer von einem Zustand $S$ zu einem bestimmten Zeitpunkt $t_n$ zu eine Zustand $S'$ in $t_{n+1}$ transformiert. Es wird also vom Startzustand $S_0$ aus einmal für jeden Zeitpunkt ein Zustand produziert.\\
 Dieses Paradigma liefert eine einfache Implementierung, jedoch auch eine höhere Laufzeit als die beiden Alternativen.
 \paragraph{Ereignis Orientiert}
-Hier wird zu von einem Zustand $S_n$ ausgehend der nächste Zustand gefunden, der sich von $S_n$ abgesehen von der aktuellen Zeit $t$ unterscheidet. Es werden also, wenn bekannt ist, dass die nächste Aktion zum Zeitpunkt $t_{n+k}$ stattfindet, alle diskreten Zeiteinheiten ziwschen $n$ und $n+k$ übersprungen.\\
+Hier wird zu von einem Zustand $S_n$ ausgehend der nächste Zustand gefunden, der sich von $S_n$ abgesehen von der aktuellen Zeit $t$ unterscheidet. Es werden also, wenn bekannt ist, dass die nächste Aktion zum Zeitpunkt $t_{n+k}$ stattfindet, alle diskreten Zeiteinheiten zwischen $n$ und $n+k$ übersprungen.\\
 Dieses Paradigma kann Rechenzeit einsparen, wenn der zusätzliche Overhead und die Frequenz der Aktionen klein genug ist.
 \paragraph{Prozess Orientiert}
 Dieses Paradigma funktioniert ähnlich wie Ereignis Orientiert, allerdings werden alle Aktivitäten durch Prozesse abgebildet. Dabei ähnelt jede Aktivität einem Prozess wie in einem Betriebssystem. Ein Prozess unterbricht seine eigene Ausführung, entweder für eine bestimmte Zeit, oder bis eine Bedingung erfüllt ist.\\
-Dies modulariesiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Will man zum Beispiel festlegen soll, welche von 2 Aktionen, die selbe Bedingung warten, zuerst ausgeführt wird, ist dies Aktivitäts oder Ereignis Orientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse worauf warten.
+Dies modularisiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Will man zum Beispiel festlegen soll, welche von 2 Aktionen, die selbe Bedingung warten, zuerst ausgeführt wird, ist dies Aktivitäts oder Ereignis Orientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse worauf warten.
 
 
 
