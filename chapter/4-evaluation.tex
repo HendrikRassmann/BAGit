@@ -145,6 +145,7 @@ In Abbildung \ref{figure_7_2} erzielt SPT-Fit die selben Werte wie FiFo-Fit und 
 In Abbildung \ref{figure_6_1} gibt es eine Klasse an Algorithmen, die gleich gute Ergebnisse erzielen. Darunter FiFo-Fit, SPT-Fit, LPT-Fit, LPT-Backfill und FiFo-Optimistic-Backfill. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit des anteils von großen parallelen Aufträgen gemessen. LPT-Fit ist hier deshalb eine gute Wahl, da LPT im Vergleich zu SPT und FiFo für eine geringere Spanne sorgt (vgl. auch \ref{figure3}). ''-Fit'' und ''-Backfill'' sorgt dafür, dass lange Phasen zum Anfang des Laufs, in denen einige Knoten nicht genutzt werden, während lange Aufträge abgearbeitet werden, gefüllt werden können.\\
 Diese Beobachtung wiederholt sich in Abbildung \ref{figure_7_1}. Auch hier wird die Bearbeitungsspanne als Maß angelegt.\\
 
+
 \paragraph{Optimistisches Backfilling}
 Dieser Algorithmus wird in \ref{optfill} vorgestellt.\\
 Beim Optimistischen Backfilling stellt sich vorallem die Frage, wie groß der Unterschied zum ''normalen'' Backfilling ist, und ob es ein Unterschied zu unseren Gunsten ist. Hierfür wurde nur FiFo in beiden Kontexten herangezogen.\\
@@ -154,9 +155,27 @@ In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es e
 
 \FloatBarrier
 
-\paragraph{Backfilling und Fit von 2 Funktionen} Darüber hinaus ist es natürlich auch möglich, Backfilling und Fit in Abhängikeit von zwei Funktionen zu definieren. Das würde bedeutet, zuerst nach der ersten Funktion auszuwählen. Kann diese nicht gestartet werden, würde nach der zweiten Funktion aufgefüllt oder ein startbarer Auftrag gestartet. So könnten Schwächen einer Scheduling Funktion durch die Wahl einer anderen aufgewogen werden. Etwa könnten die längste Wartezeit des LPT-Backfill Algorithmus durch das auffüllen nach FiFo veringert werden, die geringe Bearbeitungsspanne allerdings beibehalten werden.\\
+\paragraph{Backfilling und Fit von 2 Funktionen} Darüber hinaus ist es natürlich auch möglich, Backfilling und Fit in Abhängikeit von zwei Funktionen zu definieren. Das würde bedeutet, zuerst nach der ersten Funktion auszuwählen. Kann diese nicht gestartet werden, würde nach der zweiten Funktion aufgefüllt oder ein startbarer Auftrag gestartet. So könnten Schwächen einer Scheduling Funktion durch die Wahl einer anderen aufgewogen werden. Etwa könnten die längste Wartezeit des LPT-Backfill Algorithmus durch das auffüllen nach FiFo veringert werden, die geringe Bearbeitungsspanne allerdings beibehalten werden. Alle Kombination zu vergleichen würde den Rahmen dieser Arbeit sprengen. Hier nun eine kurze erneute Betrachtung von Experment \ref{figure_7_1}.\\
+Es wird das bekannte FiFo-Fit, FiFo-Backfilling und LPT-Backfilling sowie das neue LTP-FiFo-Optimistisch in \ref{figure_makespan} betrachtet. Dieses versucht einen Auftrag nach LPT auszuwählen. Kann dieser nicht gestartet werden, wird ein anderer Auftrag nach FiFo ausgewählt, der das bekannte optimistische Auffüll-Kriterium erfüllt.\\
+Es fällt auf, dass LPT mit Backfilling tatsächlich eine geringere Bearbeitungsspanne erzielen, als FiFo-Backfilling. Darüber hinaus, konkurriert LPT-Backfilling mit FiFo-Backfilling bezüglich der durchschnittlichen Systemzeit. Der LPT Algorithmus, der nach FiFo auffült stellt sogar eine kleine aber klare Verbesserung da. Es lässt sich also sagen, dass sich LPT, insbesondere in Kombination mit FiFo sehr gut eignet, um die Bearbeitungsspanne gering zu halten. Auch scheint das Auffüllen nach FiFo geringfügig fairer zu sein, als das normale Auffüllen mit LPT. Allerdings reicht dies nicht aus, um die Stärke des FiFo-Backfillings, nämlich die gute Ausnutzung der Ressourcen und die geringe längste Wartezeit, zu erreichen.
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/makespan.png}
+	\caption{Variieren des Anmeldezeitraums}
+	\label{figure_makespan}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/flowtime.png}
+	\caption{Variieren des Anmeldezeitraums}
+	\label{figure_flowtime}
+\end{figure}
+\begin{figure}	
+	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/maxLate.png}
+	\caption{Variieren des Anmeldezeitraums}
+	\label{figure_maxLate}
+\end{figure}
 
 
+\FloatBarrier
 \subsection{Property Based Testing zum Erkenntnisgewinn}
 \label{proptest}
 \paragraph{Testen statt Simullieren}
@@ -359,5 +378,6 @@ Vergleicht man die Tabelle mit \ref{figure_6_1} fällt auf, dass die ermittelten
 
 Monotonie Maß einfügen blablabla\\
 
-Diese mäßige Korrelation hat vermutlich mehrere Ursachen. Zu
+Wahrscheinlich wurde nicht zu jedem Paar die tatsächlich kleinste Konstellation an Aufträgen gefunden. Hierfür würde sich ein traditionelles Modellchecking Werkzeug wie TLA+ besser eigenen, da diese eine Breitensuche durchführen können. Dies würde natürlich viel mehr Rechenleistung benötigen, im Gegenzug dafür aber auch exakte Ergebnisse liefern.\\
+Es ist fraglich, wieweit die Methode des kleinsten Falles, in dem ein Algorithmus gegen gegen einen anderen die Oberhand gewinnt, für die Analyse der verschiedenen Leistungen taugt. Sicherlich ist sie ein sehr nützliches Hilfsmittel, das neue Einsichten gewähren kann. Sich schnell darüber klar werden zu können, in welchen Situation ein (ausgeklügelter) Algorithmus wie das Backfilling sich selbst überlistet, ist sicherlich eine gute Möglichkeit die eigene Intuition weiterzuentwickeln.
 \FloatBarrier

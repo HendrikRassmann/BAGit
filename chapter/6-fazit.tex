@@ -1,10 +1,16 @@
 \chapter{Fazit}
 
-Backfill und Fit müssen nicht mit dem selben Algo fitten wie primär auswahl
+\paragraph{Scheduling Funktionen höherer Ordnung}
+Die Sichtweise der Funktionalen Programmierung auf Scheduler ist offensichtlich nützlich. Arndt et al. \cite{Arn99} haben zurecht den Backfilling Algorithmus als bevorzugten Scheduler gewählt.
+5 + 3*(5*5) = 80 algos (wenn true spt und true lpt zählen)
+
+\paragraph{Vergleich von Simulation und Testing}
+Es ist fraglich, wieweit die Methode des kleinsten Falles, in dem ein Algorithmus gegen gegen einen anderen die Oberhand gewinnt, für die Analyse der verschiedenen Leistungen taugt. Sicherlich ist sie ein sehr nützliches Hilfsmittel, das neue Einsichten gewähren kann. Sich schnell darüber klar werden zu können, in welchen Situation ein (ausgeklügelter) Algorithmus wie das Backfilling sich selbst überlistet, ist sicherlich eine gute Möglichkeit die eigene Intuition weiterzuentwickeln.\\
+Zumal ist diese Methode beinahe ohne zusätzlichen Aufwand nutzbar. Bereits wenige Zeilen Code erlauben Einblicke in das Verhalten des Systems. Die eigentlichen Kosten dafür sind das wählen einer Ereignis orientieren Simulation. Eine Prozess orientiere Sichtweise führt dazu, dass das simulierte System näher am tatsächlichen System ist. Effekte, die natürlich durch parallel agierenden Agenten entstehen, wie etwa kritische Wettlaufsituationen, bekommt man ohne zusätzlichen Aufwand; ob nun gewünscht oder ungewünscht. Diese Effekte können durch eine zufällige Ausführungsreihenfolge mit simuliert werden, dies war allerdings nicht nötig, um vergleichbare Ergebnisse zu erzielen.
 
 großes interesstes Kreuzprodukt
 
-5 + 3*(5*5) = 80 algos (wenn true spt und true lpt zählen)
+
 \paragraph{Lorem}
 irgendwas zum pbt
 
