@@ -16,7 +16,7 @@ Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder me
 \textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
 \textbf{Bearbeitungszeit} (processing time) $p_j$: Dauer, die der Auftrag auf einem Knoten mit genormter Arbeitsgeschwindigkeit benötigt, um abgeschlossen zu werden. Diese Arbeit behandelt nicht, wie diese zuverlässig ermittelt werden können. \\
 \textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ bekannt wird.\\
-\textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden. Hierbei erfolgt eine Aufteilung der Bearbeitungszeit auf die zugewiesenen Knoten.\\
+\textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden. Hierbei erfolgt eine Aufteilung der Bearbeitungszeit auf die zugewiesenen Knoten. Ein Auftrag von der Parallelität 1 wird als sequenziell bezeichnet, ansonsten wird von einem parallelen Auftrag gesprochen.\\
 \item[Durch Schedule bestimmte Eigenschaften]\hfill \\ 
 \textbf{Bearbeitungsbeginn} (start time) $s_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ begonnen wird. \\
 \textbf{Abschluss} (completion time) $c_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ abgeschlossen wird.\\
@@ -72,13 +72,13 @@ Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hän
 \textbf{Greatest Processing Time first} wählt genau invers zu SPT den Auftrag mit der längsten angegebenen Bearbeitungszeit aus. Dadurch wird die Bearbeitungsspanne (makespan) zu Gunsten des der durchschnittlichen Systemzeit (average flow time) minimiert.
 
 \subsection{Referenziell intransparente Scheduler}
-Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie etwa dem Zustand der Knoten, oder vom Zustand anderer parallel laufender Aufträge. In einem echten verteilten System kann dies zu Problemen führen, wenn der globale Zustand nicht oder nur schwer ermittelt werden kann.
+Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie etwa dem Zustand der Knoten, oder vom Zustand anderer parallel laufender Aufträge. In einem realen verteilten System kann dies zu Problemen führen, wenn der globale Zustand nicht oder nur schwer ermittelt werden kann.
 
 \paragraph{First Fit}
 \textbf{First Fit} ist eine Abwandelung von FiFo. Hier wird  der Auftrag, der bereits am längsten wartet und sofort gestartet werden kann, ausgewählt. Dies verringert ungenutzte Rechenzeit, allerdings werden Aufträge mit einer hohen Parallelität nach hinten verdrängt.
 
 \paragraph{Backfilling}
-\textbf{Backfilling} ist eine weitere Abwandlung von FiFo. Zu erst wird der Auftrag bestimmt, der bereits am längsten wartet. Sollte dieser nicht gestartet werden können, dürfen andere Aufträge gestartet werden, vorausgesetzt, sie werden früher abgeschlossen, als der zu erst gewählte Auftrag beginnen wird. So wird ungenutzte Rechenzeit vermieden, ohne das lange große Aufträge im Vergleich zu FiFo benachteiligt werden.
+\textbf{Backfilling} ist eine weitere Abwandlung von FiFo. Zuerst wird der Auftrag bestimmt, der bereits am längsten wartet. Sollte dieser nicht gestartet werden können, dürfen andere Aufträge gestartet werden, vorausgesetzt, sie werden früher abgeschlossen, als der zuerst gewählte Auftrag beginnen wird. So wird ungenutzte Rechenzeit vermieden, ohne dass lange große Aufträge im Vergleich zu FiFo benachteiligt werden.
 
 \paragraph{Random}
 \textbf{Random} wählt immer einen zufälligen Auftrag aus. Kann dieser nicht gestartet werden, so wird kein Auftrag gestartet.
@@ -86,21 +86,22 @@ Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie
 \section{Simulation}
 
 \subsection{Discrete Event Simulation}
-Soll ein System zu diskreten Zeitpunkten simuliert werden, stehen 3 Paradigmen zur Auswahl \cite{SimPy}.
+Soll ein System zu diskreten Zeitpunkten simuliert werden, stehen die drei in \emph{Introduction to discrete-event simulation and the simpy language} beschriebenen Paradigmen zur Auswahl \cite{SimPy}.
 \label{paradigma}
-\paragraph{Aktivitäts Orientiert}
+\paragraph{Aktivitätsorientiert}
 \label{activity}
-Das System wird immer von einem Zustand $S$ zu einem bestimmten Zeitpunkt $t_n$ zu eine Zustand $S'$ in $t_{n+1}$ transformiert. Es wird also vom Startzustand $S_0$ aus einmal für jeden Zeitpunkt ein Zustand produziert.\\
+Das System wird immer von einem Zustand $S$ zu einem bestimmten Zeitpunkt $t_n$ zu einem Zustand $S'$ in $t_{n+1}$ transformiert. Es wird also vom Startzustand $S_0$ aus einmal für jeden Zeitpunkt ein Zustand produziert.\\
 Dieses Paradigma liefert eine einfache Implementierung, jedoch auch eine höhere Laufzeit als die beiden Alternativen.
 \paragraph{Ereignis Orientiert}
 Hier wird zu von einem Zustand $S_n$ ausgehend der nächste Zustand gefunden, der sich von $S_n$ abgesehen von der aktuellen Zeit $t$ unterscheidet. Es werden also, wenn bekannt ist, dass die nächste Aktion zum Zeitpunkt $t_{n+k}$ stattfindet, alle diskreten Zeiteinheiten zwischen $n$ und $n+k$ übersprungen.\\
 Dieses Paradigma kann Rechenzeit einsparen, wenn der zusätzliche Overhead und die Frequenz der Aktionen klein genug ist.
-\paragraph{Prozess Orientiert}
-Dieses Paradigma funktioniert ähnlich wie Ereignis Orientiert, allerdings werden alle Aktivitäten durch Prozesse abgebildet. Dabei ähnelt jede Aktivität einem Prozess wie in einem Betriebssystem. Ein Prozess unterbricht seine eigene Ausführung, entweder für eine bestimmte Zeit, oder bis eine Bedingung erfüllt ist.\\
-Dies modularisiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Will man zum Beispiel festlegen soll, welche von 2 Aktionen, die selbe Bedingung warten, zuerst ausgeführt wird, ist dies Aktivitäts oder Ereignis Orientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse worauf warten.
-
+\paragraph{Prozessorientiert}
+Dieses Paradigma funktioniert ähnlich wie Ereignisorientiert, allerdings werden alle Aktivitäten durch Prozesse abgebildet. Dabei ähnelt jede Aktivität einem Prozess wie in einem Betriebssystem. Ein Prozess unterbricht seine eigene Ausführung, entweder für eine bestimmte Zeit, oder bis eine Bedingung erfüllt ist.\\
+Dies modularisiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Soll zum Beispiel festgelegt werden, welche von 2 Aktionen zuerst ausgeführt werden soll, wenn diese gleichzeitig auftreten, ist dies Aktivitäts- oder Ereignisorientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse auf welche Bedingungen warten.
 
 
 \subsection{Statistisches Auswerten}
+Um für die Auswertung stabile Werte zu erzielen, müssen die Ergebnisse mehrere Simulationsläufe verwendet werden. In der Regel werden dazu die verschiedenen Maßzahlen wie Bearbeitungsspanne, Systemzeit etc. arithmetisch von 50 bis 100 Läufen gemittelt. Bei diesen Zahlen handelt es sich um einen Erfahrungswert. Manche Experimente erfordern mehr oder weniger Läufe (vgl. \emph{Reasoning under Uncertainty} \cite{SimUncertainty}). Dabei wird jeder Auftragsmix einmal mit jedem betrachteten Scheduling Algorithmus abgearbeitet. Mitunter entstehen S-Kurven, oder andere Kurven, die stellenweise konstant sind. Für diese werden manchmal mehr Läufe, mit Parametern der ''interessanten'' Stellen simuliert.
 
-voll krass viel
+
+

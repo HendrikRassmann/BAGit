@@ -5,7 +5,6 @@
 
 Der hier verwendete Simulationsaufbau erlaubt auf Wunsch eine deterministische sequentielle Ausführung. Dies erlaubt weiterführende Untersuchungen, die in Kapitel \ref{proptest} ausgeführt werden.
 
-
 %\subsection{TLA+ Spec}
 %Blabla bal
 %bla
@@ -13,53 +12,53 @@ Der hier verwendete Simulationsaufbau erlaubt auf Wunsch eine deterministische s
 %Mathematische spezifikation
 
 \subsection{Simulations Aufbau}
-Wahl des Paradigmas \ref{paradigma} fällt in dieser Arbeit zunächst auf Ereignis-Orientiert \ref{activity}. Dies mag erstaunen, da eine Prozess-Orientierte Ansicht, im Falle eines verteilten Systems, wie eine offensichtlich gute Wahl wirkt..\\
-In diesem Fall sind die sich daraus ergebenden Vorteile zweierlei. Erstens, ist es dadurch einfacher, nahe an einer Automaten-Spezifikation zu bleiben. Man behält die Sichtweise auf das System als Zustand und einer Menge an möglichen Aktionen/Zustandsübergängen. Durch die Definition eines Standardverhaltens, nämlich zuerst alle fertigen Aufträge zu Beenden, dann Aufträge zu starten, bis keine Aufträge mehr startbar sind, und dann eine Zeiteinheit vergehen zu lassen, erzielt man ein deterministisches Verhalten (solange die Scheduling Algorithmen deterministisch sind). Dieses reproduzierbare Verhalten ist gegenüber der Prozessorientierten Sicht ein Vorteil, da Fehler leichter gefunden und behoben werden können.\\
-Zweitens leitet sich aus deterministischem Verhalten ein großer Vorteil für das Property Based Testing zum Erkenntnisgewinn \ref{proptest} ab.\\
-Es werden "flaky Tests" verhindert, also Tests, die mit dem selben Systemzustand bei mehrfacher Ausführung sowohl fehlschlagen als auch gelingen. In diesen Fällen müssten sonst mehrere Tests durchgeführt werden.\\
-Was das Shrinking \ref{proptest} angeht, könnte hier ein  Aktivitäts Orientierter Ansatz Sinn ergeben, da immer kleinere Läufe erzeugt werden, sodass sich der Zusatzaufwand des Ereignis Orientierte Paradigmas immer weniger lohnt. Jedoch ist der Overhead so gering, dass er im Vergleich zu den hohen Laufzeiteinbußen in der Ausführung von natürlichen Auftragslisten nicht Ausschlag gebend ist.\\
-Darüber hinaus lässt sich durch eine Alternative zum Standardverhaltens leicht untersuchen, wie sich das Verhalten des System ändert, wenn ein Perfektes Betreiben des Clusters nicht möglich ist. Zum Beispiel kann überprüft werden, wie stark sich eine gröbere Zeitauflösung (etwa einmal alle 60 Sekunden) auf das Simulationsergebnis auswirkt.
+Wahl des Paradigmas \ref{paradigma} fällt in dieser Arbeit auf Ereignisorientiert Schmema \ref{activity}. Dies mag erstaunen. Zunächst scheinen die Vorteile der Prozessorientierten Ansicht zu überwiegen. Im Falle eines verteilten Systems, ist die Modellierung durch Prozesse offensichtlich gute Wahl wirkt.
+In Vorteile die sich ergeben, wenn man sich gegen diese scheinbar einfache Wahl entscheidet, sind zweierlei.\\ Erstens, ist es dadurch leichter, nahe an einer Automaten-Spezifikation zu bleiben. Es bleibt die Sichtweise, das System als Zustand und einer Menge an möglichen Aktionen/Zustandsübergängen zu betrachten. Durch die Definition eines Standardverhaltens, nämlich zuerst alle fertigen Aufträge zu beenden, dann Aufträge zu starten, bis keine mehr startbar sind, und dann Menge an Zeiteinheiten vergehen zu lassen, erzielt man ein deterministisches Verhalten (solange die Scheduling Algorithmen deterministisch sind). Dieses reproduzierbare Verhalten ist gegenüber der Prozessorientierten Sicht ein Vorteil, da Fehler leichter gefunden und behoben werden können.\\
+Zweitens leitet sich aus deterministischem Verhalten ein großer Vorteil für das Property Based Testing zum Erkenntnisgewinn in Kapitel \ref{proptest} ab.
+Es werden ''flaky Tests'' verhindert, also Tests, die mit dem selben Systemzustand bei mehrfacher Ausführung sowohl fehlschlagen als auch gelingen. In diesen Fällen müssten sonst mehrere Tests durchgeführt werden.\\
+Was das Shrinking in Kapitel \ref{proptest} angeht, könnte hier ein  Aktivitätsorientierter Ansatz Sinn ergeben, da immer kleinere Läufe erzeugt werden, sodass sich der Zusatzaufwand des Ereignisorientierte Paradigmas immer weniger lohnt. Jedoch ist dieser Overhead so gering, dass er im Vergleich zu den hohen Laufzeiteinbußen in der Ausführung von natürlichen Auftragslisten nicht ausschlaggebend ist.\\
+Darüber hinaus lässt sich durch eine Alternative zum Standardverhaltens leicht untersuchen, wie sich das Verhalten des System ändert, wenn ein perfektes Betreiben des Clusters nicht möglich ist. Zum Beispiel kann überprüft werden, wie stark sich eine gröbere Zeitauflösung (etwa einmal alle 60 Sekunden) auf das Simulationsergebnis auswirkt. 
 
 
 \subsection{Vergleich von Läufen}
 \label{vergleich}
 \subsubsection{Geschwindigkeit der Knoten}
-Um abschätzen zu können, ob die vorgestellte Simulation erfolgreich reproduziert werden konnte, werden zu erst die Auswertungen von rein sequentiellen Auftragszusammenstellungen verglichen. Obwohl die Parameter zur Erstellung der Aufträge angegeben wurden, sowie die Tatsache, dass alle Knoten mit der selben Geschwindigkeit operieren, fehlt die Angabe über diese Geschwindigkeit. Experimentell lässt sich ermitteln, dass dieser Wert etwa $100$ beträgt.
+Um abschätzen zu können, ob die vorgestellte Simulation erfolgreich reproduziert werden konnte, werden zuerst die Auswertungen von rein sequentiellen Auftragszusammenstellungen verglichen. Obwohl die Parameter zur Erstellung der Aufträge angegeben wurden, sowie die Tatsache, dass alle Knoten mit der selben Geschwindigkeit operieren, fehlt die Angabe über diese Geschwindigkeit. Experimentell lässt sich ermitteln, dass dieser Wert etwa $100$ beträgt.
 
 \subsubsection{LPT,SPT}
 \label{spt-lpt-time}
-In \cite{Arn99} wird zwischen der Bearbeitungszeit ("processing time") und der Laufzeit ("runtime") eines Auftrags unterschieden. Dabei bezeichnet Laufzeit den "Quotienten aus der Bearbeitungszeit $p_j$ und der kumulativen Geschwindigkeit der zugewiesenen Knoten". Das Ergebnis wird hoch gerundet.\\
-Bei der Simulation von SPT und LPT Läufen entstand folgendes Problem: Die Ergebnisse von \cite{Arn99} ließen sich korrekt Reproduzieren, solange alle Aufträge sequentiell waren. Sobald auch parallele Aufträge unter gemischt wurden, entstanden geringe Abweichungen.\\
+Bei Arndt et al. \cite{Arn99} wird zwischen der Bearbeitungszeit ("processing time") und der Laufzeit ("runtime") eines Auftrags unterschieden. Dabei bezeichnet Laufzeit den "Quotienten aus der Bearbeitungszeit $p_j$ und der kumulativen Geschwindigkeit der zugewiesenen Knoten". Das Ergebnis wird aufgerundet.\\
+Bei der Simulation von SPT und LPT Läufen entstand folgendes Problem: Die Ergebnisse von Ardt et al. \cite{Arn99} ließen sich korrekt reproduzieren, solange alle Aufträge sequentiell waren. Sobald auch parallele Aufträge eingereiht wurden, entstanden geringe Abweichungen.\\
 Es scheint, als würde der SPT Algorithmus in \cite{Arn99} nicht den Auftrag $j$ mit der geringsten Bearbeitungszeit $p_j$ auswählen, sondern denjenigen, der die geringste Zeit in Anspruch nimmt. Zum Beispiel würde $j_1$ mit $p_{j_1} = 10, \pi_{j_1} = 5$ gegenüber $j_2$ mit $p_{j_2} = 4, \pi_{j_1} = 1$ vorgezogen werden, da $j_1$ für $10/5 = 2$  Zeiteinheiten und $j_2$ für $4/1 = 4$ Zeiteinheiten ausgeführt wird.\\
 Dies erfordert eine einfache Anpassung bzw. Interpretation des SPT Algorithmus. Es wird nach genannter Bearbeitungszeit geteilt durch den jeweiligen Grad an Parallelität sortiert. Diese Anpassung ergibt allerdings nur Sinn, solange alle Knoten mit der selben Geschwindigkeit arbeiten. Sobald Knoten unterschiedliche Geschwindigkeitseigenschaften besitzen, muss man die Bearbeitungszeit $j_p$ durch die Summe der Geschwindigkeiten der schnellsten freien Knoten teilen, um ein korrektes Ergebnis zu erhalten. Jedoch kann nun nicht bestimmt werden, wie lange ein Auftrag laufen wird, wenn nicht genügend Knoten zur Verfügung stehen. Zwar könnte man ähnlich dem Backfilling-Verfahren für jeden Auftrag vorhersehen, wann genügend Knoten bereitstehen werden, und dann die in der Zukunft freien Knoten zur Bestimmung der Laufzeit nutzen. Dies ist aber eine unverhältnismäßige Verkomplizierung eines eigentlich eleganten Algorithmus.\\
-Dieses Problem wird auch in \cite{Arn99} beschrieben, und es wird ohne nähere Erläuterung angegeben, den ''statischen Bedarf'' der Aufträge zur Selektion zu verwenden. Aus diesen Gründen werden in dieser Arbeit LPT und SPT nach dem Quotienten aus Bearbeitungszeit und Parallelität auswählen. Dies erscheint wie eine sinnvole Interpretation von ''statischem Bedarf''.
-\subsubsection{Grafischer Abgleich Abbildungen 1,2 und 3}
+Dieses Problem wird auch in \cite{Arn99} beschrieben, und es wird ohne nähere Erläuterung angegeben, den ''statischen Bedarf'' der Aufträge zur Selektion zu verwenden. Aus diesen Gründen werden in dieser Arbeit LPT und SPT nach dem Quotienten aus Bearbeitungszeit und Parallelität ausgewählt. Dies erscheint wie eine sinnvolle Interpretation von ''statischem Bedarf''.
+\subsubsection{Grafischer Abgleich Experimente 1,2 und 3}
 Bevor das Simulationsmodell erweitert werden kann, sollte zuerst abgeglichen werden, ob das nach gebaute Modell näherungsweise ähnliche Läufe erzeugt. Dazu werden die in \cite{Arn99} beschriebenen Experimente nachgestellt, und die grafischen Auswertungen nebeneinander gestellt.
-Da die Untersuche des Random Schedulingalgorithmus im Verlaufe des Papers aufgegeben wurde und mehr Läufe benötigt um stabile Werte zu erzeugen, wird dieser hier nicht betrachtet.\\
-Abbildungen eins bis drei lassen sich ohne Probleme, abgesehen von den nicht angegeben Geschwindigkeiten der Knoten, reproduzieren.
+Da die Untersuchung des Random Schedulingalgorithmus im Verlaufe von \cite{Arn99} von Ardt aufgegeben wurde und mehr Läufe benötigt werden, um stabile Werte zu erzeugen, wird dieser hier nicht betrachtet.\\
+Abbildungen eins bis drei \ref{figure1},\ref{figure2},\ref{figure3} lassen sich ohne Probleme, abgesehen von den nicht angegeben Geschwindigkeiten der Knoten, reproduzieren.
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_1.png}
-\caption{Figure 1, Vergleich von Sequentiellen Aufträgen}
+\caption{Figure 1, Vergleich von sequentiellen Aufträgen nach Bearbeitungsspanne und längster Wartezeit}
 \label{figure1}
 \end{figure}
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_2.png}
-	\caption{Figure 2, Vergleich von Sequentiellen Aufträgen, Erstellungszeit wird variiert5}
-	\label{figure1}
+	\caption{Figure 2, Vergleich von sequentiellen Aufträgen, nach Bearbeitungsspanne und längster Wartezeit, Erstellungszeit wird variiert}
+	\label{figure2}
 \end{figure}
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_3.png}
-	\caption{Figure 1, Vergleich von Sequentiellen Aufträgen}
+	\caption{Figure 3, Vergleich von Sequentiellen Aufträgen nach längster Bearbeitungsspanne und längster Wartezeit, Anteil an sequentiellen Aufträgen wird zwischen 20\% und 100\% variiert}
 	\label{figure3}
 \end{figure}
 
 \FloatBarrier
 
-\subsubsection{Unterschiedlich schnelle Knoten ab Abbildung 4}
-Ab dem vierten Experiment offenbart sich folgendes Problem: Die Geschwindigkeiten der Knoten variieren. Sie entsprechen den Messungen von "22 Knoten des lokalen Netzwerks". Jedoch werden diese gemessen Geschwindigkeiten weder in der besprochenen, noch in früheren Veröffentlichungen dargelegt \cite{norepr1,norepr2}. Dies stellt eine sehr hohe Hürde zur Reproduktion dar.\\
+\subsubsection{Unterschiedlich schnelle Knoten ab Experiment 4}
+Ab dem vierten Experiment offenbart sich folgendes Problem: Die Geschwindigkeiten der Knoten variieren. Sie entsprechen den Messungen von "22 Knoten des lokalen Netzwerks". Jedoch werden diese gemessen Geschwindigkeiten weder in der besprochenen, noch in früheren Veröffentlichungen dargelegt \cite{norepr1,norepr2}. Dies stellt eine hohe Hürde für die Reproduktion dar.\\
 
 \begin{figure}
 	\centering
@@ -69,20 +68,20 @@ Ab dem vierten Experiment offenbart sich folgendes Problem: Die Geschwindigkeite
 	\label{figure5}
 \end{figure}
 
-Um die in \ref{chap:higher-order} vorgeschlagenen Scheduler auch in Experiment Aufbau 4 bis 9 antreten zu lassen, wird eine ungefähre Verteilung der Geschwindigkeiten geschätzt.
-Hier für wird Abbildung 5 \ref{figure5} herangezogen. In diesem Experiment wird die Bearbeitungsspanne (makespan) angegeben. Dadurch lässt sich eine untere Schranke für die gesamte Rechenleistung des Clusters finden. Wenn durch FirstFit jeder Knoten zu jedem Zeitpunkt ausgelastet wäre, müsste die durchschnittliche Rechenleistung aller Knoten im beschriebenen Versuchsaufbau 384 betragen. Dies wird am Wert für einen Auftragsmix aus 50\% sequentiellen Aufträgen abgelesen. 100 Knoten unbekannter Geschwindigkeit benötigen etwa 3000 Sekunden um 500 Aufträge mit einer durchschnittlichen Bearbeitungszeit von 230500 Sekunden fertigzustellen. Um die durch die Algorithmen und die online eingehenden Aufträge entstehenden Effizienzeinbußen auszugleichen, wird die Geschwindigkeit der Knoten zusätzlich um 7,5\% erhöht.
+Um die in Kapitel \ref{chap:higher-order} vorgeschlagenen Scheduler auch in den Experimenten 4 bis 9 bewerten zu können, wird eine ungefähre Verteilung der Geschwindigkeiten geschätzt.
+Hierfür wird Abbildung 5 \ref{figure5} herangezogen. In diesem Experiment wird die Bearbeitungsspanne (makespan) angegeben. Dadurch lässt sich eine untere Schranke für die gesamte Rechenleistung des Clusters finden. Wenn durch FirstFit jeder Knoten zu jedem Zeitpunkt ausgelastet wäre, müsste die durchschnittliche Rechenleistung aller Knoten im beschriebenen Versuchsaufbau 384 betragen. Dies wird am Wert für einen Auftragsmix aus 50\% sequentiellen Aufträgen abgelesen. 100 Knoten unbekannter Geschwindigkeit benötigen etwa 3000 Sekunden um 500 Aufträge mit einer durchschnittlichen Bearbeitungszeit von 230500 Sekunden fertigzustellen. Um die durch die gierigen Algorithmen und die online eingehenden, also nicht von Anfang an bekannten Aufträge, entstehenden Effizienzeinbußen auszugleichen, wird die Geschwindigkeit der Knoten zusätzlich um 7,5\% erhöht. Der Anteil an ungenutzter Rechenzeit variiert je nach Experiment zwischen 2\% und über 50\%. Bei den 7,5\% handelt es sich also nicht um einen mathematisch begründeten Wert, sonder um einen empirisch ermittelten Wert, der plausible Ergebnisse liefert.
 \begin{align*}
 \frac{250*(51* 10^3 + 410*10^3)*s}{100x} &= 3000s \\
 \frac{250*461}{300} &= x
 \end{align*}
-Die Frage nach der Art der verwendeten Verteilung lässt sich nicht kären. Deswegen wird hier die einfachste Verteilung gewählt: 2 Klassen von Knoten, mit unbekannten Geschwindigkeiten und Anzahlen. Der zweidimensionale Lösungsraum kann durch eine weitere Annahme auf einen eindimensionalen Raum reduziert: Die Menge der langsamen Knoten soll die selbe Gesamtleistung besitzen wie die Menge der schnellen Knoten.\\
-Dies führt zu einer größeren Anzahl langsamer und einer geringeren Anzahl schnellerer Knoten. Diese Konstellationen sind sicherlich interessanter als ihre Umkehrung. Gäbe es viele schnelle und wenige langsame Knoten, wären ähnliche Ergebnisse dadurch zu erreichen, die langsamen Knoten wegzulassen, wodurch sich die Situation nicht viel von den zuvor untersuchten unterscheiden würde.\\
+Die Frage nach der Art der verwendeten Verteilung lässt sich nicht klären. Deswegen wird hier die einfachste Verteilung gewählt: 2 Klassen von Knoten, mit unbekannten Geschwindigkeiten und Anzahlen. Der zweidimensionale Lösungsraum kann durch eine weitere Annahme auf einen eindimensionalen Raum reduziert: Die Menge der langsamen Knoten soll die selbe Gesamtleistung besitzen wie die Menge der schnellen Knoten.\\
+Dies führt zu einer größeren Anzahl langsamer und einer geringeren Anzahl schnellerer Knoten. Diese Konstellationen sind sicherlich interessanter als ihre Umkehrungen. Gäbe es viele schnelle und wenige langsame Knoten, wären ähnliche Ergebnisse dadurch zu erreichen, die langsamen Knoten wegzulassen, wodurch sich die Situation nicht viel von den zuvor untersuchten unterscheiden würde.\\
 Damit bleibt nur eine einzige Variable, der Anteil der langsamen Knoten im Cluster. Der Wert 0,75 erzeugt visuell vergleichbare Ergebnisse.
 
 \FloatBarrier
 
 \subsubsection{Experimente 4 bis 9}
-Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werden. Trotzdem werden die Versuche nachgestellt, um die Algorithmen in \ref{chap:higher-order} gegen die fünf bekannten antreten zu lassen. Die Auswertung kann in \ref{weiter} gefunden werden.
+Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werden. Trotzdem werden die Versuche nachgestellt, um die Algorithmen in \ref{chap:higher-order} gegen die fünf bekannten antreten zu lassen. Die Auswertung findet in \ref{weiter} statt.
 
 
 \section{Weiterführende Untersuchungen}
@@ -134,9 +133,9 @@ Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werd
 \subsection{Backfilling und Fit als Funktionen höherer Ordnung}
 \label{chap:higher-order}
 
-Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwandelungen der FiFo Funktion. Beide wählen den nächsten Auftrag abhängig vom Einreihungszeitpunkt $q_j$, jedoch unter Einschränkungen. "FiFo-Fit" wählt den ersten unter den startbaren Aufträgen aus, "FiFo-BackFilling" wählt den ersten Auftrag, oder einen, der den Bearbeitungsbeginn des ersten Auftrags nicht verzögert. "-Fit" und "-Backfilling" fügen also einen relevanten Kontext hinzu. Es liegt nahe, diese Erweiterungen als Funktionen höherer Ordnung zu betrachten. Ihre Domäne besteht aus einer Scheduling Funktion, den wartenden Aufträgen und einen Kontext - Anzahl an verfügbaren Knoten oder die Abschlusszeitpunkte und die Parallelität der laufenden Aufträge -, und bilden diese partiell auf einen Auftrag ab. 
-Da FirstFit-Backfilling von Arndt et al. als Sieger auserkoren wurde, LPT und GPT aber nicht im Backfilling Kontext untersucht wurden, wird im folgenden untersucht, ob LPT oder GPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.\\
-In \ref{proptest} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird hier auch mit untersucht, allerdings nur im FiFo Kontext.
+Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwandelungen der FiFo Funktion. Beide wählen den nächsten Auftrag abhängig vom Einreihungszeitpunkt $q_j$, jedoch unter Einschränkungen. ''FiFo-Fit'' wählt den ersten unter den startbaren Aufträgen aus, ''FiFo-BackFilling'' wählt den ersten Auftrag, oder einen, der den Bearbeitungsbeginn des ersten Auftrags nicht verzögert.\\ \mbox{''-Fit'' und ''-Backfilling''} fügen also einen relevanten Kontext hinzu. Es liegt nahe, diese Erweiterungen als Funktionen höherer Ordnung zu betrachten. Ihre Domäne besteht aus einer Scheduling Funktion, den wartenden Aufträgen und einen Kontext - Anzahl an verfügbaren Knoten oder die Abschlusszeitpunkte und die Parallelität der laufenden Aufträge -, und bilden diese partiell auf einen Auftrag ab. 
+Da FirstFit-Backfilling von Arndt et al. als Sieger auserkoren wurde, LPT und SPT aber nicht im Backfilling Kontext untersucht wurden, wird im Folgenden untersucht, ob LPT oder SPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.\\
+Später \ref{optfill} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird in dieser Arbeit auch mit untersucht, allerdings hauptsächlich im FiFo Kontext.
 
 \paragraph{SPT}
 \label{spt-higher-order}
@@ -145,22 +144,22 @@ In Abbildung \ref{figure_7_2} erzielt SPT-Fit die selben Werte wie FiFo-Fit und 
 
 
 \paragraph{LPT}
-In Abbildung \ref{figure_6_1} gibt es eine Klasse an Algorithmen, die gleich gute Ergebnisse erzielen. Darunter FiFo-Fit, SPT-Fit, LPT-Fit, LPT-Backfill und FiFo-Optimistic-Backfill. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit des Anteils von großen parallelen Aufträgen gemessen. LPT-Fit ist hier deshalb eine gute Wahl, da LPT im Vergleich zu SPT und FiFo für eine geringere Spanne sorgt (vgl. auch \ref{figure3}). ''-Fit'' und ''-Backfill'' sorgt dafür, dass lange Phasen zum Anfang des Laufs, in denen einige Knoten nicht genutzt werden, während lange Aufträge abgearbeitet werden, gefüllt werden können.\\
+In Abbildung \ref{figure_6_1} erzielen mehrere Algorithmen ähnlich  gute Ergebnisse. Darunter FiFo-Fit, SPT-Fit, LPT-Fit, LPT-Backfill und FiFo-Optimistic-Backfill. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit des Anteils von großen parallelen Aufträgen gemessen. LPT-Fit ist hier deshalb eine gute Wahl, da LPT im Vergleich zu SPT und FiFo für eine geringere Spanne sorgt (vgl. auch \ref{figure3}). ''-Fit'' und ''-Backfill'' sorgt dafür, dass lange Phasen zum Anfang des Laufs, in denen einige Knoten nicht genutzt werden, während lange Aufträge abgearbeitet werden, gefüllt werden können.\\
 Diese Beobachtung wiederholt sich in Abbildung \ref{figure_7_1}. Auch hier wird die Bearbeitungsspanne als Maß angelegt.\\
 
 
 \paragraph{Optimistisches Backfilling}
 Dieser Algorithmus wird in \ref{optfill} vorgestellt.\\
-Beim Optimistischen Backfilling stellt sich vor allem die Frage, wie groß der Unterschied zum ''normalen'' Backfilling ist, und ob es ein Unterschied zu unseren Gunsten ist. Hierfür wurde nur FiFo in beiden Kontexten herangezogen.\\
-In \ref{figure_4_1} bietet das Optimistische Verfahren einen leichten, jedoch erkennbaren Vorteil Hier wird die durchschnittliche Systemzeit von Aufträgen in Abhängigkeit des Anteils sequentieller Aufträge ermittelt. Es erscheint nachvollziehbar, dass, vorausgesetzt es gibt etwa gleich viele sequezielle als auch parallele Aufträge, eine Leistungssteigerung durch das Optimistische Verfahren erzielt werden kann. Da dieses weniger restriktiv ist, welche Aufträge gestartet werden dürfen, um Lücken zu füllen.\\
-So auch in \ref{figure_7_1}. Hier wird die gesamte Bearbeitungszeit in Abhängigkeit eines erlaubten Fehlers untersucht. Die selbe Argumentation erscheint plausibel. Wenn die Bearbeitungszeit eines Auftrags nicht korrekt angegeben wurde, werden weniger Aufträge gestartet um Lücken zu füllen. Das Optimistische Backfilling darf trotzdem Aufträge die wenige Knoten benötigen starten, und nutzt so die Freiräume besser aus.\\
-In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es scheint, als wären die in \ref{optfill} genannten Konstellationen selten genug, als dass sie die nicht genutzten Chancen des ''normalen'' Backfilling überwiegen. Zumindest in den hier untersuchten Experimenten lässt sich die optimistische Variante als Ersatz empfehlen. In den meisten Fällen ist kein deutlicher Unterschied erkennbar, aber wenn, dann immer zu unseren Gunsten. Die Auswirkung auf LPT und SPT könnten in Zukunft untersucht werden. 
+Beim Optimistischen Backfilling stellt sich vor allem die Frage, wie groß der Unterschied zum ''normalen'' Backfilling ist, und ob es sich die Bearbeitungsspanne verringert werden kann. Hierfür wurde nur FiFo in beiden Kontexten herangezogen.\\
+In Abbildung \ref{figure_4_1} bietet das Optimistische Verfahren einen leichten, jedoch erkennbaren Vorteil. Hier wird die durchschnittliche Systemzeit von Aufträgen in Abhängigkeit des Anteils sequentieller Aufträge ermittelt. Es erscheint nachvollziehbar, dass, vorausgesetzt es gibt etwa gleich viele sequezielle und parallele Aufträge, eine Leistungssteigerung durch das Optimistische Verfahren erzielt werden kann. Das liegt daran, dass durch weniger Restriktionen mehr Lücken geschlossen werden können.\\
+So auch in Abbildung \ref{figure_7_1}. Hier wird die gesamte Bearbeitungszeit in Abhängigkeit eines erlaubten Fehlers untersucht. Die selbe Argumentation erscheint plausibel. Wenn die Bearbeitungszeit eines Auftrags nicht korrekt angegeben wurde, werden weniger Aufträge gestartet um Lücken zu füllen. Das Optimistische Backfilling startet Aufträge, die wenige Knoten benötigen und nutzt so die Freiräume besser aus.\\
+In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es scheint, als wären die in Abschnitt \ref{optfill} genannten Konstellationen selten genug, als dass sie die nicht genutzten Chancen des ''normalen'' Backfilling überwiegen. Zumindest in den hier untersuchten Experimenten lässt sich die optimistische Variante als Ersatz empfehlen. In den meisten Fällen ist kein deutlicher Unterschied erkennbar, aber wenn, dann immer zu in Richtung geringerer Laufzeiten. Die detaillierte Untersuch der Auswirkung auf LPT und SPT übersteigen den Rahmen dieser Arbeit. 
 
 \FloatBarrier
 
-\paragraph{Backfilling und Fit von 2 Funktionen} Darüber hinaus ist es natürlich auch möglich, Backfilling und Fit in Abhängikeit von zwei Funktionen zu definieren. Das würde bedeutet, zuerst nach der ersten Funktion auszuwählen. Kann diese nicht gestartet werden, würde nach der zweiten Funktion aufgefüllt oder ein startbarer Auftrag gestartet. So könnten Schwächen einer Scheduling Funktion durch die Wahl einer anderen aufgewogen werden. Etwa könnten die längste Wartezeit des LPT-Backfill Algorithmus durch das auffüllen nach FiFo verringert werden, die geringe Bearbeitungsspanne allerdings beibehalten werden. Alle Kombination zu vergleichen würde den Rahmen dieser Arbeit sprengen. Hier nun eine kurze erneute Betrachtung von Experiment \ref{figure_7_1}.\\
-Es wird das bekannte FiFo-Fit, FiFo-Backfilling und LPT-Backfilling sowie das neue LTP-FiFo-Optimistisch in \ref{figure_makespan} betrachtet. Dieses versucht einen Auftrag nach LPT auszuwählen. Kann dieser nicht gestartet werden, wird ein anderer Auftrag nach FiFo ausgewählt, der das bekannte optimistische Auffüll-Kriterium erfüllt.\\
-Es fällt auf, dass LPT mit Backfilling tatsächlich eine geringere Bearbeitungsspanne erzielen, als FiFo-Backfilling. Darüber hinaus, konkurriert LPT-Backfilling mit FiFo-Backfilling bezüglich der durchschnittlichen Systemzeit. Der LPT Algorithmus, der nach FiFo auffüllt stellt sogar eine kleine aber klare Verbesserung da. Es lässt sich also sagen, dass sich LPT, insbesondere in Kombination mit FiFo sehr gut eignet, um die Bearbeitungsspanne gering zu halten. Auch scheint das Auffüllen nach FiFo geringfügig fairer zu sein, als das normale Auffüllen mit LPT. Allerdings reicht dies nicht aus, um die Stärke des FiFo-Backfillings, nämlich die gute Ausnutzung der Ressourcen und die geringe längste Wartezeit, zu erreichen.
+\paragraph{Backfilling und Fit von 2 Funktionen} Darüber hinaus ist es natürlich auch möglich, Backfilling und Fit in Abhängikeit von zwei Funktionen zu definieren. Das würde bedeutet, zuerst nach der ersten Funktion auszuwählen. Kann diese nicht gestartet werden, würde nach der zweiten Funktion aufgefüllt oder ein startbarer Auftrag gestartet. So könnten Schwächen einer Scheduling Funktion durch die Wahl einer anderen aufgewogen werden. Etwa könnten die längste Wartezeit des LPT-Backfill Algorithmus durch das Auffüllen nach FiFo verringert werden, die geringe Bearbeitungsspanne allerdings beibehalten werden. Alle Kombination zu vergleichen würde den Rahmen dieser Arbeit sprengen. Hier nun eine kurze erneute Betrachtung von Experiment \ref{figure_7_1}.\\
+Es wird das bekannte FiFo-Fit, FiFo-Backfilling und LPT-Backfilling sowie das neue LTP-FiFo-Optimistisch in Abbildung \ref{figure_makespan} betrachtet. Dieses versucht einen Auftrag nach LPT auszuwählen. Kann dieser nicht gestartet werden, wird ein anderer Auftrag nach FiFo ausgewählt, der das bekannte optimistische Auffüll-Kriterium erfüllt.\\
+Es fällt auf, dass LPT mit Backfilling tatsächlich eine geringere Bearbeitungsspanne erzielt, als FiFo-Backfilling. Darüber hinaus, konkurriert LPT-Backfilling mit FiFo-Backfilling bezüglich der durchschnittlichen Systemzeit. Der LPT Algorithmus, der nach FiFo auffüllt, stellt sogar eine kleine aber klare Verbesserung dar. Es lässt sich also sagen, dass sich LPT, insbesondere in Kombination mit FiFo, sehr gut eignet, um die Bearbeitungsspanne gering zu halten. Auch scheint das Auffüllen nach FiFo geringfügig fairer zu sein, als das normale Auffüllen mit LPT. Allerdings reicht dies nicht aus, um die Stärke des FiFo-Backfillings, nämlich die gute Ausnutzung der Ressourcen und die geringe längste Wartezeit, zu erreichen.
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/makespan.png}
 	\caption{Variieren des Anmeldezeitraums}
@@ -182,8 +181,8 @@ Es fällt auf, dass LPT mit Backfilling tatsächlich eine geringere Bearbeitungs
 \subsection{Property Based Testing zum Erkenntnisgewinn}
 \label{proptest}
 \paragraph{Testen statt Simullieren}
-Während das Simulieren des Rechenclusters gute Auskunft darüber gibt, wie sich das System bei einer langen Reihe an Aufträgen verhält, kristallisiert sich dabei lediglich das durchschnittliche Verhalten heraus. Obwohl diese Analyse sinnvoll ist, um verschiedene Scheduling Funktionen asymptotisch mit einander zu vergleichen, wird durch das Mitteln von hunderten von Läufen nicht ersichtlich, in welchen Fällen eine normalerweise unterlegene Scheduling Funktion einer Anderen überlegen ist.\\
-Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Die zukunftsweisende Arbeit dieses Themas ist \cite{hughes2000quickcheck}. Hier nur eine kleine Zusammenfassung der für uns wichtigen Aspekte. \\
+Während das Simulieren des Rechenclusters gute Auskunft darüber gibt, wie sich das System bei einer langen Reihe an Aufträgen verhält, kristallisiert sich dabei lediglich das durchschnittliche Verhalten heraus. Obwohl diese Analyse sinnvoll ist, um verschiedene Scheduling Funktionen asymptotisch miteinander zu vergleichen, wird durch das Mitteln von hunderten von Läufen nicht ersichtlich, in welchen Fällen eine normalerweise unterlegene Scheduling Funktion einer anderen überlegen ist.\\
+Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Die zukunftsweisende Arbeit dieses Themas ist \emph{Quickcheck: a lightweight tool for random testing of haskell programs} \cite{hughes2000quickcheck}. Hier erfolgt nur eine kleine Zusammenfassung der Arbeit von John Hughes und Koen Claessen, der für dies Arbeit wichtigsten Aspekte aus. \\
 Ein Test besteht aus einer zu testenden Funktion, eine Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumpft. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall "kein Rauschen" enthält.
 Eine Zahl wird geschrumpft, in dem sie verringer wird, ein Tupel von Zahlen, in dem eines der Elemente geschrumpft wird, und eine Liste, in dem Elemente der Liste weggelassen oder geschrumpft werden.\\
 
