@@ -1,6 +1,7 @@
 \chapter{Evaluation}
 
 \section{Reproduktion}
+\label{reproduktion}
 
 Der hier verwendete Simulationsaufbau erlaubt auf Wunsch eine deterministische sequentielle Ausführung. Dies erlaubt weiterführende Untersuchungen, die in Kapitel \ref{proptest} ausgeführt werden.
 
@@ -21,6 +22,7 @@ Darüber hinaus lässt sich durch eine Alternative zum Standardverhaltens leicht
 
 
 \subsection{Vergleich von Läufen}
+\label{vergleich}
 \subsubsection{Geschwindigkeit der Knoten}
 Um abschätzen zu können, ob die vorgestellte Simulation erfolgreich reproduziert werden konnte, werden zu erst die Auswertungen von rein sequentiellen Auftragszusammenstellungen verglichen. Obwohl die Parameter zur Erstellung der Aufträge angegeben wurden, sowie die Tatsache, dass alle Knoten mit der selben Geschwindigkeit operieren, fehlt die Angabe über diese Geschwindigkeit. Experimentell lässt sich ermitteln, dass dieser Wert etwa $100$ beträgt.
 
@@ -137,6 +139,7 @@ Da FirstFit-Backfilling von Arndt et al. als Sieger auserkoren wurde, LPT und GP
 In \ref{proptest} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird hier auch mit untersucht, allerdings nur im FiFo Kontext.
 
 \paragraph{SPT}
+\label{spt-higher-order}
 In Abbildung \ref{figure_4_1} wird die durchschnittliche Zeit eines Auftrags im System gemessen. Dabei schneidet SPT-Fit besser ab als alle anderen Algorithmen. Den zweiten Platz belegt FiFo-Fit. Für die durchschnittliche Systemzeit ist es wichtig, so schnell wie möglich Aufträge fertig zu stellen. Deshalb eigenen sich ''-Fit'' Funktionen, besonders in Kombination mit SPT. Erstaunlicherweise ist ''-Fit'' jedoch im Bezug zur Systemzeit nicht vollständig monoton. So gilt für die Messungen zwar SPT $<$ LPT $<$ FiFo, jedoch Fit$($FiFo$)$ $<$ Fit$($LPT$)$.\\
 In Abbildung \ref{figure_7_2} erzielt SPT-Fit die selben Werte wie FiFo-Fit und LPT-Fit. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit von einer relativen Fehlerrate in der Angabe von Bearbeitungszeiten ermittelt.\\
 
@@ -304,7 +307,7 @@ Zusätzlich wird oft die Gleichstände-auflösenden Ids zurückgegriffen. Es kan
 \FloatBarrier
 
 \subsection{Vergleich von Simulation und PBT}
-
+\label{prop-sim}
 Die Simulation vergleicht Scheduling Algorithmen anhand ihrer Leistung beim bearbeiten von - aus der Luft gegriffenen - Auftragszusammenstellungen. Das PBT findet zu Scheduling Algorithmen einen dazu passenden Auftrags- und Knotenmix, in dem sich die Leistungen unterscheiden. Rückschlüsse können basierend auf der Komplexität dieser Szenarien gezogen werden. Die Vermutung, dass komplizierte, oder gestellt Konstellationen im Normalbetrieb selten sind, und dass ein Algorithmus, der nur in solchen Situationen zu schlagen ist, sich auch im Normalbetrieb bewährt, ist noch zu überprüfen.\\
 
 Vorab ist zu wählen, nach welcher Zielfunktion bemessen werden soll. Da auch \cite{Arn99} sich vor allem auf die Bearbeitungsspanne konzentrieren, wollen wir das hier auch tun. Außerdem ist auch zu klären, was die kleinste Situation ist, in dem zwei verschieden Scheduler zwei verschiedene Ergebnisse liefern. Offensichtlich müssen dafür mindestens zwei Knoten beteiligt sein, und mehr als 2 Aufträge vorhanden sein. Zunächst wird diese Überlegung überprüft. Dafür wird ein neuer Scheduler ’’FId’’ geschaffen, der immer den Auftrag mit der niedrigsten Id auswählt. Dann wird nach einem Test gesucht, in dem sich ein FId System anders verhält, wenn die Ids in der Auftragsliste vor Start der Simulation permutiert werden. Diese Vermutung lässt sich schnell bestätigen (s. \ref{minX}).\\
