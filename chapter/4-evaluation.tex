@@ -183,26 +183,27 @@ Es fällt auf, dass LPT mit Backfilling tatsächlich eine geringere Bearbeitungs
 \paragraph{Testen statt Simullieren}
 Während das Simulieren des Rechenclusters gute Auskunft darüber gibt, wie sich das System bei einer langen Reihe an Aufträgen verhält, kristallisiert sich dabei lediglich das durchschnittliche Verhalten heraus. Obwohl diese Analyse sinnvoll ist, um verschiedene Scheduling Funktionen asymptotisch miteinander zu vergleichen, wird durch das Mitteln von hunderten von Läufen nicht ersichtlich, in welchen Fällen eine normalerweise unterlegene Scheduling Funktion einer anderen überlegen ist.\\
 Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Die zukunftsweisende Arbeit dieses Themas ist \emph{Quickcheck: a lightweight tool for random testing of haskell programs} \cite{hughes2000quickcheck}. Hier erfolgt nur eine kleine Zusammenfassung der Arbeit von John Hughes und Koen Claessen, der für dies Arbeit wichtigsten Aspekte aus. \\
-Ein Test besteht aus einer zu testenden Funktion, eine Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumpft. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall "kein Rauschen" enthält.
-Eine Zahl wird geschrumpft, in dem sie verringer wird, ein Tupel von Zahlen, in dem eines der Elemente geschrumpft wird, und eine Liste, in dem Elemente der Liste weggelassen oder geschrumpft werden.\\
+Ein Test besteht aus einer zu testenden Funktion, eine Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumpft. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall ''kein Rauschen'' enthält.
+Eine Zahl wird geschrumpft, indem ihr Betrag reduziert wird, ein Tupel von Zahlen, indem eines der Elemente geschrumpft wird, und eine Liste, indem Elemente der Liste weggelassen oder geschrumpft werden.\\
 
-Um ein minimales Beispiel zu finden, in dem Scheduling Funktion $S_1$ Ziel Funktion $T$ besser minimiert als Scheduler $S_2$, können wir die Eigenschaft $T(S_1(x)) >= T (S_2(1))$, mit einem Auftragsgenerator$X$: $(Anzahl Konten,[(\pi_j <= Anzahl Knoten,p_j,q_j)])$ überprüfen.
-Ein vom Testframework gefundenes minimales Gegenbeispiel, zeigt uns einen Speziellen Fall, in dem $S_1$ ein besseres Ergebnis erzielt als $S_2$ (\cite{TestOpt}).
-Für die meisten Scheduling Funktionen ist das minimal Beispiel eines mit 3 Aufträgen, und einer kleinen Anzahl an Knoten.
+Um ein minimales Beispiel zu finden, in dem Scheduling Funktion $S_1$ Ziel Funktion $T$ besser minimiert als Scheduler $S_2$, können wir die Eigenschaft $T(S_1(x)) >= T (S_2(1))$, mit einem Auftragsgenerator $X$: $(Anzahl Konten,[(\pi_j <= Anzahl Knoten,p_j,q_j)])$ überprüfen.
+Ein vom Testframework gefundenes minimales Gegenbeispiel, zeigt uns einen speziellen Fall, in dem $S_1$ ein besseres Ergebnis erzielt als $S_2$ (\cite{TestOpt}).
+Für die meisten Scheduling Funktionen ist das Minimalbeispiel eines mit 3 Aufträgen, und einer kleinen Anzahl an Knoten.
 
 Hier nun einige Beispiele:\\
 
 \paragraph{Optimistisches Backfilling}
 \label{optfill}
-Das vorgestellte ''-Backfilling'' Verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum ''-Fit'' verglichene Wartezeit gering zuhalten, wird erfüllt, in dem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten, nicht verzögert. Dies wird erreicht, in dem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet.\\
+Das vorgestellte ''-Backfilling'' Verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum ''-Fit'' verglichene Wartezeit gering zuhalten, wird erfüllt, indem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten, nicht verzögert. Dies wird erreicht, indem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet.\\
 Warum aber darf ein Auftrag $P'$, der wenige Knoten benötigt, nicht starten, vorausgesetzt, er nimmt nur so wenige Knoten in Anspruch, dass $P$ wie geplant starten kann ($P$ benötigt noch $n$ Knoten zum starten, sobald er starten wird, sind aber $n+k, k>0$ Knoten frei, und $\pi_{P'} <= k$) vgl. 
 Von Arndt et al. wird bezüglich dieser Idee auf \cite{optVsCons} verwiesen.\\
-Es ist intuitiv, des es einen Haken gibt. Ohne in Scheduling Theorie geübt zu sein, ist es aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische -Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing ohne viel Mühe eines in wenigen Sekunden generiert werden.
+Es ist intuitiv, dass es einen Haken gibt. Es ist aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische -Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing eines in wenigen Sekunden generiert werden.
 
 \begin{figure}
 \centering
 \begin{verbatim}
-Is fifo\_optimistic allways better than fifo\_backfill by maximumLateness?
+Is fifo\_optimistic allways better than
+ fifo\_backfill by maximumLateness?
 No! counterexample:
 queueintT, processingT, realProcessingT, degreeOfParallelism
 id: 0, qT: 1, pT: 3, rPT: 3, doP: 1
@@ -226,7 +227,7 @@ maximumLateness of fifo\_backfill: 3
 
 \FloatBarrier
 
-Hier ist der Optimistische Algorithmus zu vorfreudig. Auftrag 0 wird gestartet, obwohl er (als einziger) nicht seit beginn angemeldet ist. Dadurch wird Auftrag 3 nach hinten geschoben, und die maximale Wartezeit für 3 steigt. Trotzdem is die Auslastung des optimistischen Algorithmus deutlich besser. Der findet man auch einen Fall, in dem sowohl die maximale Verspätung, als auch die gesamt Bearbeitungszeit schlechter sind?\\
+Hier ist der optimistische Algorithmus zu voreilig. Auftrag 0 wird gestartet, obwohl er (als einziger) nicht seit Beginn angemeldet ist. Dadurch wird Auftrag 3 nach hinten geschoben und die maximale Wartezeit für 3 steigt. Trotzdem ist die Auslastung des optimistischen Algorithmus deutlich besser. Doch existiert auch einen Fall, in dem sowohl die maximale Verspätung, als auch die gesamt Bearbeitungszeit schlechter sind?\\
 
 
 \begin{figure}
@@ -260,10 +261,10 @@ makespan of fifo_backfill: 7
 \label{onlatenessmakespan}
 \end{figure}
 
-Natürlich. Auch hier kann ein durch Property Based Testing ein Fall konstruiert werden. Allerdings besteht hier das kleinste gefundene Beispiel bereits aus 5 Aufträgen. Es ist also zu erwarten, dass solche Konstellationen selten genug sind. Eine genauere Untersuchung dazu im Abschnitt \ref{chap:higher-order}.
+Auch hier kann ein durch Property Based Testing ein Fall konstruiert werden. Allerdings besteht hier das kleinste gefundene Beispiel bereits aus 5 Aufträgen. Es ist also zu erwarten, dass solche Konstellationen selten genug sind. Eine genauere Untersuchung dazu im Abschnitt \ref{chap:higher-order}.
 \FloatBarrier
 
-Wie in der Grafik \ref{onlateness} nach einem Schritt erkennbar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten (Auftrag 4), allerdings den zweitbesten Kandidaten (Auftrag 0). Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel auszahlt, kann wiederum durch eine Statistische Asuwertung untersucht werden.\\
+Wie in der Grafik \ref{onlateness} nach einem Schritt erkennbar, benachteiligt ein solcher optimistisch gestarteter langer, kleiner Auftrag nicht den besten Kandidaten (Auftrag 4), allerdings den zweitbesten Kandidaten (Auftrag 0). Ob dies ein seltener Fall ist, oder ob sich Optimismus im Mittel auszahlt, kann wiederum durch eine Statistische Auswertung untersucht werden.\\
 
 Außerdem ist es interessant zu beobachten, welche Informationen implizit aus diesem Gegenbeispiel gezogen werden können. Zum Beispiel, dass im ersten Lauf \ref{onlateness} nur ein einziger online Auftrag (d.h. nicht schon zum Zeitpunkt 0 bekannt) nötig ist, aber um das optimistische Verfahren in beiden Metriken zu schlagen, werden 3 online Aufträge sowie ein zusätzlicher Auftrag benötigt. Es fällt auch auf, dass in diesem Beispiel FiFo-Backfill nie vom Backfilling Gebrauch macht. Es verhält sich immer wie das blanke FiFo Verfahren. Warum also nicht einen Auftragsmix finden, in dem das normale Backfilling sowohl FiFo als auch das optimistische Backfilling trumpft, und zwar sowohl was die Bearbeitungsspanne als auch die längste Wartezeit angeht? Auch hier soll der Leser aufgefordert sein, selber nach einem Beispiel zu suchen.\\
 
@@ -301,15 +302,15 @@ makespan of fifo : 4
 \label{everything}
 \end{figure}
 
-Des weiteren fällt auf, dass das Shrinking Verfahren herausgefunden hat, dass zur Berechnung der Laufzeiten von parallelen Aufträgen hoch gerundet wird (s. \ref{spt-lpt-time}). Da dies der Lesbarkeit der Tests zuwider läuft, kann die Bearbeitungszeit jedes Auftrags einfach auf das nächste Vielfache der Parallelität gesetzt werden.
+Des weiteren fällt auf, dass das Shrinking Verfahren herausgefunden hat, dass zur Berechnung der Laufzeiten von parallelen Aufträgen aufgerundet wird (s. \ref{spt-lpt-time}). Da dies der Lesbarkeit der Tests zuwider läuft, kann die Bearbeitungszeit jedes Auftrags einfach auf das nächste Vielfache der Parallelität gesetzt werden.
 Zusätzlich wird oft die Gleichstände-auflösenden Ids zurückgegriffen. Es kann explizit gefordert werden, dass alle Einreihungszeitpunkte der Aufträge verschieden sind. Allerdings verlangsamt dies die Suche nach einem Gegenbeispiel, und das kleinste gefundene Gegenbeispiel hat eine Bearbeitungsspanne von 13 Zeiteinheiten oder mehr.\\
 \FloatBarrier
 
 \subsection{Vergleich von Simulation und PBT}
 \label{prop-sim}
-Die Simulation vergleicht Scheduling Algorithmen anhand ihrer Leistung beim bearbeiten von - aus der Luft gegriffenen - Auftragszusammenstellungen. Das PBT findet zu Scheduling Algorithmen einen dazu passenden Auftrags- und Knotenmix, in dem sich die Leistungen unterscheiden. Rückschlüsse können basierend auf der Komplexität dieser Szenarien gezogen werden. Die Vermutung, dass komplizierte, oder gestellt Konstellationen im Normalbetrieb selten sind, und dass ein Algorithmus, der nur in solchen Situationen zu schlagen ist, sich auch im Normalbetrieb bewährt, ist noch zu überprüfen.\\
+Die Simulation vergleicht Scheduling Algorithmen anhand ihrer Leistung beim Bearbeiten von -  konstruierten - Auftragszusammenstellungen. Das PBT findet zu Scheduling Algorithmen einen dazu passenden Auftrags- und Knotenmix, in dem sich die Leistungen unterscheiden. Rückschlüsse können basierend auf der Komplexität dieser Szenarien gezogen werden. Die Vermutung, dass komplizierte, oder gestellt Konstellationen im Normalbetrieb selten sind, und dass ein Algorithmus, der nur in solchen Situationen zu schlagen ist, sich auch im Normalbetrieb bewährt, ist noch zu überprüfen.\\
 
-Vorab ist zu wählen, nach welcher Zielfunktion bemessen werden soll. Da auch \cite{Arn99} sich vor allem auf die Bearbeitungsspanne konzentrieren, wollen wir das hier auch tun. Außerdem ist auch zu klären, was die kleinste Situation ist, in dem zwei verschieden Scheduler zwei verschiedene Ergebnisse liefern. Offensichtlich müssen dafür mindestens zwei Knoten beteiligt sein, und mehr als 2 Aufträge vorhanden sein. Zunächst wird diese Überlegung überprüft. Dafür wird ein neuer Scheduler ’’FId’’ geschaffen, der immer den Auftrag mit der niedrigsten Id auswählt. Dann wird nach einem Test gesucht, in dem sich ein FId System anders verhält, wenn die Ids in der Auftragsliste vor Start der Simulation permutiert werden. Diese Vermutung lässt sich schnell bestätigen (s. \ref{minX}).\\
+Vorab ist zu wählen, nach welcher Zielfunktion bemessen werden soll. Da auch \cite{Arn99} sich vor allem auf die Bearbeitungsspanne konzentrieren, wollen wir das hier auch tun. Außerdem ist auch zu klären, was die kleinste Situation ist, in dem zwei verschieden Scheduler zwei verschiedene Ergebnisse liefern. Offensichtlich müssen dafür mindestens zwei Knoten beteiligt sein, und mehr als 2 Aufträge vorhanden sein. Zunächst wird diese Überlegung überprüft. Dafür wird ein neuer Scheduler ’’FId’’ geschaffen, der immer den Auftrag mit der niedrigsten Id auswählt. Dann wird nach einem Test gesucht, in dem sich ein FId System anders verhält, wenn die Ids in der Auftragsliste vor Start der Simulation permutiert werden. Diese Vermutung lässt sich schnell durch einen Versuch bestätigen (s. \ref{minX}).\\
 \begin{figure}
 \centering
 \begin{verbatim}
@@ -331,7 +332,7 @@ id: 2, qT: 0, pT: 1, rPT: 1, doP: 1
 \label{minX}
 \end{figure}
 
-Nun können bisher vorgestellten Scheduler miteinander verglichen werden. Die "Gestelltheit" des kleinsten Beispiels setzt sich dabei aus der Anzahl an Aufträgen, Knoten, und online Aufträgen zusammen. Hier sei noch angemerkt, dass dies, ebenso wie das Simulieren, keine exakten Ergebnisse liefert. Es ist immer möglich, dass es einen noch einfacheren Fall gibt, den das Shrinking Verfahren nicht gefunden hat. Es werden für jede Paarung 100000 Beispiele ausprobiert. Ebenso gibt es mehrere "kleinste" Beispiele. Zum Beispiel kann FiFo LPT mit 
+Nun können bisher vorgestellten Scheduler miteinander verglichen werden. Die "Gestelltheit" des kleinsten Beispiels setzt sich dabei aus der Anzahl an Aufträgen, Knoten, und online Aufträgen zusammen. Hier sei noch angemerkt, dass dies, ebenso wie das Simulieren, keine exakten Ergebnisse liefert. Es ist immer möglich, dass es einen noch einfacheren Fall gibt, den das Shrinking Verfahren nicht gefunden hat. Es werden für jede Paarung 100.000 Beispiele ausprobiert. Ebenso gibt es mehrere kleinste Beispiele. Zum Beispiel kann FiFo LPT mit 
 3-2-1 oder 4-2-0 schlagen. Das Shrinking Verfahren betrachtet dabei ersteres Ergebnis als "kleiner". Hierfür kann ''gezieltes PBT'' (\cite{testTarget}) verwendet werden. Hierbei wird ein Wert angegeben, den das Test Framework minimiert, zum Beispiel die Differenz zwischen den zwei Bearbeitungsspannen. Dadurch verringert sich zwar die Zeit, die gebraucht wird, um ein Gegenbeispiel zu finden, allerdings variiert dadurch die Größe der Beispiele stärker. Aus diesem Grund wird darauf hier verzichtet.\\
 
 
@@ -374,12 +375,16 @@ Nun können bisher vorgestellten Scheduler miteinander verglichen werden. Die "G
 	\label{tabRelFit}
 \end{table}
 
-Hierbei ist zu beachten, dass FiFo nicht nie seine Backfill-Variante besiegen kann. Dies liegt daran, dass das Auswahlkriterium von FiFo die Einreihungszeit ist. Per Definition kann also kein online eingereihter Auftrag erscheinen, der dieses Kriterium besser erfüllt, als die bereits bekannten Aufträge. Für SPT und LPT gilt dies nicht.\\
+Hierbei ist zu beachten, dass FiFo nie seine Backfill-Variante besiegen kann. Dies liegt daran, dass das Auswahlkriterium von FiFo die Einreihungszeit ist. Per Definition kann also kein online eingereihter Auftrag erscheinen, der dieses Kriterium besser erfüllt, als die bereits bekannten Aufträge. Für SPT und LPT gilt dies nicht.\\
 Aus diesem Grund wird hier der Durchschnitt der nicht-null Werte verrechnet. Dies benachteiligt FiFo-Backfill und bevorteilt FiFo.\\
 Vergleicht man die Tabelle mit \ref{figure_6_1} fällt auf, dass die ermittelten Werte bezüglich der kleinsten Szenarien nur begrenzte Vorhersagekraft über die tatsächliche Rangordnung der Algorithmen besitzen. Die referenziell Transparenten Scheduler schneiden schlecht ab, die Backfilling- und Fit Allogrithmen besser, mit Ausnahme von SPT-Backfilling.\\
 
 %Monotonie Maß einfügen blablabla\\
 
 Wahrscheinlich wurde nicht zu jedem Paar die tatsächlich kleinste Konstellation an Aufträgen gefunden. Hierfür würde sich ein traditionelles Modellchecking Werkzeug wie TLA+ besser eigenen, da diese eine Breitensuche durchführen können. Dies würde natürlich viel mehr Rechenleistung benötigen, im Gegenzug dafür aber auch exakte Ergebnisse liefern.\\
-Es ist fraglich, wieweit die Methode des kleinsten Falles, in dem ein Algorithmus gegen gegen einen anderen die Oberhand gewinnt, für die Analyse der verschiedenen Leistungen taugt. Sicherlich ist sie ein sehr nützliches Hilfsmittel, das neue Einsichten gewähren kann. Sich schnell darüber klar werden zu können, in welchen Situation ein (ausgeklügelter) Algorithmus wie das Backfilling sich selbst überlistet, ist sicherlich eine gute Möglichkeit die eigene Intuition weiterzuentwickeln.
+Es ist fraglich, wieweit die Methode des kleinsten Falles, in dem ein Algorithmus gegen gegen einen anderen die Oberhand gewinnt, für die Analyse der verschiedenen Leistungen taugt. Sicherlich ist sie ein sehr nützliches Hilfsmittel, das neue Einsichten gewähren kann. Sich schnell darüber klar werden zu können, in welchen Situation ein (ausgeklügelter) Algorithmus wie das Backfilling sich selbst überlistet, ist sicherlich eine gute Möglichkeit die eigene Intuition weiterzuentwickeln.\\
+
+Die wichtigste Erkenntnis dieser Untersuchung ist, wie einfach es ist, Experimente zu entwerfen, in denen ein Menge an Scheduling Algorithmen eine beliebige Rangordnung zu erzielen. Daraus folgt, dass Experimente, die die Leistung verschiedener Algorithmen messen, gut motiviert seien müssen. Idealerweise sollte sich ein Versuchsaufbau also von einer Beobachtung realer Cluster und Aufträge ableiten.
+
 \FloatBarrier
+
