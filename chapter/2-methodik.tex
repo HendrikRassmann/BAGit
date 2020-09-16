@@ -12,22 +12,22 @@ Es wird die Notation aus dem Kapitel \emph{Scheduling Algorithms In: Handbook of
 Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt.
 
 \begin{description}
-\item[Von Schedule unabhängige Eigenschaften] \hfil \\
+\item[Feststehende Eigenschaften] \hfil \\
 \textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
 \textbf{Bearbeitungszeit} (processing time) $p_j$: Dauer, die der Auftrag auf einem Knoten mit genormter Arbeitsgeschwindigkeit benötigt, um abgeschlossen zu werden. Diese Arbeit behandelt nicht, wie diese zuverlässig ermittelt werden können. \\
 \textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ bekannt wird.\\
 \textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden. Hierbei erfolgt eine Aufteilung der Bearbeitungszeit auf die zugewiesenen Knoten. Ein Auftrag von der Parallelität 1 wird als sequenziell bezeichnet, ansonsten wird von einem parallelen Auftrag gesprochen.\\
-\item[Durch Schedule bestimmte Eigenschaften]\hfill \\ 
+\item[Durch Simulation bestimmte Eigenschaften]\hfill \\ 
 \textbf{Bearbeitungsbeginn} (start time) $s_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ begonnen wird. \\
 \textbf{Abschluss} (completion time) $c_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ abgeschlossen wird.\\
 \textbf{Zugewiesene Knoten} (scheduled on nodes) $n_j$: Die Menge an Knoten, auf denen ein Auftrag $j$ ausgeführt wird.\\
 
-\item[Darüber hinaus] \hfil \\
-können Aufträge mit zusätzlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
+\item[Weitere Eigenschaften] \hfil \\
+Darüber hinaus können Aufträge mit zusätzlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
 \end{description}
 
-\subsection{Maschinenumfeld (Machine Enviroment)}
-Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus einer Anzahl an Knoten, einer Warteliste bereits bekannter, wartender Aufträge ($Q$) und einem Scheduler. Die Knoten werden charakterisiert durch:
+\subsection{Maschinenumfeld (Machine Environment)}
+Das Machine Environment, in dem die Aufträge ausgeführt werden, besteht aus einer Anzahl an Knoten, einer Warteliste bereits bekannter, wartender Aufträge ($Q$) und einem Scheduler. Die Knoten werden charakterisiert durch:
 
 \begin{description}
 	\item[Feststehende Eigenschaften] \hfil \\
@@ -41,8 +41,8 @@ Das Machine Enviroment, in dem die Aufträge ausgeführt werden, besteht aus ein
 \subsection{Scheduler}
 Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung (auch  Präferenzordnung) formen, d.h. alle Elemente sind mit einander vergleichbar.
 %(einfügen Quelle mafi buch steffen evtl.)
-Diese Abbildung ist dabei nicht notwendiger Weise deterministisch. Wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben ("breaking ties arbitrarily")\cite{Kar97}. Zugunsten der Reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mit der niedrigeren ID gewählt. Aus diesem Grund muss sichergestellt werden, dass diese zufällig verteilt werden, und nicht etwa alle sequenziellen Aufträge niedrige IDs zugewiesen bekommen.\\
-Kern der Problemstellung ist das Finden von Schedulern, die ein effektives Betreiben des Systems erlauben und einfach berechnenbar sind.
+Diese Abbildung ist dabei nicht notwendigerweise deterministisch. Wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben (''breaking ties arbitrarily'')\cite{Kar97}. Zugunsten der Reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mit der niedrigeren ID gewählt. Aus diesem Grund muss sichergestellt werden, dass diese zufällig verteilt werden, und nicht etwa alle sequenziellen Aufträge niedrige IDs zugewiesen bekommen.\\
+Kern der Problemstellung ist das Finden von Schedulern, die ein effektives Betreiben des Systems erlauben und einfach berechenbar sind.
 
 \section{Zielfunktionen}
 Bevor verschiedene Scheduler miteinander verglichen werden können, muss zuerst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sind, Fairness zwischen den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeitig eine hohe Auslastung der Knoten zu erreichen. Auch sollte, falls Attribute der Aufträge von Nutzern angegeben werden, durch gezielte falsche Angaben kein eigener Vorteil erzielbar sein. Diese Ziele sind oft unvereinbar. Beispielsweise ist es für eine geringe durchschnittliche Wartezeit nützlich, kurzen Aufträgen Vorlass zu gewähren. Dies könnte Nutzer dazu verleiten, unrealistisch kurze Laufzeiten anzugeben.
@@ -92,16 +92,16 @@ Soll ein System zu diskreten Zeitpunkten simuliert werden, stehen die drei in \e
 \label{activity}
 Das System wird immer von einem Zustand $S$ zu einem bestimmten Zeitpunkt $t_n$ zu einem Zustand $S'$ in $t_{n+1}$ transformiert. Es wird also vom Startzustand $S_0$ aus einmal für jeden Zeitpunkt ein Zustand produziert.\\
 Dieses Paradigma liefert eine einfache Implementierung, jedoch auch eine höhere Laufzeit als die beiden Alternativen.
-\paragraph{Ereignis Orientiert}
+\paragraph{Ereignisorientiert}
 Hier wird zu von einem Zustand $S_n$ ausgehend der nächste Zustand gefunden, der sich von $S_n$ abgesehen von der aktuellen Zeit $t$ unterscheidet. Es werden also, wenn bekannt ist, dass die nächste Aktion zum Zeitpunkt $t_{n+k}$ stattfindet, alle diskreten Zeiteinheiten zwischen $n$ und $n+k$ übersprungen.\\
 Dieses Paradigma kann Rechenzeit einsparen, wenn der zusätzliche Overhead und die Frequenz der Aktionen klein genug ist.
 \paragraph{Prozessorientiert}
 Dieses Paradigma funktioniert ähnlich wie Ereignisorientiert, allerdings werden alle Aktivitäten durch Prozesse abgebildet. Dabei ähnelt jede Aktivität einem Prozess wie in einem Betriebssystem. Ein Prozess unterbricht seine eigene Ausführung, entweder für eine bestimmte Zeit, oder bis eine Bedingung erfüllt ist.\\
-Dies modularisiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Soll zum Beispiel festgelegt werden, welche von 2 Aktionen zuerst ausgeführt werden soll, wenn diese gleichzeitig auftreten, ist dies Aktivitäts- oder Ereignisorientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse auf welche Bedingungen warten.
+Dies modularisiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgegeben. Soll zum Beispiel festgelegt werden, welche von zwei Aktionen zuerst ausgeführt werden soll, wenn diese gleichzeitig auftreten, ist dies Aktivitäts- oder Ereignisorientiert simpel. Prozess Orientiert erfordert diese Situation allerdings Synchronisation, zum Beispiel über einen Beobachter, der weiß, welche Prozesse auf welche Bedingungen warten.
 
 
 \subsection{Statistisches Auswerten}
-Um für die Auswertung stabile Werte zu erzielen, müssen die Ergebnisse mehrere Simulationsläufe verwendet werden. In der Regel werden dazu die verschiedenen Maßzahlen wie Bearbeitungsspanne, Systemzeit etc. arithmetisch von 50 bis 100 Läufen gemittelt. Bei diesen Zahlen handelt es sich um einen Erfahrungswert. Manche Experimente erfordern mehr oder weniger Läufe (vgl. \emph{Reasoning under Uncertainty} \cite{SimUncertainty}). Dabei wird jeder Auftragsmix einmal mit jedem betrachteten Scheduling Algorithmus abgearbeitet. Mitunter entstehen S-Kurven, oder andere Kurven, die stellenweise konstant sind. Für diese werden manchmal mehr Läufe, mit Parametern der ''interessanten'' Stellen simuliert.
+Um für die Auswertung stabile Werte zu erzielen, müssen die Ergebnisse mehrerer Simulationsläufe verwendet werden. In der Regel werden dazu die verschiedenen Maßzahlen wie Bearbeitungsspanne, Systemzeit etc., arithmetisch von 50 bis 100 Läufen gemittelt. Bei diesen Zahlen handelt es sich um einen Erfahrungswert. Manche Experimente erfordern mehr oder weniger Läufe (vgl. \emph{Reasoning under Uncertainty} \cite{SimUncertainty}). Dabei wird jeder Auftragsmix einmal mit jedem betrachteten Scheduling Algorithmus abgearbeitet. Mitunter entstehen S-Kurven, oder andere Kurven, die stellenweise konstant sind. Für diese werden manchmal mehr Läufe, mit Parametern der ''interessanten'' Stellen simuliert.
 
 
 
