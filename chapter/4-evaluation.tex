@@ -5,12 +5,6 @@
 
 Der hier verwendete Simulationsaufbau erlaubt auf Wunsch eine deterministische sequentielle Ausführung. Dies erlaubt weiterführende Untersuchungen, die in Kapitel \ref{proptest} ausgeführt werden.
 
-%\subsection{TLA+ Spec}
-%Blabla bal
-%bla
-%TLA
-%Mathematische spezifikation
-
 \subsection{Simulationsaufbau}
 Die Wahl des Paradigmas \ref{paradigma} fällt in dieser Arbeit auf das Ereignisorientiert Schema \ref{activity}. Dies mag erstaunen. Zunächst scheinen die Vorteile der Prozessorientierten Ansicht zu überwiegen. Im Falle eines verteilten Systems, wirkt die Modellierung durch Prozesse wie eine offensichtlich gute Wahl.
 In Vorteile die sich ergeben, wenn man sich gegen diese Schema entscheidet, sind zweierlei.\\
@@ -59,6 +53,7 @@ Abbildungen eins bis drei \ref{figure1},\ref{figure2},\ref{figure3} lassen sich 
 \FloatBarrier
 
 \subsubsection{Unterschiedlich schnelle Knoten ab Experiment 4}
+\label{repr}
 Ab dem vierten Experiment offenbart sich folgendes Problem: Die Geschwindigkeiten der Knoten variieren. Sie entsprechen den Messungen von "22 Knoten des lokalen Netzwerks". Jedoch werden diese gemessen Geschwindigkeiten weder in der besprochenen, noch in früheren Veröffentlichungen dargelegt \cite{norepr1,norepr2}. Dies stellt eine hohe Hürde für die Reproduktion dar.\\
 
 \begin{figure}
@@ -90,42 +85,42 @@ Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werd
 
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_4_1}
-	\caption{Varieren des Anteils von sequenziellen Aufträgen}
+	\caption{Variieren des Anteils von sequenziellen Aufträgen}
 	\label{figure_4_1}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_4_2}
-	\caption{Varieren des Anteils von sequenziellen Aufträgen}
+	\caption{Variieren des Anteils von sequenziellen Aufträgen}
 	\label{figure_4_2}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_6_1}
-	\caption{Varieren des Anteils von großen parallelen Aufträgen}
+	\caption{Variieren des Anteils von großen parallelen Aufträgen}
 	\label{figure_6_1}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_6_2}
-	\caption{Varieren des Anteils von großen parallelen Aufträgen}
+	\caption{Variieren des Anteils von großen parallelen Aufträgen}
 	\label{figure_6_2}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_7_1}
-	\caption{Varieren der Zeitspanne des Anmeldens von Aufträgen}
+	\caption{Variieren der Zeitspanne des Anmeldens von Aufträgen}
 	\label{figure_7_1}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_7_2}
-	\caption{Varieren der Zeitspanne des Anmeldens von Aufträgen}
+	\caption{Variieren der Zeitspanne des Anmeldens von Aufträgen}
 	\label{figure_7_2}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_8_1}
-	\caption{Varieren des erlaubten relativen Fehlers in der Angabe der Laufzeit}
+	\caption{Variieren des erlaubten relativen Fehlers in der Angabe der Laufzeit}
 	\label{figure_8_1}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/Figure_8_2}
-	\caption{Varieren des erlaubten relativen Fehlers in der Angabe der Laufzeit}
+	\caption{Variieren des erlaubten relativen Fehlers in der Angabe der Laufzeit}
 	\label{figure_8_2}
 \end{figure}
 
@@ -134,27 +129,30 @@ Ab Experiment 4 kann keine Vergleichbarkeit der Modelle mehr sichergestellt werd
 \subsection{Backfilling und Fit als Funktionen höherer Ordnung}
 \label{chap:higher-order}
 
-Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwandelungen der FiFo Funktion. Beide wählen den nächsten Auftrag abhängig vom Einreihungszeitpunkt $q_j$, jedoch unter Einschränkungen. ''FiFo-Fit'' wählt den ersten unter den startbaren Aufträgen aus, ''FiFo-BackFilling'' wählt den ersten Auftrag, oder einen, der den Bearbeitungsbeginn des ersten Auftrags nicht verzögert.\\ \mbox{''-Fit'' und ''-Backfilling''} fügen also einen relevanten Kontext hinzu. Es liegt nahe, diese Erweiterungen als Funktionen höherer Ordnung zu betrachten. Ihre Domäne besteht aus einer Scheduling Funktion, den wartenden Aufträgen und einen Kontext - Anzahl an verfügbaren Knoten oder die Abschlusszeitpunkte und die Parallelität der laufenden Aufträge -, und bilden diese partiell auf einen Auftrag ab. 
-Da FirstFit-Backfilling von Arndt et al. als Sieger auserkoren wurde, LPT und SPT aber nicht im Backfilling Kontext untersucht wurden, wird im Folgenden untersucht, ob LPT oder SPT mit -FirstFit oder -Backfilling ähnlich gute Ergebnisse erzielen können.\\
-Später \ref{optfill} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird in dieser Arbeit auch mit untersucht, allerdings hauptsächlich im FiFo Kontext.
+Die in Kapitel 2 vorgestellten Funktionen FirstFit und Backfilling sind nur Abwandelungen der FiFo Funktion. Beide wählen den nächsten Auftrag abhängig vom Einreihungszeitpunkt $q_j$, jedoch unter Einschränkungen. ''FiFo-Fit'' wählt den ersten unter den startbaren Aufträgen aus, ''FiFo-BackFilling'' wählt den ersten Auftrag, oder einen, der den Bearbeitungsbeginn des ersten Auftrags nicht verzögert.\\ \mbox{''-Fit'' und ''-Backfilling''} fügen also einen relevanten Kontext hinzu. Es liegt nahe, diese Erweiterungen als Funktionen höherer Ordnung zu betrachten. Ihre Domäne besteht aus einer Scheduling Funktion, den wartenden Aufträgen und einem Kontext. Der Kontext ist die Anzahl an verfügbaren Knoten oder die Abschlusszeitpunkte und die Parallelität der laufenden Aufträge. Die Scheduling Funktion, die Wartelist und der Kontext wird partiell auf einen Auftrag abgebildet. 
+Da FirstFit-Backfilling von Arndt et al. als Sieger auserkoren wurde \cite[p.~10]{Arn99}, LPT und SPT aber nicht im Backfilling Kontext untersucht wurden, wird im Folgenden untersucht, ob LPT oder SPT mit ''-FirstFit'' oder ''-Backfilling'' ähnlich gute Ergebnisse erzielen können.\\
+Später \ref{optfill} wird eine Abwandlung des Backfillings vorgestellt, das optimistische Backfilling. Dieses wird in dieser Arbeit auch mit untersucht, allerdings hauptsächlich im FiFo-Kontext.
 
 \paragraph{SPT}
 \label{spt-higher-order}
 In Abbildung \ref{figure_4_1} wird die durchschnittliche Zeit eines Auftrags im System gemessen. Dabei schneidet SPT-Fit besser ab als alle anderen Algorithmen. Den zweiten Platz belegt FiFo-Fit. Für die durchschnittliche Systemzeit ist es wichtig, so schnell wie möglich Aufträge fertig zu stellen. Deshalb eigenen sich ''-Fit'' Funktionen, besonders in Kombination mit SPT. Erstaunlicherweise ist ''-Fit'' jedoch im Bezug zur Systemzeit nicht vollständig monoton. So gilt für die Messungen zwar SPT $<$ LPT $<$ FiFo, jedoch Fit$($FiFo$)$ $<$ Fit$($LPT$)$.\\
-In Abbildung \ref{figure_7_2} erzielt SPT-Fit die selben Werte wie FiFo-Fit und LPT-Fit. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit von einer relativen Fehlerrate in der Angabe von Bearbeitungszeiten ermittelt.\\
-
+In Abbildung \ref{figure_7_2} erzielt SPT-Fit die selben Werte wie FiFo-Fit und LPT-Fit. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit von einer relativen Fehlerrate in der Angabe von Bearbeitungszeiten ermittelt.
 
 \paragraph{LPT}
 In Abbildung \ref{figure_6_1} erzielen mehrere Algorithmen ähnlich  gute Ergebnisse. Darunter FiFo-Fit, SPT-Fit, LPT-Fit, LPT-Backfill und FiFo-Optimistic-Backfill. In diesem Experiment wird die Bearbeitungsspanne in Abhängigkeit des Anteils von großen parallelen Aufträgen gemessen. LPT-Fit ist hier deshalb eine gute Wahl, da LPT im Vergleich zu SPT und FiFo für eine geringere Spanne sorgt (vgl. auch \ref{figure3}). ''-Fit'' und ''-Backfill'' sorgt dafür, dass lange Phasen zum Anfang des Laufs, in denen einige Knoten nicht genutzt werden, während lange Aufträge abgearbeitet werden, gefüllt werden können.\\
-Diese Beobachtung wiederholt sich in Abbildung \ref{figure_7_1}. Auch hier wird die Bearbeitungsspanne als Maß angelegt.\\
+Diese Beobachtung wiederholt sich in Abbildung \ref{figure_7_1}. Auch hier wird die Bearbeitungsspanne als Maß angelegt.
 
 
 \paragraph{Optimistisches Backfilling}
-Dieser Algorithmus wird in \ref{optfill} vorgestellt.\\
+\label{optfill}
+Das vorgestellte ''-Backfilling'' Verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum ''-Fit'' verglichene Wartezeit gering zuhalten, wird erfüllt, indem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten, nicht verzögert. Dies wird erreicht, indem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet.\\
+Warum aber darf ein Auftrag $P'$, der wenige Knoten benötigt, nicht starten, vorausgesetzt, er nimmt nur so wenige Knoten in Anspruch, dass $P$ wie geplant starten kann. Dies würden bedeuten, $P$ benötigt noch $n$ Knoten zum starten, sobald er starten wird, sind aber $n+k, k>0$ Knoten frei, und $\pi_{P'} <= k$, oder $c_{P'} <= s_P$, falls $P'$ sofort gestartet werden kann. 
+Von Arndt et al. wird bezüglich dieser Idee auf \cite{optVsCons} verwiesen.\\
+
 Beim Optimistischen Backfilling stellt sich vor allem die Frage, wie groß der Unterschied zum ''normalen'' Backfilling ist, und ob es sich die Bearbeitungsspanne verringert werden kann. Hierfür wurde nur FiFo in beiden Kontexten herangezogen.\\
-In Abbildung \ref{figure_4_1} bietet das Optimistische Verfahren einen leichten, jedoch erkennbaren Vorteil. Hier wird die durchschnittliche Systemzeit von Aufträgen in Abhängigkeit des Anteils sequentieller Aufträge ermittelt. Es erscheint nachvollziehbar, dass, vorausgesetzt es gibt etwa gleich viele sequezielle und parallele Aufträge, eine Leistungssteigerung durch das Optimistische Verfahren erzielt werden kann. Das liegt daran, dass durch weniger Restriktionen mehr Lücken geschlossen werden können.\\
+In Abbildung \ref{figure_4_1} bietet das Optimistische Verfahren einen leichten, jedoch erkennbaren Vorteil. Hier wird die durchschnittliche Systemzeit von Aufträgen in Abhängigkeit des Anteils sequentieller Aufträge ermittelt. Es erscheint nachvollziehbar, dass, vorausgesetzt es gibt etwa gleich viele sequenzielle und parallele Aufträge, eine Leistungssteigerung durch das Optimistische Verfahren erzielt werden kann. Das liegt daran, dass durch weniger Restriktionen mehr Lücken geschlossen werden können.\\
 So auch in Abbildung \ref{figure_7_1}. Hier wird die gesamte Bearbeitungszeit in Abhängigkeit eines erlaubten Fehlers untersucht. Die selbe Argumentation erscheint plausibel. Wenn die Bearbeitungszeit eines Auftrags nicht korrekt angegeben wurde, werden weniger Aufträge gestartet um Lücken zu füllen. Das Optimistische Backfilling startet Aufträge, die wenige Knoten benötigen und nutzt so die Freiräume besser aus.\\
-In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es scheint, als wären die in Abschnitt \ref{optfill} genannten Konstellationen selten genug, als dass sie die nicht genutzten Chancen des ''normalen'' Backfilling überwiegen. Zumindest in den hier untersuchten Experimenten lässt sich die optimistische Variante als Ersatz empfehlen. In den meisten Fällen ist kein deutlicher Unterschied erkennbar, aber wenn, dann immer zu in Richtung geringerer Laufzeiten. Die detaillierte Untersuch der Auswirkung auf LPT und SPT übersteigen den Rahmen dieser Arbeit. 
+In allen anderen Versuchen ist kein nennenswerter Unterschied feststellbar. Es scheint, als wären die in Abschnitt \ref{optfill} genannten Konstellationen selten genug, als dass sie die nicht genutzten Chancen des ''normalen'' Backfilling überwiegen. Zumindest in den hier untersuchten Experimenten lässt sich die optimistische Variante als Ersatz empfehlen. In den meisten Fällen ist kein deutlicher Unterschied erkennbar, aber wenn, dann immer zu in Richtung geringerer Laufzeiten. Die detaillierte Untersuchung der Auswirkung auf LPT und SPT übersteigen den Rahmen dieser Arbeit. 
 
 \FloatBarrier
 
@@ -163,28 +161,27 @@ Es wird das bekannte FiFo-Fit, FiFo-Backfilling und LPT-Backfilling sowie das ne
 Es fällt auf, dass LPT mit Backfilling tatsächlich eine geringere Bearbeitungsspanne erzielt, als FiFo-Backfilling. Darüber hinaus, konkurriert LPT-Backfilling mit FiFo-Backfilling bezüglich der durchschnittlichen Systemzeit. Der LPT Algorithmus, der nach FiFo auffüllt, stellt sogar eine kleine aber klare Verbesserung dar. Es lässt sich also sagen, dass sich LPT, insbesondere in Kombination mit FiFo, sehr gut eignet, um die Bearbeitungsspanne gering zu halten. Auch scheint das Auffüllen nach FiFo geringfügig fairer zu sein, als das normale Auffüllen mit LPT. Allerdings reicht dies nicht aus, um die Stärke des FiFo-Backfillings, nämlich die gute Ausnutzung der Ressourcen und die geringe längste Wartezeit, zu erreichen.
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/makespan.png}
-	\caption{Variieren des Anmeldezeitraums}
+	\caption{Bearbeitungsspanne abhängig vom Anmeldezeitraums}
 	\label{figure_makespan}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/flowtime.png}
-	\caption{Variieren des Anmeldezeitraums}
+	\caption{Durchschnittliche Systemzeit abhängig vom Anmeldezeitraums}
 	\label{figure_flowtime}
 \end{figure}
 \begin{figure}	
 	\includegraphics[width=\textwidth]{/home/hendrik/Programming/Python/BA/Docs/Hendrik/BA_Template/images/maxLate.png}
-	\caption{Variieren des Anmeldezeitraums}
+	\caption{Längste Wartezeit abhängig vom Anmeldezeitraums}
 	\label{figure_maxLate}
 \end{figure}
-
 
 \FloatBarrier
 \subsection{Property Based Testing zum Erkenntnisgewinn}
 \label{proptest}
 \paragraph{Testen statt Simullieren}
 Während das Simulieren des Rechenclusters gute Auskunft darüber gibt, wie sich das System bei einer langen Reihe an Aufträgen verhält, kristallisiert sich dabei lediglich das durchschnittliche Verhalten heraus. Obwohl diese Analyse sinnvoll ist, um verschiedene Scheduling Funktionen asymptotisch miteinander zu vergleichen, wird durch das Mitteln von hunderten von Läufen nicht ersichtlich, in welchen Fällen eine normalerweise unterlegene Scheduling Funktion einer anderen überlegen ist.\\
-Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Die zukunftsweisende Arbeit dieses Themas ist \emph{Quickcheck: a lightweight tool for random testing of haskell programs} \cite{hughes2000quickcheck}. Hier erfolgt nur eine kleine Zusammenfassung der Arbeit von John Hughes und Koen Claessen, der für dies Arbeit wichtigsten Aspekte aus. \\
-Ein Test besteht aus einer zu testenden Funktion, eine Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumpft. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall ''kein Rauschen'' enthält.
+Um eine Intuition für die Unterschiede zwischen Scheduling Funktionen entwickeln zu können ist es hilfreicher, die durch kleinstmögliche Listen an Aufgaben erzeugten Läufe zu vergleichen. Um diese minimalen Beispiele zu generieren, kann ein Property Based Testing Framework verwendet werden. Die zukunftsweisende Arbeit dieses Themas ist \emph{Quickcheck: a lightweight tool for random testing of haskell programs} \cite{hughes2000quickcheck}. Hier erfolgt nur eine kleine Zusammenfassung der Arbeit von John Hughes und Koen Claessen. Es werden nur die für diese Arbeit wichtigsten Aspekte betrachtet. \\
+Ein Test besteht aus einer zu testenden Funktion, einer Eigenschaft, die die Ausgabe der Funktion haben soll, und einem Generator, der Eingaben produziert. Sobald eine Eingabe gefunden wird, deren Ausgabe die geforderte Eigenschaft nicht erfüllt, wird die Eingabe automatisch geschrumpft. Dies führt zu einem leichter interpretierbaren Beispiel, da der ausgegebene Fall ''kein Rauschen'' enthält.
 Eine Zahl wird geschrumpft, indem ihr Betrag reduziert wird, ein Tupel von Zahlen, indem eines der Elemente geschrumpft wird, und eine Liste, indem Elemente der Liste weggelassen oder geschrumpft werden.\\
 
 Um ein minimales Beispiel zu finden, in dem Scheduling Funktion $S_1$ Ziel Funktion $T$ besser minimiert als Scheduler $S_2$, können wir die Eigenschaft $T(S_1(x)) >= T (S_2(1))$, mit einem Auftragsgenerator $X$: $(Anzahl Konten,[(\pi_j <= Anzahl Knoten,p_j,q_j)])$ überprüfen.
@@ -194,11 +191,9 @@ Für die meisten Scheduling Funktionen ist das Minimalbeispiel eines mit 3 Auftr
 Hier nun einige Beispiele:\\
 
 \paragraph{Optimistisches Backfilling}
-\label{optfill}
-Das vorgestellte ''-Backfilling'' Verfahren wirkt auf den ersten Blick zurückhaltend. Das angegebene Ziel, die zum ''-Fit'' verglichene Wartezeit gering zuhalten, wird erfüllt, indem große Aufträge nicht benachteiligt werden. Kleine werden nur vorgezogen, wenn sich dadurch die Wartezeit des besten, aber nicht startbaren Kandidaten, nicht verzögert. Dies wird erreicht, indem ein Auftrag $P'$ nur starten darf, wenn er abgeschlossen wird, bevor der beste Kandidat $P$ startet.\\
-Warum aber darf ein Auftrag $P'$, der wenige Knoten benötigt, nicht starten, vorausgesetzt, er nimmt nur so wenige Knoten in Anspruch, dass $P$ wie geplant starten kann ($P$ benötigt noch $n$ Knoten zum starten, sobald er starten wird, sind aber $n+k, k>0$ Knoten frei, und $\pi_{P'} <= k$) vgl. 
-Von Arndt et al. wird bezüglich dieser Idee auf \cite{optVsCons} verwiesen.\\
-Es ist intuitiv, dass es einen Haken gibt. Es ist aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische -Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing eines in wenigen Sekunden generiert werden.
+Das optimistische Backfilling wurde bereits in Kapitel \ref{optfill} vorgestellt. Dabei  werden Lücken aggressiv geschlossen, wenn der bestmögliche Auftrag nicht startbar ist. Es kann ein anderer Auftrag gestartet werden, wenn dieser abgeschlossen werden kann, bevor der beste Kandidat gestartet werden wird, oder wenn er weniger Knoten benötigt, als nach dem starten des besten Kandidaten noch ungenutzt sein werden.\\
+Zunächst mag es erscheinen, als wäre dies eine klare Verbesserung des Backfilling Algorithmus, da weniger Restriktionen bestehen, um Lücken zu schließen. 
+Es ist intuitiv, dass es einen Haken gibt. Es ist aber nicht einfach, aus dem Stand ein Beispiel zu konstruieren, in dem sich das optimistische Backfilling negativ auf die Wartezeit auswirkt. Allerdings kann dank Property Based Testing eines in wenigen Sekunden generiert werden.
 
 \begin{figure}
 \centering
@@ -402,8 +397,8 @@ Die Ergebnisse befinden sich in Tabelle \ref{rank}. Der \emph{Rangkorrelationsko
 
 \FloatBarrier
 
-Vergleicht man die Tabelle \ref{rank} mit \ref{figure_6_1} fällt auf, dass die ermittelten Werte bezüglich der kleinsten Szenarien nur begrenzte Vorhersagekraft besitzen, sobald die Knoten unterschiedliche Geschwindigkeiten aufweisen. Die referenziell Transparenten Scheduler schneiden schlecht ab, die Backfilling- und Fit Allogrithmen besser, mit Ausnahme von SPT-Backfilling. Generell kann dieser Art der Analyse ohne weitere Untersuchungen nicht zu viel Vertrauen geschenkt werden. Der Versuch könnte zwar wiederholt werden, diesmal mit den Geschwindigkeiten der Knoten als freie Parametern. Dies könnte Ergebnisse liefern, die stärker mit den Experiment 4 bis 9 korrelieren. Es bleiben dennoch weitere Kritikpunkte. So ist nicht klar, ob die simple Formel der Größe eines Experiments, nämlich $Aufträge + Knoten + OnLine Aufträge$ ein sinnvolles Maß ist. Auch bestehen mehrere Möglichkeiten mit FiFo und FiFo-Backfilling umzugehen. Die hier getroffenen Wahlen erzielten zwar direkt ein ungeahntes hohes Maß an Korrelation, trotzdem könnten andere Entscheidungen in Versuchsaufbau und Auswertung auch gut begründet werden.
-Wahrscheinlich wurde nicht zu jedem Paar die tatsächlich kleinste Konstellation an Aufträgen gefunden. Hierfür würde sich ein traditionelles Modellchecking Werkzeug wie TLA+ besser eigenen, da diese eine Breitensuche durchführen können. Dies würde natürlich viel mehr Rechenleistung benötigen, im Gegenzug dafür aber auch exakte Ergebnisse liefern.\\
+Vergleicht man die Tabelle \ref{rank} mit \ref{figure_6_1} fällt auf, dass die ermittelten Werte bezüglich der kleinsten Szenarien nur begrenzte Vorhersagekraft besitzen, sobald die Knoten unterschiedliche Geschwindigkeiten aufweisen. Die referenziell Transparenten Scheduler schneiden schlecht ab, die Backfilling- und Fit Allogrithmen besser, mit Ausnahme von SPT-Backfilling. Generell kann dieser Art der Analyse ohne weitere Untersuchungen nicht zu viel Vertrauen geschenkt werden. Der Versuch könnte zwar wiederholt werden, diesmal mit den Geschwindigkeiten der Knoten als freie Parametern. Dies könnte Ergebnisse liefern, die stärker mit den Experiment 4 bis 9 korrelieren. Es bleiben dennoch weitere Kritikpunkte. So ist nicht klar, ob die simple Formel der Größe eines Experiments, nämlich $Aufträge + Knoten + OnLine Aufträge$ ein sinnvolles Maß ist. Möglicherweise wäre die euklidische Entfernung zum $3-2-0$ Minimum eine bessere Metrik. Auch bestehen mehrere Möglichkeiten mit FiFo und FiFo-Backfilling umzugehen. Aufgrund des niedrigen Durchsatzes von FiFo könnte dieser ganz aus dem Experiment entfernt werden. Die hier getroffenen Wahlen erzielten zwar direkt ein ungeahntes hohes Maß an Korrelation, trotzdem könnten andere Entscheidungen im Versuchsaufbau und in der Auswertung auch gut begründet werden.\\
+Wahrscheinlich wurde nicht zu jedem Paar die tatsächlich kleinste Konstellation an Aufträgen gefunden. Hierfür würde sich ein traditionelles Modellchecking Werkzeug wie \emph{TLA+}, von Hillel Wayne in \emph{Practical TLA+ Planning Driven Development} vorgestellt, besser eigenen.  Dieses kann eine vollständige Breitensuche durchführen. Dies würde natürlich mehr Rechenleistung benötigen, im Gegenzug dafür aber auch exakte Ergebnisse liefern. Ein weiterer Vorteil eine Formalen Spezifikation des Clusters wäre natürlich die einfachere Reproduktion durch dritte (vgl. Kaptiel \ref{repr}).\\
 Es ist fraglich, wieweit die Methode des kleinsten Falles, in dem ein Algorithmus gegen einen anderen die Oberhand gewinnt, für die Analyse der verschiedenen Leistungen taugt. Sicherlich ist sie ein sehr nützliches Hilfsmittel, das neue Einsichten gewähren kann. Sich schnell darüber klar werden zu können, in welchen Situation ein (ausgeklügelter) Algorithmus wie das Backfilling sich selbst überlistet, ist sicherlich eine gute Möglichkeit die eigene Intuition weiterzuentwickeln. Die intuitive Vermutung, dass ''komplizierte'' Konstellationen in Experimenten seltener auftreten, scheint wahr zu sein.\\
 
 Die wichtigste Erkenntnis dieser Untersuchung ist, wie einfach es ist, Experimente zu entwerfen, in denen ein Menge an Scheduling Algorithmen eine beliebige Rangordnung zu erzielen. Daraus folgt, dass Experimente, die die Leistung verschiedener Algorithmen messen, gut motiviert seien müssen. Idealerweise sollte sich ein Versuchsaufbau also von einer Beobachtung realer Cluster und Aufträge ableiten.
