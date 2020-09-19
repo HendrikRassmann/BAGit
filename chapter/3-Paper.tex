@@ -14,5 +14,11 @@ noch ein anderes Paper dazu nehmen\\
 
 %\section{Spezifikation}
 
-%\section{Ergebnisse}
-%bla bla backfilling
+\paragraph{Utilization and predictability in scheduling the IBM SP2 with backfilling}
+von Feitelson, Dror G and Weil, Ahuva Mu'alem \cite{optVsCons} vergleicht Scheduling Methoden auf einem IBM SP2 System. Optimistisches (wrtl. aggressives) FiFo-Backfilling wird abgelehnt. Die Möglichkeit, für jeden Auftrag in der Warteliste vorherzusagen, wann dieser gestartet wird, wird in der Arbeit als wichtig erachtet. Es wird, auf wird kein ausschlaggebender Unterschied bezüglich der Auslastung zwischen beiden Algorithmen festgestellt. Außerdem wird eine neue Metrik vorgestellt.
+Die Zielfunktion wird die \emph{durchschnittliche Drosselung} (eng. \emph{slowdown}). Dabei wird die \emph{Drosselung} eines Auftrags $j$ mit $slowdown(j) = \frac{s_j - q_j}{max(p_j,10)}$ bestimmt. Dies stellt ein Maß für Fairness da. Die Wartezeit eines Auftrags soll proportional zu seiner Bearbeitungszeit sein.
+
+
+\paragraph{Attacking the bottlenecks of backfilling schedulers}
+von Keleher, Peter J and Zotkin, Dmitry and Perkovic, Dejan \cite{keleher2000attacking} untersucht Abwandelungen des Backfilling Algorithmus. Auch hier wird die Drosselung zum Ziel genommen. Der im Namen der Arbeit betitelte Flaschenhals bezeichnet nicht geschlossene Lücken, die beim konservativen Backfilling auftreten können. Die Untersuchungen wurden von der kontraintuitiven Beobachtung angestoßen, dass in echten Rechenclustern verfälschte Angaben von Bearbeitungszeiten die Gesamtleistung des Systems verbessern können. Dieses Phänomen wurde weder in der Arbeit Arndt et al. \cite{Arn99} noch in dieser Arbeit festgestellt \ref{figure_8_1}. Keleher et al. schreiben dazu, dass die Bearbeitungszeit von Aufträgen in realen Situationen selten gleichverteilt ist und dass, der Anteil an langen und großen Aufträgen normalerweise relativ klein ist.\\
+Es werden Abwandlungen vorgeschlagen, die das Backfilling weniger restriktiv handeln lassen. Es wird LPT-Backfilling untersucht und die gute Ausnutzung der Ressourcen gelobt. Auch wird zufällinges Auffüllen betrachtet. Zuletzt wird das optimistische Backfilling evaluiert. Auch hier wird eine messbare Leistungssteigerung vermerkt.
