@@ -1,18 +1,6 @@
 \chapter{Verwandte Arbeiten}
 \label{chap:related_work}
-Das in dieser Arbeit untersuchte Simulationsmodell ist grundlegend eine Reproduktion und Weiterentwicklung des in 
-\emph{A comparative study of online scheduling algorithms for networks
-of workstations}
-von Olaf Arndt, Bernd Freisleben, Thilo Kielmann and Frank Thilo vorgestellten Modells \cite{Arn99}.
-Darin wird ein Modell besprochen, \\
-bla, paper zusammenfassen\\
-noch ein anderes Paper dazu nehmen\\
-(evtl. das neue cloud computing ding mit unterbrechungen?)
-
-%\section{Versuchsaufbau}
-%Der von Arndt et al. vorgestelle Versuchsaufbau der Simulation wird in \cite{Arn99} detailliert beschrieben. Allerdings liegt keine formale Spezifikation vor. Deshalb soll hier eine high-level Deskription des vorgeschlagenen Systems gezeit werden. Diese Spezifikation wird danach von einer Simulation implementiert. Die Spezifikation wird in TLA+ (link,  quelle einfügen) aufgebaut, die Simulation als Python3 Programm modelliert.
-
-%\section{Spezifikation}
+\paragraph{A comparative study of online scheduling algorithms for networks} von Olaf Arndt, Bernd Freisleben, Thilo Kielmann und Frank Thilo \cite{Arn99} stellt die Grundlage da, auf der diese Arbeit aufbaut. Darin wird ein Simulationsmodell vorgestellt, verschiedene Scheduling Algorithmen in diversen Experimenten untersucht und die Ergebnisse an einem echten Rechencluster überprüft. Backfilling Abwandlungen werden nicht betrachtet. Es wird am meisten Wert auf Bearbeitungsspanne und längster Wartezeit gelegt. Zur Überprüfung wurde eine Auftragsliste der Länge 100, aus fünf verschiedenen Programmen zusammengesetzt.
 
 \paragraph{Utilization and predictability in scheduling the IBM SP2 with backfilling}
 von Feitelson, Dror G and Weil, Ahuva Mu'alem \cite{optVsCons} vergleicht Scheduling Methoden auf einem IBM SP2 System. Optimistisches (wrtl. aggressives) FiFo-Backfilling wird abgelehnt. Die Möglichkeit, für jeden Auftrag in der Warteliste vorherzusagen, wann dieser gestartet wird, wird in der Arbeit als wichtig erachtet. Es wird, auf wird kein ausschlaggebender Unterschied bezüglich der Auslastung zwischen beiden Algorithmen festgestellt. Außerdem wird eine neue Metrik vorgestellt.
@@ -22,3 +10,8 @@ Die Zielfunktion wird die \emph{durchschnittliche Drosselung} (eng. \emph{slowdo
 \paragraph{Attacking the bottlenecks of backfilling schedulers}
 von Keleher, Peter J and Zotkin, Dmitry and Perkovic, Dejan \cite{keleher2000attacking} untersucht Abwandelungen des Backfilling Algorithmus. Auch hier wird die Drosselung zum Ziel genommen. Der im Namen der Arbeit betitelte Flaschenhals bezeichnet nicht geschlossene Lücken, die beim konservativen Backfilling auftreten können. Die Untersuchungen wurden von der kontraintuitiven Beobachtung angestoßen, dass in echten Rechenclustern verfälschte Angaben von Bearbeitungszeiten die Gesamtleistung des Systems verbessern können. Dieses Phänomen wurde weder in der Arbeit Arndt et al. \cite{Arn99} noch in dieser Arbeit festgestellt \ref{figure_8_1}. Keleher et al. schreiben dazu, dass die Bearbeitungszeit von Aufträgen in realen Situationen selten gleichverteilt ist und dass, der Anteil an langen und großen Aufträgen normalerweise relativ klein ist.\\
 Es werden Abwandlungen vorgeschlagen, die das Backfilling weniger restriktiv handeln lassen. Es wird LPT-Backfilling untersucht und die gute Ausnutzung der Ressourcen gelobt. Auch wird zufällinges Auffüllen betrachtet. Zuletzt wird das optimistische Backfilling evaluiert. Auch hier wird eine messbare Leistungssteigerung vermerkt.
+
+\paragraph{Backfilling using system-generated predictions rather than user runtime estimates} von Tsafrir, Dan und Etsion, Yoav und Feitelson, Dror G untersucht den Zusammenhang zwischen falschen Laufzeitvorhersagen und der Leistung von Backfilling.
+Es wird dargelegt, dass überschätze Laufzeiten dazu führen, dass auftretende Lücken länger erscheinen, als sie sind. Dies erlaubt einem konservativen Backfilling Scheduler, aggressiver kurze Aufträge vorzuziehen. Daraus leitet sich eine erhöhte Leistung bezüglich der Drosselung ab. Es wird vorgeschlagen, Backfilling nach SPT einzusetzen. 
+
+\cite{tsafrir2007backfilling}
