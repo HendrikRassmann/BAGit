@@ -3,18 +3,19 @@
 Da der angehängte Programmcode die üblichen englischen Bezeichnungen verwendet, werden in dieser Arbeit auf Deutsch vorgestellte Konzepte zusätzlich zu üblicher mathematischer Notation auch immer einmal auf Englisch benannt.
 
 \section{Problemstellung}
+\label{2-problemstellung}
 
 Ein Rechencluster, bestehend aus einer Vielzahl von Knoten-Rechnern mit potenziell verschiedenen Rechenleistungen soll eine Menge von Aufträgen an Berechnungen durchführen. Die unterschiedlichen Aufträge sind dabei nicht im Voraus bekannt (OnLine Scheduling), und könnten gestartet werden, sobald sie angemeldet sind. Die Reihenfolge der Bearbeitung ist dabei nicht von Bedeutung, Aufträge hängen nicht voneinander ab. Die Aufträge sollen dabei durch eine geeignete Methode auf die Knoten aufgeteilt werden. Diese Aufteilung wird Schedule genannt. In diesem Kapitel werden Eigenschaften von Aufträgen und Knoten, sowie Kriterien zur Bemessung der Eignung der verschiedenen Methoden vorgestellt.\\
-Es wird die Notation aus dem Kapitel \emph{Scheduling Algorithms In: Handbook of Algorithms and Theory of Computation} 
-\cite{Kar97} verwendet.
+In Kapitel \ref{2-problemstellung} \ref{2-zielfunktionen} und \ref{2-schedulers} wird die Notation aus dem Kapitel \emph{Scheduling Algorithms In: Handbook of Algorithms and Theory of Computation} 
+\cite[p.~7-21]{Kar97} verwendet. Definitionen für den Scheduling Algorithmus \emph{Backfilling} und die Zielfunktion \emph{Average Waiting Time} wurden von Arndt et al. \cite[p. 96,98]{Arn99} übernommen.
 
 
 \subsection{Auftrag (Job)}
-Ein Auftrag (im Englischen "job") ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt.
+Ein Auftrag (im Englischen 'job') ist ein Prozess, der Arbeitszeit einer oder mehrerer Maschinen benötigt, um abgeschlossen zu werden. Im Folgenden werden verschieden Charakterisierungen eines Auftrags $p$ vorgestellt.
 
 \begin{description}
 \item[Feststehende Eigenschaften] \hfil \\
-\textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
+\textbf{ID}: Eine zufällige, eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
 \textbf{Bearbeitungszeit} (processing time) $p_j$: Dauer, die der Auftrag auf einem Knoten mit genormter Arbeitsgeschwindigkeit benötigt, um abgeschlossen zu werden. Diese Arbeit behandelt nicht, wie diese zuverlässig ermittelt werden können. \\
 \textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ bekannt wird.\\
 \textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden. Hierbei erfolgt eine Aufteilung der Bearbeitungszeit auf die zugewiesenen Knoten. Ein Auftrag von der Parallelität 1 wird als sequenziell bezeichnet, ansonsten wird von einem parallelen Auftrag gesprochen.\\
@@ -46,6 +47,7 @@ Diese Abbildung ist dabei nicht notwendigerweise deterministisch. Wenn zum Beisp
 Kern der Problemstellung ist das Finden von Schedulern, die ein effektives Betreiben des Systems erlauben und einfach berechenbar sind.
 
 \section{Zielfunktionen}
+\label{2-zielfunktionen}
 Bevor verschiedene Scheduler miteinander verglichen werden können, muss zuerst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sind, Fairness zwischen den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeitig eine hohe Auslastung der Knoten zu erreichen. Auch sollte, falls Attribute der Aufträge von Nutzern angegeben werden, durch gezielte falsche Angaben kein eigener Vorteil erzielbar sein. Diese Ziele sind oft unvereinbar. Beispielsweise ist es für eine geringe durchschnittliche Wartezeit nützlich, kurzen Aufträgen Vorlass zu gewähren. Dies könnte Nutzer dazu verleiten, unrealistisch kurze Laufzeiten anzugeben.
 
 \paragraph{maximum waiting time}
@@ -58,7 +60,8 @@ Die Bearbeitungsspanne ist die vergangene Zeit zwischen dem frühsten Bearbeitun
 Die durchschnittliche Wartezeit ist die summierte Wartezeit aller Aufträge.
 
 \section{Scheduling Algorithmen}
-Bei allen im folgenden vorgestellten Algorithmen wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheidet. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in die zwei Kategorien   Referenziell Transparent und Intransparent einteilen. Details dazu in \ref{chap:higher-order}.
+\label{2-schedulers}
+Bei allen im folgenden vorgestellten Algorithmen wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheidet. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in die zwei Kategorien \emph{referenziell -transparent} und \emph{intransparent} einteilen. Details dazu in \ref{chap:higher-order}.
 
 \subsection{Referenziell transparente Scheduler}
 Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hängt einzig von den Aufträgen in der Warteschlange ab, nicht vom sonstigen (eventuell unbekannten) Zustand des Systems.
