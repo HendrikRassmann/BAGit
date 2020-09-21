@@ -5,8 +5,8 @@ Da der angehängte Programmcode die üblichen englischen Bezeichnungen verwendet
 \section{Problemstellung}
 \label{2-problemstellung}
 
-Ein Rechencluster, bestehend aus einer Vielzahl von Knoten-Rechnern mit potenziell verschiedenen Rechenleistungen soll eine Menge von Aufträgen an Berechnungen durchführen. Die unterschiedlichen Aufträge sind dabei nicht im Voraus bekannt (OnLine Scheduling), und könnten gestartet werden, sobald sie angemeldet sind. Die Reihenfolge der Bearbeitung ist dabei nicht von Bedeutung, Aufträge hängen nicht voneinander ab. Die Aufträge sollen dabei durch eine geeignete Methode auf die Knoten aufgeteilt werden. Diese Aufteilung wird Schedule genannt. In diesem Kapitel werden Eigenschaften von Aufträgen und Knoten, sowie Kriterien zur Bemessung der Eignung der verschiedenen Methoden vorgestellt.\\
-In Kapitel \ref{2-problemstellung} \ref{2-zielfunktionen} und \ref{2-schedulers} wird die Notation aus dem Kapitel \emph{Scheduling Algorithms In: Handbook of Algorithms and Theory of Computation} 
+Ein Rechencluster, bestehend aus einer Vielzahl von Knoten-Rechnern mit potenziell verschiedenen Rechenleistungen soll eine Menge von Aufträgen an Berechnungen durchführen. Die unterschiedlichen Aufträge sind dabei nicht im Voraus bekannt (OnLine Scheduling), und könnten gestartet werden, sobald sie angemeldet sind. Die Reihenfolge der Bearbeitung ist dabei nicht von Bedeutung, Aufträge hängen nicht voneinander ab. Die Aufträge sollen dabei durch eine geeignete Methode auf die Knoten aufgeteilt werden. Eine Aufteilung wird Schedule genannt. In diesem Kapitel werden Eigenschaften von Aufträgen und Knoten, sowie Kriterien zur Bemessung der Eignung der verschiedenen Methoden vorgestellt.\\
+In Kapitel \ref{2-problemstellung}, \ref{2-zielfunktionen} und \ref{2-schedulers} wird die Notation aus dem Kapitel \emph{Scheduling Algorithms In: Handbook of Algorithms and Theory of Computation} 
 \cite[p.~7-21]{Kar97} verwendet. Definitionen für den Scheduling Algorithmus \emph{Backfilling} und die Zielfunktion \emph{Average Waiting Time} wurden von Arndt et al. \cite[p. 96,98]{Arn99} übernommen.
 
 
@@ -16,7 +16,7 @@ Ein Auftrag (im Englischen 'job') ist ein Prozess, der Arbeitszeit einer oder me
 \begin{description}
 \item[Feststehende Eigenschaften] \hfil \\
 \textbf{ID}: Eine zufällige, eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
-\textbf{Bearbeitungszeit} (processing time) $p_j$: Dauer, die der Auftrag auf einem Knoten mit genormter Arbeitsgeschwindigkeit benötigt, um abgeschlossen zu werden. Diese Arbeit behandelt nicht, wie diese zuverlässig ermittelt werden können. \\
+\textbf{Bearbeitungszeit} (processing time) $p_j$: Dauer, die der Auftrag auf einem Knoten mit genormter Arbeitsgeschwindigkeit benötigt, um abgeschlossen zu werden. Wie diese zuverlässig ermittelt werden können, behandelt dies Arbeit. Sie werden als gegeben angenommen. \\
 \textbf{Einreihung} (queueing time) $q_j$: Der Zeitpunkt, zu dem ein Auftrag $j$ bekannt wird.\\
 \textbf{Parallelität} (degree of parallelism) $\pi_j$: Die Anzahl an zugewiesenen Maschinen, die ein Auftrag benötigt, um gestartet zu werden. Hierbei erfolgt eine Aufteilung der Bearbeitungszeit auf die zugewiesenen Knoten. Ein Auftrag von der Parallelität 1 wird als sequenziell bezeichnet, ansonsten wird von einem parallelen Auftrag gesprochen.\\
 \item[Durch Simulation bestimmte Eigenschaften]\hfill \\ 
@@ -25,7 +25,7 @@ Ein Auftrag (im Englischen 'job') ist ein Prozess, der Arbeitszeit einer oder me
 \textbf{Zugewiesene Knoten} (scheduled on nodes) $n_j$: Die Menge an Knoten, auf denen ein Auftrag $j$ ausgeführt wird.\\
 
 \item[Weitere Eigenschaften] \hfil \\
-Darüber hinaus können Aufträge mit zusätzlichen Einschränkungen versehen werden, wie mit einen \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
+Darüber hinaus können Aufträge mit zusätzlichen Einschränkungen versehen werden, wie mit einem \textbf{Frühesten Bearbeitungsbeginn} (release date) $r_j$, oder mit einem \textbf{Spätesten Abschluss} (due date) $d_j$. Diese werden im Rahmen einer Simulation von voneinander unabhängigen Berechnungen nicht weiter untersucht.
 \end{description}
 
 \subsection{Maschinenumfeld (Machine Environment)}
@@ -34,7 +34,7 @@ Das Machine Environment, in dem die Aufträge ausgeführt werden, besteht aus ei
 \begin{description}
 	\item[Feststehende Eigenschaften] \hfil \\
 	\textbf{ID}: Eine eindeutige Identifikationsnummer. Diese kodiert keine weiteren Informationen.\\
-	\textbf{Geschwindigkeit} (speed) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $sp_k = 2$. Ein Auftrag $j'$ mit $p_{j'} = 10$ und $\pi_{j'} = 2$ benötigt $5$ Zeiteinheiten auf zwei Knoten mit $sp_{k_1, k_2} = 1$.\\
+	\textbf{Geschwindigkeit} (speed) $sp_k$: Der Geschwindigkeit, mit der ein laufender Auftrag bearbeitet wird. Ein Auftrag $j$ mit $p_j = 10$ und $\pi_j = 1$ benötigt $5$ Zeiteinheiten auf einem Knoten $k$ mit $sp_k = 2$. Ein Auftrag $j'$ mit $p_{j'} = 10$ und $\pi_{j'} = 2$ benötigt $5$ Zeiteinheiten auf zwei Knoten mit $sp_{k_1, k_2} = 1$. Nicht ganzzahlige Laufzeiten werden dabei aufgerundet.\\
 	\item[Variable Eigenschaften] \hfil \\
 	\textbf{Führt aus} (running) $R_k$: Die Menge an Aufträgen, die auf diesem Knoten ausgeführt werden. In dieser Arbeit wird wie bei Arndt et al. \cite{Arn99} nur der Spezialfall betrachtet, in dem Knoten nur einen Auftrag gleichzeitig ausführen.\\
 \end{description}
@@ -43,7 +43,7 @@ Das Machine Environment, in dem die Aufträge ausgeführt werden, besteht aus ei
 \subsection{Scheduler}
 Eine Scheduling Funktion ist eine Funktion, die eine Menge an wartenden Aufträgen auf bis zu ein (kleinstes) Element dieser Menge abbildet. Die Aufträge müssen eine totale Quasiordnung (auch  Präferenzordnung) formen, d.h. alle Elemente sind mit einander vergleichbar.
 %(einfügen Quelle mafi buch steffen evtl.)
-Diese Abbildung ist dabei nicht notwendigerweise deterministisch. Wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben (''breaking ties arbitrarily'')\cite{Kar97}. Zugunsten der Reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mit der niedrigeren ID gewählt. Aus diesem Grund muss sichergestellt werden, dass diese zufällig verteilt werden, und nicht etwa alle sequenziellen Aufträge niedrige IDs zugewiesen bekommen.\\
+Diese Abbildung ist dabei nicht notwendigerweise deterministisch. Wenn zum Beispiel der Auftrag mit der geringsten Bearbeitungszeit gewählt werden soll, kann es mehrere geeignete Kandidaten geben (''breaking ties arbitrarily'')\cite[p.~7]{Kar97}. Zugunsten der Reproduzierbarkeit von Läufen wird bei Gleichstand der Auftrag mit der niedrigeren ID gewählt. Aus diesem Grund muss sichergestellt werden, dass diese zufällig verteilt werden, und nicht etwa alle sequenziellen Aufträge niedrige IDs zugewiesen bekommen.\\
 Kern der Problemstellung ist das Finden von Schedulern, die ein effektives Betreiben des Systems erlauben und einfach berechenbar sind.
 
 \section{Zielfunktionen}
@@ -51,7 +51,7 @@ Kern der Problemstellung ist das Finden von Schedulern, die ein effektives Betre
 Bevor verschiedene Scheduler miteinander verglichen werden können, muss zuerst festgelegt werden, mit welchem Maß gemessen werden soll. Die Ziele eines Schedulers sind, Fairness zwischen den Aufträgen zu garantieren, einen schnellen Start von Aufträgen zur ermöglichen und gleichzeitig eine hohe Auslastung der Knoten zu erreichen. Auch sollte, falls Attribute der Aufträge von Nutzern angegeben werden, durch gezielte falsche Angaben kein eigener Vorteil erzielbar sein. Diese Ziele sind oft unvereinbar. Beispielsweise ist es für eine geringe durchschnittliche Wartezeit nützlich, kurzen Aufträgen Vorlass zu gewähren. Dies könnte Nutzer dazu verleiten, unrealistisch kurze Laufzeiten anzugeben.
 
 \paragraph{maximum waiting time}
-Die Wartezeit eines Auftrags $j$ wird definiert als die Zeitspanne zwischen Einreihung $q_j$ und Abschluss $c_j$. Die größte Wartezeit verhält sich umgekehrt zur Fairness eines Schedulers.
+Die Wartezeit eines Auftrags $j$ wird definiert als die Zeitspanne zwischen Einreihung $q_j$ und Abschluss $c_j$. Je größer die längste Wartezeit, desto geringer die Fairness eines Schedulers.
 
 \paragraph{Makespan}
 Die Bearbeitungsspanne ist die vergangene Zeit zwischen dem frühsten Bearbeitungsbeginn und dem spätesten Abschluss.
@@ -61,7 +61,7 @@ Die durchschnittliche Wartezeit ist die summierte Wartezeit aller Aufträge.
 
 \section{Scheduling Algorithmen}
 \label{2-schedulers}
-Bei allen im folgenden vorgestellten Algorithmen wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheidet. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in die zwei Kategorien \emph{referenziell -transparent} und \emph{intransparent} einteilen. Details dazu in \ref{chap:higher-order}.
+Bei allen im folgenden vorgestellten Algorithmen wird der beste Auftrag ausgewählt, wobei sich das Kriterium dafür, welcher als bester bewertet wird, unterscheidet. Erfüllen mehrere Aufträge das Kriterium gleich gut, wird davon einer arbiträr ausgewählt. Die Algorithmen lassen sich dabei in die zwei Kategorien \emph{referenziell -transparent} und \emph{intransparent} einteilen. Details dazu in Kapitel \ref{chap:higher-order}.
 
 \subsection{Referenziell transparente Scheduler}
 Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hängt einzig von den Aufträgen in der Warteschlange ab, nicht vom sonstigen (eventuell unbekannten) Zustand des Systems.
@@ -70,10 +70,10 @@ Die Wahl des nächsten Auftrags eines referenziell transparenten Schedulers hän
 \textbf{First in First out} (im Folgenden FiFo) wählt zu jedem Zeitpunkt denjenigen Auftrag, der sich bereits am längsten in der Warteschlange befindet. Stehen nicht genug Knoten zur Verfügung, um diesen Auftrag zu starten, müssen alle anderen Aufträge warten. Dieses Verfahren ist zwar fair, führt allerdings zu viel ungenutzter Rechenzeit.
 
 \paragraph{SPT}
-\textbf{Shortest Processing Time first} wählt den Auftrag mit der die kürzesten angegebene Bearbeitungszeit. Dadurch wird versucht, die average waiting time gering zu halten. Darunter leidet die Fairness, und die maximum waiting time eines nach hinten verdrängten langen Auftrags steigt.
+\textbf{Shortest Processing Time first} wählt den Auftrag mit der die kürzesten angegebene Bearbeitungszeit. Dadurch wird versucht, die \emph{average waiting time} gering zu halten. Darunter leidet die Fairness, und die \emph{maximum waiting time} eines nach hinten verdrängten langen Auftrags steigt.
 
 \paragraph{GPT}
-\textbf{Greatest Processing Time first} wählt genau invers zu SPT den Auftrag mit der längsten angegebenen Bearbeitungszeit aus. Dadurch wird die Bearbeitungsspanne (makespan) zu Gunsten des der durchschnittlichen Systemzeit (average flow time) minimiert.
+\textbf{Greatest Processing Time first} wählt genau invers zu SPT den Auftrag mit der längsten angegebenen Bearbeitungszeit aus. Dadurch wird die Bearbeitungsspanne (makespan) zu Gunsten des der durchschnittlichen Systemzeit (\emph{average flow time}) minimiert.
 
 \subsection{Referenziell intransparente Scheduler}
 Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie etwa dem Zustand der Knoten, oder vom Zustand anderer parallel laufender Aufträge. In einem realen verteilten System kann dies zu Problemen führen, wenn der globale Zustand nicht oder nur schwer ermittelt werden kann.
@@ -85,12 +85,12 @@ Diese Auswahl dieser Scheduler hängt zusätzlich von äußeren Faktoren ab, wie
 \textbf{Backfilling} ist eine weitere Abwandlung von FiFo. Zuerst wird der Auftrag bestimmt, der bereits am längsten wartet. Sollte dieser nicht gestartet werden können, dürfen andere Aufträge gestartet werden, vorausgesetzt, sie werden früher abgeschlossen, als der zuerst gewählte Auftrag beginnen wird. So wird ungenutzte Rechenzeit vermieden, ohne dass lange große Aufträge im Vergleich zu FiFo benachteiligt werden.
 
 \paragraph{Random}
-\textbf{Random} wählt immer einen zufälligen Auftrag aus. Kann dieser nicht gestartet werden, so wird kein Auftrag gestartet.
+\textbf{Random} wählt immer einen zufälligen Auftrag aus. Kann dieser nicht gestartet werden, so wird kein Auftrag gestartet. In dieser Simulation ist dies dazu äquivalent, den Auftrag mit der geringsten ID auszuwählen, da diese völlig zufällig vergeben werden.
 
 \section{Simulation}
 
 \subsection{Discrete Event Simulation}
-Soll ein System zu diskreten Zeitpunkten simuliert werden, stehen die drei in \emph{Introduction to discrete-event simulation and the simpy language} beschriebenen Paradigmen zur Auswahl \cite{SimPy}.
+Soll ein System zu diskreten Zeitpunkten simuliert werden, stehen die drei in \emph{Introduction to discrete-event simulation and the simpy language} beschriebenen Paradigmen zur Auswahl \cite[p.~3-6]{SimPy}.
 \label{paradigma}
 \paragraph{Aktivitätsorientiert}
 \label{activity}
@@ -105,7 +105,7 @@ Dies modularisiert das Simulationsprogramm. Allerdings wird auch Kontrolle abgeg
 
 
 \subsection{Statistisches Auswerten}
-Um für die Auswertung stabile Werte zu erzielen, müssen die Ergebnisse mehrerer Simulationsläufe verwendet werden. In der Regel werden dazu die verschiedenen Maßzahlen wie Bearbeitungsspanne, Systemzeit etc., arithmetisch von 50 bis 100 Läufen gemittelt. Bei diesen Zahlen handelt es sich um einen Erfahrungswert. Manche Experimente erfordern mehr oder weniger Läufe (vgl. \emph{Reasoning under Uncertainty} \cite{SimUncertainty}). Dabei wird jeder Auftragsmix einmal mit jedem betrachteten Scheduling Algorithmus abgearbeitet. Mitunter entstehen S-Kurven, oder andere Kurven, die stellenweise konstant sind. Für diese werden manchmal mehr Läufe, mit Parametern der ''interessanten'' Stellen simuliert.
+Um für die Auswertung stabile Werte zu erzielen, müssen die Ergebnisse mehrerer Simulationsläufe verwendet werden. In der Regel werden dazu die verschiedenen Maßzahlen wie Bearbeitungsspanne, Systemzeit etc., arithmetisch von 50 bis 100 Läufen gemittelt. Bei diesen Zahlen handelt es sich um einen Erfahrungswert. Manche Experimente erfordern mehr oder weniger Läufe (vgl. \emph{Reasoning under Uncertainty} \cite{SimUncertainty}). Dabei wird jeder Auftragsmix einmal mit jedem betrachteten Scheduling Algorithmus abgearbeitet. Mitunter entstehen S-Kurven, oder andere Kurven, die stellenweise konstant sind. Für diese werden manchmal mehr Läufe, mit Parametern der 'interessanten' Stellen simuliert.
 
 
 
