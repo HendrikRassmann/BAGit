@@ -16,7 +16,8 @@
 
 
 
-\title{Pr\"asentation Bachelor Arbeit}
+\title{Pr\"asentation Bachelor Arbeit:\\
+ Simulation von Online Scheduling-Algorithmen f\"ur parallele Systeme}
 % \subtitle{Learning to Identify Similarities between Mathematical Expressions}
 \author{Hendrik Rassmann}
 
@@ -30,33 +31,61 @@
 
 \maketitle
 
-\begin{frame}{Übersicht}
+\begin{frame}{\"Ubersicht}
 \tableofcontents
 \end{frame}
 
 
+\begin{frame}[fragile]{Startpunkt}
 
+\begin{columns}
+	\begin{column}{0.57\paperwidth}
+		\vspace{0.5pt}
+		\includegraphics[width=\linewidth, clip]{images/Arndt}
+	\end{column}
+	\begin{column}[c]{0.43\paperwidth}
+		\begin{itemize}
+			\item \alert{Network}
+			\item \alert{Online}
+			\item \alert{Experiments} ... \alert{confirm}
+		\end{itemize}
+	\end{column}
+\end{columns}
+\end{frame}
 \section{Problemstellung}
 
 
 \begin{frame}[t,fragile]{Problemstellung}
-\begin{itemize}
-	\item Ausgehend von
+Ausgehend von:
+
+\begin{itemize}[<+->]
 	\item Rechner/\emph{Nodes} unterschiedlicher \emph{Geschwindigkeiten} bilden zusammen ein (Rechen)\emph{Cluster} 
-	\item Aufträge/\emph{Jobs} kommen im laufenden Betrieb rein (\emph{online})
-	\item Aufträge unterscheiden sich bez. \emph{Bearbeitungszeit}, \emph{Anzahl} an benötigten Knoten und \emph{Ankunftszeitpunkt}
-	\item Aufträge sollen auf eine 'geeignete' Art und Weise bearbeitet werden
+	\item Auftr\"age/\emph{Jobs} kommen im laufenden Betrieb rein (\emph{online})
+	\item Auftr\"age unterscheiden sich bez. \emph{Bearbeitungszeit}, \emph{Anzahl} an ben\"otigten Knoten und \emph{Ankunftszeitpunkt}
+	\item Auftr\"age sollen auf eine 'geeignete' Art und Weise bearbeitet werden
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}[t,fragile]{Zielfunktionen}
-\begin{itemize}
-	\item \
+\begin{frame}[t,fragile]{Zielfunktionen \footnote{Kriterien von Arndt. et al.}}
+\begin{itemize}[<+->]
+	\item \emph{makespan} ''Zeit bis Feierabend''
+	\item \emph{average flow time} ''Supermarkt - Nur der Apfel? Gehen Sie doch gerne vor''
+	\item \emph{average waiting time} 	
+	\item \emph{maximum waiting time} ''Restaurant - Wenn ein Tisch nicht bedient wird, kommen G\"aste nicht mehr wieder''
 \end{itemize}
 \end{frame}
-\begin{frame}[t,fragile]{Algorithmen}
+\begin{frame}[t,fragile]{Scheduling Algorithmen}
 lorem
+\end{frame}
+
+\begin{frame}[t, fragile]{Scheduling-Algorithmen \footnote{Auswahl von Arndt. et al.}}
+\begin{itemize}[<+->]
+	\item First in First out (\emph{FiFo})
+	\item Shortest Processing Time first (\emph{SPT})
+	\item Greates Processing Time first (\emph{GPT})
+\end{itemize}
+
 \end{frame}
 
 \section{Simulationsaufbau}
