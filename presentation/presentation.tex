@@ -91,9 +91,6 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 
 
 
-\begin{frame}[t,fragile]{Beispiel}
-\end{frame}
-
 %\includegraphics[page=1, scale=0.4]{SchedulingBeispiel.pdf}
 \setbeamercolor{background canvas}{bg=}
 \includepdf[pages=2-]{SchedulingBeispiel.pdf}
@@ -105,6 +102,12 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	\item \alert{Backfilling} (W\"ahle einen startbaren Auftrag, der wenn er jetzt gestartet wird, terminiert bevor der am l\"angsten wartende Auftrag starten wird)
 \end{itemize}
 \end{frame}
+
+\begin{frame}[t, fragile]{Beispiel Backfilling}
+\end{frame}
+\setbeamercolor{background canvas}{bg=}
+\includepdf[pages=-]{SchedulingBeispiel2.pdf}
+
 
 \section{Simulationsaufbau}
 
@@ -125,6 +128,24 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 		\item Variieren einen Parameter und vergleichen gew\"ahlte Zielfunktionen
 	\end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Beispiel}
+
+\begin{columns}
+	\begin{column}{0.57\paperwidth}
+		\vspace{0.5pt}
+		\includegraphics[width=\linewidth, clip]{images/Figure_2_2}
+	\end{column}
+	\begin{column}[c]{0.43\paperwidth}
+		\begin{itemize}
+			\item timespan - Sp\"atester Ankunftszeitpunkt wird variiert
+			\item Latenz am besten bei FiFo
+			\item An beiden Extremen \"ahnliches Verhalten
+		\end{itemize}
+	\end{column}
+\end{columns}
+\end{frame}
+
 %-------------------------------------------
 \section{Outlook}
 \begin{frame}{Outlook}
