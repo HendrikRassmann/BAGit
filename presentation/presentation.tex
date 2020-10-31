@@ -5,6 +5,7 @@
 \usepackage{appendixnumberbeamer}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{pdfpages}
 \input{colors}
 
 % \usepackage{beamerthememetropolis}
@@ -30,6 +31,7 @@
 
 
 \maketitle
+\Large
 
 \begin{frame}{\"Ubersicht}
 \tableofcontents
@@ -87,15 +89,41 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t, fragile]{Scheduling-Algorithmen (Referentiell Intransparent)}
-	content...
-\end{frame}
+
 
 \begin{frame}[t,fragile]{Beispiel}
 \end{frame}
 
+%\includegraphics[page=1, scale=0.4]{SchedulingBeispiel.pdf}
+\setbeamercolor{background canvas}{bg=}
+\includepdf[pages=2-]{SchedulingBeispiel.pdf}
+
+\begin{frame}[t, fragile]{Scheduling-Algorithmen (Referentiell Intransparent)}
+\begin{itemize}[<+->]
+	\item Random
+	\item \alert{First Fit} (W\"ahle den am l\"angsten wartende Auftrag, der sofort gestartet werden kann)
+	\item \alert{Backfilling} (W\"ahle einen startbaren Auftrag, der wenn er jetzt gestartet wird, terminiert bevor der am l\"angsten wartende Auftrag starten wird)
+\end{itemize}
+\end{frame}
+
 \section{Simulationsaufbau}
 
+\begin{frame}[t, fragile]{Simulations Paradigma\footnote{Matloff, Norm: Introduction to discrete-event simulati-
+		on and the simpy language. In: Davis, CA. Dept of Com-
+		puter Science. University of California at Davis. Retrieved on
+		August 2 (2008), Nr. 2009, S. 1–33}}
+	\begin{itemize}
+		\item Aktivit\"atsorientiert (Wettersystem, Physik Simulation in Videospielen)
+		\item \alert{Ereignisorientiert} (Fahrplan)
+		\item Prozessorientiert (Parallele Programmierung)
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Simulation und Auswertung}
+	\begin{itemize}
+		\item Arndt et al. \alert{designen Experimente}, um unterschiedliches Verhalten der Algorithmen zu demonstrieren
+	\end{itemize}
+\end{frame}
 %-------------------------------------------
 \section{Outlook}
 \begin{frame}{Outlook}
