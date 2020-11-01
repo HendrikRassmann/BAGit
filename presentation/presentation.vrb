@@ -1,16 +1,9 @@
-\frametitle{PBT-Score}
-
-\begin{columns}
-	\begin{column}{0.57\paperwidth}
-		\vspace{0.5pt}
-		\includegraphics[width=\linewidth, clip]{images/SchedulerX.png}
-	\end{column}
-	\begin{column}[c]{0.43\paperwidth}
-		\begin{itemize}
-			\item 250 Auftr\"age,1-50 k s Bearbeitungszeit
-			\item 10 Knoten
-			\item timespan - Sp\"atester Ankunftszeitpunkt wird variiert
-			\item Mittel von 100 L\"aufen
-		\end{itemize}
-	\end{column}
-\end{columns}
+\frametitle{Konklusion}
+\begin{itemize}
+		\item Funktionale Sichtweise n\"utzlich
+		\item PBT n\"utzlich, (fast) umsonst
+		\item Zu jedem Ergebnis ist ein Experiment generierbar
+		\item Deshalb problematisch, Algorithmen in beliebigen Situationen zu vergleichen
+		\item Experimente m\"ussen aus der Realit\"at abgeleitet werden
+		\item Algorithmen k\"onnen ohnke konkreten Fall verglichen werden
+	\end{itemize}

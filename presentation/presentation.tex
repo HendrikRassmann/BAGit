@@ -113,24 +113,23 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 \includepdf[pages=-]{SchedulingBeispiel2.pdf}
 
 
-\section{Simulationsaufbau}
-
-\begin{frame}[t, fragile]{Simulations Paradigma\footnote{Matloff, Norm: Introduction to discrete-event simulati-
-		on and the simpy language. In: Davis, CA. Dept of Com-
-		puter Science. University of California at Davis. Retrieved on
-		August 2 (2008), Nr. 2009, S. 1–33}}
-	\begin{itemize}
-		\item Aktivit\"atsorientiert (Wettersystem, Physik Simulation in Videospielen)
-		\item \alert{Ereignisorientiert} (Fahrplan)
-		\item Prozessorientiert (Parallele Programmierung)
-	\end{itemize}
-\end{frame}
+%\section{Simulationsaufbau}
+%\begin{frame}[t, fragile]{Simulations Paradigma\footnote{Matloff, Norm: Introduction to discrete-event simulati-
+%		on and the simpy language. In: Davis, CA. Dept of Com-
+%		puter Science. University of California at Davis. Retrieved on
+%		August 2 (2008), Nr. 2009, S. 1–33}}
+%	\begin{itemize}
+%		\item Aktivit\"atsorientiert (Wettersystem, Physik Simulation in Videospielen)
+%		\item \alert{Ereignisorientiert} (Fahrplan)
+%		\item Prozessorientiert (Parallele Programmierung)
+%	\end{itemize}
+%\end{frame}
 
 \begin{frame}[t, fragile]{Simulation und Auswertung}
 	\begin{itemize}
 		\item Arndt et al. \alert{designen 10 Experimente}, um unterschiedliches Verhalten der Algorithmen zu demonstrieren
 		\item Variieren einen Parameter und vergleichen gew\"ahlte Zielfunktionen
-		\item ''Bester Algorithmus'' wird \alert{qualitativ} bestimmt.
+		\item ''Bester Algorithmus'' wird \alert{qualitativ} bestimmt. Make span am wichtigsten
 	\end{itemize}
 \end{frame}
 
@@ -155,12 +154,12 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 \section{Eigene Untersuchungen}
 
 \begin{frame}[t,fragile]{Optimistic Backfilling}
-	W\"ahle den am l\"angsten wartenden Auftrag, falls startbar. Sonst w\"ahle einen Auftrag, der terminiert, bevor FiFo startet, oder einen Auftrag, der weniger Knoten ben\"otigt, als \"ubrig bleiben werden, wenn FiFo startet.
+	W\"ahle den am l\"angsten wartenden Auftrag, falls startbar. Sonst w\"ahle einen Auftrag, der terminiert, bevor FiFo startet, ODER einen Auftrag, der weniger Knoten ben\"otigt, als \"ubrig bleiben werden, wenn FiFo startet.
 \end{frame}
 
 \begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
 \begin{itemize}[<+->]
-	\item Gibt es einen Fall, in dem sich dies negativ auf die maximum latenes auswirkt?
+	\item Gibt es einen Fall, in dem sich dies negativ auf die maximum lateness auswirkt?
 	\item \begin{verbatim}
 	Is fifo\_optimistic allways better than
 	fifo\_backfill by maximumLateness?
@@ -195,9 +194,31 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 \end{verbatim}
 \end{frame}
 
+\begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
+	\begin{itemize}[<+->]
+		\item make span Konservatives Backfilling 29\% l\"anger
+		\item 4 Auftr\"age, 1 davon online, 3 Knoten
+		\item Konservativ schlechter Optimistisch:\\
+		4 Auftr\"age, 2 davon online, 3 Knoten
+		\item Kompliziertere Konstellationen sind (vermutlich) seltener
+		\item Vergleich mit Simulation: In ein paar Folien
+	\end{itemize} 
+\end{frame}
+
 \begin{frame}[t, fragile]{Konservativ vs Optimistisch}
 	\begin{itemize}
-		\item Hier Paper Referenz einfügen
+		\item Utilization and Predictability in Scheduling the IBM SP2 with Backfilling
+		\footnote{Feitelson, Dror G. ; Weil, Ahuva M.: Utilization and pre-
+			dictability in scheduling the IBM SP2 with backfilling. In:
+			Proceedings of the First Merged International Parallel Proces-
+			sing Symposium and Symposium on Parallel and Distributed
+			Processing IEEE, 1998, S. 542–546}:\\
+		''Results are that the performance (...) are practically identical''
+		\item Attacking the bottlenecks of backfilling schedulers\footnote{Keleher, Peter J. ; Zotkin, Dmitry ; Perkovic, Dejan: At-
+			tacking the bottlenecks of backfilling schedulers. In: Clus-
+			ter Computing 3 (2000), Nr. 4, S. 245–254}:\\
+		''This implies that there is significant difference between normalized distributions of job runtime estimates, and actual
+		running times.''
 	\end{itemize}
 \end{frame}
 
@@ -245,31 +266,50 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	\item ''-Fit'': Smallest-Fit, Greatest-Fit
 	\item Backfilling: Smallest-Backfill, Greatest-Backfill
 	\item Optimistisches Backfilling nach Smallest,Greatest
-	\item Backfilling nach zwei Funktionen; W\"ahle besten Kandidaten nach Funktion 1, falls nicht startbar, w\"ähle nach Funktion 2, ohne besten Kandidaten zu benachteiligen
-	\item Analog für Optimistisches Backfilling
+	\item Backfilling nach zwei Funktionen; W\"ahle besten Kandidaten nach Funktion 1, falls nicht startbar, w\"ahle nach Funktion 2, ohne besten Kandidaten zu benachteiligen
+	\item Analog f\"ur Optimistisches Backfilling
 \end{itemize}
+\end{frame}
+\begin{frame}[t, fragile]{Vergleich mit Simulation}
+	\begin{columns}
+		\begin{column}{0.5\paperwidth}
+			\vspace{0.5pt}
+			\includegraphics[width=\linewidth, clip]{images/Figure_5_1}
+		\end{column}
+		\begin{column}[c]{0.5\paperwidth}
+			\includegraphics[width=\linewidth, clip]{images/Figure_5_2}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \begin{frame}[t,fragile]{Qualitative Analyse nicht mehr M\"oglich}
-	content...
+	\begin{itemize}
+		\item In allen Kombinationen 80 Scheduling Algorithmen
+		\item Zu jedem Ergebnis l\"asst sich ein passendes Experiment finden
+		\item Algorithmen ohne konkretes Experiment vergleichen?
+	\end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{PBT-Score}
-
-\begin{columns}
-	\begin{column}{0.57\paperwidth}
 		\vspace{0.5pt}
 		\includegraphics[width=\linewidth, clip]{images/SchedulerX.png}
-	\end{column}
-	\begin{column}[c]{0.43\paperwidth}
-		\begin{itemize}
-			\item Vergleich einfügen
-		\end{itemize}
-	\end{column}
-\end{columns}
+\end{frame}
+\begin{frame}[fragile]{PBT-Score\footnote{Rangkorrelations nach Spearman: -0.92 wenn mit Experiment 6 von Artndt et al. verglichen}}
+\vspace{0.5pt}
+\includegraphics[width=\linewidth, clip]{images/SchedulerXScore.png}
 \end{frame}
 
 \section{Konklusion}
+\begin{frame}[t,fragile]{Konklusion}
+	\begin{itemize}
+		\item Funktionale Sichtweise n\"utzlich
+		\item PBT n\"utzlich, (fast) umsonst
+		\item Zu jedem Ergebnis ist ein Experiment generierbar
+		\item Deshalb problematisch, Algorithmen in beliebigen Situationen zu vergleichen
+		\item Experimente m\"ussen aus der Realit\"at abgeleitet werden
+		\item Algorithmen k\"onnen ohnke konkreten Fall verglichen werden
+	\end{itemize}
+\end{frame}
 
 %-------------------------------------------
 \end{document}
