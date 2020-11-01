@@ -6,6 +6,9 @@
 \usepackage{graphicx}
 \usepackage{url}
 \usepackage{pdfpages}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{wasysym}
 \input{colors}
 
 % \usepackage{beamerthememetropolis}
@@ -100,6 +103,7 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	\item Random
 	\item \alert{First Fit} (W\"ahle den am l\"angsten wartende Auftrag, der sofort gestartet werden kann)
 	\item \alert{Backfilling} (W\"ahle einen startbaren Auftrag, der wenn er jetzt gestartet wird, terminiert bevor der am l\"angsten wartende Auftrag starten wird)
+	\item \alert{Sichtweise der Funktionalen Programmierung}: FirstFit, Backfilling sind $FiFo ( Filter (Warteschlange))$
 \end{itemize}
 \end{frame}
 
@@ -126,6 +130,7 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	\begin{itemize}
 		\item Arndt et al. \alert{designen 10 Experimente}, um unterschiedliches Verhalten der Algorithmen zu demonstrieren
 		\item Variieren einen Parameter und vergleichen gew\"ahlte Zielfunktionen
+		\item ''Bester Algorithmus'' wird \alert{qualitativ} bestimmt.
 	\end{itemize}
 \end{frame}
 
@@ -149,49 +154,122 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 
 \section{Eigene Untersuchungen}
 
-%-------------------------------------------
-\section{Outlook}
-\begin{frame}{Outlook}
-\Large
-The font size should be as large as possible
-\begin{itemize}
-\item \textit{Never smaller than the age of the oldest audience member}
-\item Don't vary sizes to much, never within a slide
-\item Stick to one font
-\item Don't overuse formatting like bold, italics, alert, etc.
-\end{itemize}
-But you knew all that already...
+\begin{frame}[t,fragile]{Optimistic Backfilling}
+	W\"ahle den am l\"angsten wartenden Auftrag, falls startbar. Sonst w\"ahle einen Auftrag, der terminiert, bevor FiFo startet, oder einen Auftrag, der weniger Knoten ben\"otigt, als \"ubrig bleiben werden, wenn FiFo startet.
 \end{frame}
 
-\begin{frame}[t,fragile]{Querying Data used to be simple...}
-\begin{itemize}
-	\item Tutorial for Beamer \url{https://www.overleaf.com/learn/latex/Beamer_Presentations:_A_Tutorial_for_Beginners_(Part_1)%E2%80%94Getting_Started}
-		\item Quelle Template: \url{https://github.com/matze/mtheme}
-		\item Quelle Bild: \url{https://unsplash.com/photos/52gEprMkp7M}
+\begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
+\begin{itemize}[<+->]
+	\item Gibt es einen Fall, in dem sich dies negativ auf die maximum latenes auswirkt?
+	\item \begin{verbatim}
+	Is fifo\_optimistic allways better than
+	fifo\_backfill by maximumLateness?
+	No! counterexample:
+	queueintT, processingT, realProcessingT, degreeOfParallelism
+	id: 0, qT: 1, pT: 3, rPT: 3, doP: 1
+	id: 1, qT: 0, pT: 3, rPT: 3, doP: 2
+	id: 2, qT: 0, pT: 1, rPT: 1, doP: 2
+	id: 3, qT: 0, pT: 1, rPT: 1, doP: 3
+	\end{verbatim}
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
+\small
+\begin{verbatim}	
+	queueintT, processingT, realProcessingT, degreeOfParallelism
+	id: 0, qT: 1, pT: 3, rPT: 3, doP: 1
+	id: 1, qT: 0, pT: 3, rPT: 3, doP: 2
+	id: 2, qT: 0, pT: 1, rPT: 1, doP: 2
+	id: 3, qT: 0, pT: 1, rPT: 1, doP: 3
+
+	maximumLateness of fifo\_optimistic: 4
+	[0]:112|-3
+	[1]:112|-3
+	[2]:-00|03
+	
+	maximumLateness of fifo\_backfill: 3
+	[0]:112|3--|-
+	[1]:11-|300|0
+	[2]:--2|3--|-
+\end{verbatim}
+\end{frame}
+
+\begin{frame}[t, fragile]{Konservativ vs Optimistisch}
+	\begin{itemize}
+		\item Hier Paper Referenz einfügen
 	\end{itemize}
 \end{frame}
 
-\begin{frame}[fragile]{How about a very large image?}
+\begin{frame}[t,fragile]{Gegenbeispiele Automatisch Finden}
+	\begin{itemize}
+		\item \alert{Anschauliche} Beispiele, in denen verschd. Algorithmen verschd. Entscheidungen treffen, helfen Intuition aufzubauen
+		\item Idealerweise ''For Free'' aus dem Simulationsmodell ableitbar, ohne das Modell zu \"ubersetzten 
+		\item L\"osung: \alert{Property Based Testing}
+	\end{itemize}
+\end{frame}
+\begin{frame}[t,fragile]{Property Based Testing \footnote{Hughes, John ; Claessen, Koen: Quickcheck: a light-
+		weight tool for random testing of haskell programs. In:
+		Proceedings of the Fifth ACM SIGPLAN International Confe-
+		rence on Functional Programming, ICFP, 2000, S. 268–279}}
+	\begin{itemize}
+		\item Eigenschaft einer Funktion, die immer gelten soll
+		\item Zuf\"allige Eingaben ausprobiert, bis Eigenschaft verletzt wird
+		\item Beispiel verkleinern (shrinking) 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Beispiel}
+\begin{itemize}
+
+	\item Funktion: \emph{reverse}
+	\item Eigenschaft: $reverse(x) == x$
+	\item Zuf\"allige Eingaben: [] , [1], [2,2], [4,2]\lightning
+	\item Verkleinern: 2 M\"oglichkeiten: Element l\"oschen oder Element verkleinern. 
+	\item Verkleiern (l\"oschen): [4,2] $\rightarrow$ [4] \lightning
+	\item Element Verkleinern: [4,2] $\rightarrow$ [1,2] $\rightarrow$ ... $\rightarrow$ [0,1]
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Neue M\"oglichkeiten}
+\begin{itemize}
+	\item Testen der Implementation: FiFo nie besser als Konservatives Backfilling
+	\item Beliebig Eigenschaften Aufbauen: besser nach mehreren Zielfunktionen.
+	\item Monotonit\"at: System trifft bessere Entscheidungen, mit mehr Informationen: Fr\"uhere Ankuntszeiten $\implies$ nicht schlechtere Performance
+	\item Schneller Aufbau von Intuition bez. neuer Algorithmen
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t, fragile]{Neue Algorithmen}
+\begin{itemize}
+	\item ''-Fit'': Smallest-Fit, Greatest-Fit
+	\item Backfilling: Smallest-Backfill, Greatest-Backfill
+	\item Optimistisches Backfilling nach Smallest,Greatest
+	\item Backfilling nach zwei Funktionen; W\"ahle besten Kandidaten nach Funktion 1, falls nicht startbar, w\"ähle nach Funktion 2, ohne besten Kandidaten zu benachteiligen
+	\item Analog für Optimistisches Backfilling
+\end{itemize}
+\end{frame}
+
+\begin{frame}[t,fragile]{Qualitative Analyse nicht mehr M\"oglich}
+	content...
+\end{frame}
+
+\begin{frame}[fragile]{PBT-Score}
 
 \begin{columns}
 	\begin{column}{0.57\paperwidth}
 		\vspace{0.5pt}
-		\includegraphics[width=\linewidth, clip]{images/city}
+		\includegraphics[width=\linewidth, clip]{images/SchedulerX.png}
 	\end{column}
 	\begin{column}[c]{0.43\paperwidth}
 		\begin{itemize}
-			\item Itemize Environments are important
-			\item We can \alert{highlight} words
-			\pause
-			\item We can add animations.\\(please don't over-do it)
+			\item Vergleich einfügen
 		\end{itemize}
 	\end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}[t,standout]
-\Large
-Clever Last Words to Stimulate Discussion
-\end{frame}
+\section{Konklusion}
 
+%-------------------------------------------
 \end{document}

@@ -1,16 +1,16 @@
-\frametitle{How about a very large image?}
+\frametitle{PBT-Score}
 
 \begin{columns}
 	\begin{column}{0.57\paperwidth}
 		\vspace{0.5pt}
-		\includegraphics[width=\linewidth, clip]{images/city}
+		\includegraphics[width=\linewidth, clip]{images/SchedulerX.png}
 	\end{column}
 	\begin{column}[c]{0.43\paperwidth}
 		\begin{itemize}
-			\item Itemize Environments are important
-			\item We can \alert{highlight} words
-			\pause
-			\item We can add animations.\\(please don't over-do it)
+			\item 250 Auftr\"age,1-50 k s Bearbeitungszeit
+			\item 10 Knoten
+			\item timespan - Sp\"atester Ankunftszeitpunkt wird variiert
+			\item Mittel von 100 L\"aufen
 		\end{itemize}
 	\end{column}
 \end{columns}
