@@ -1,9 +1,9 @@
 \frametitle{Konklusion}
-\begin{itemize}
+\begin{itemize}[<+->]
 		\item Funktionale Sichtweise n\"utzlich
 		\item PBT n\"utzlich, (fast) umsonst
 		\item Zu jedem Ergebnis ist ein Experiment generierbar
-		\item Deshalb problematisch, Algorithmen in beliebigen Situationen zu vergleichen
-		\item Experimente m\"ussen aus der Realit\"at abgeleitet werden
+		\item Algorithmen in beliebigen Situationen vergleichen problematisch
+		\item Experimente aus der Realit\"at ableiten
 		\item Algorithmen k\"onnen ohnke konkreten Fall verglichen werden
 	\end{itemize}

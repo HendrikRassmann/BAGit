@@ -32,6 +32,7 @@
 
 \begin{document}
 
+\setbeamercovered{transparent}
 
 \maketitle
 \Large
@@ -67,17 +68,16 @@ Ausgehend von:
 	\item Rechner/\emph{Nodes} unterschiedlicher \emph{Geschwindigkeiten} bilden zusammen ein (Rechen)\emph{Cluster} 
 	\item Auftr\"age/\emph{Jobs} kommen im laufenden Betrieb rein (\emph{online})
 	\item Auftr\"age unterscheiden sich bez. \emph{Bearbeitungszeit}, \emph{Anzahl} an ben\"otigten Knoten und \emph{Ankunftszeitpunkt}
-	\item Auftr\"age sollen auf eine 'geeignete' Art und Weise bearbeitet werden
 \end{itemize}
 \end{frame}
 
 
 \begin{frame}[t,fragile]{Zielfunktionen \footnote{Kriterien von Arndt. et al.}}
 \begin{itemize}[<+->]
-	\item \emph{makespan} ''Zeit bis Feierabend''
-	\item \emph{average flow time} ''Supermarkt - Nur der Apfel? Gehen Sie doch gerne vor''
+	\item \emph{makespan}
+	\item \emph{average flow time}
 	\item \emph{average waiting time} 	
-	\item \emph{maximum waiting time} ''Restaurant - Wenn ein Tisch nicht bedient wird, kommen G\"aste nicht mehr wieder''
+	\item \emph{maximum waiting time}
 \end{itemize}
 \end{frame}
 
@@ -103,7 +103,7 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	\item Random
 	\item \alert{First Fit} (W\"ahle den am l\"angsten wartende Auftrag, der sofort gestartet werden kann)
 	\item \alert{Backfilling} (W\"ahle einen startbaren Auftrag, der wenn er jetzt gestartet wird, terminiert bevor der am l\"angsten wartende Auftrag starten wird)
-	\item \alert{Sichtweise der Funktionalen Programmierung}: FirstFit, Backfilling sind $FiFo ( Filter (Warteschlange))$
+	\item \alert{Sichtweise der Funktionalen Programmierung}: $FirstFit(Q) = FiFo ( Filter (Q))$
 \end{itemize}
 \end{frame}
 
@@ -142,7 +142,7 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	\end{column}
 	\begin{column}[c]{0.43\paperwidth}
 		\begin{itemize}
-			\item 250 Auftr\"age,1-50 k s Bearbeitungszeit
+			\item 250 Auftr\"age
 			\item 10 Knoten
 			\item timespan - Sp\"atester Ankunftszeitpunkt wird variiert
 			\item Mittel von 100 L\"aufen
@@ -157,23 +157,7 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 	W\"ahle den am l\"angsten wartenden Auftrag, falls startbar. Sonst w\"ahle einen Auftrag, der terminiert, bevor FiFo startet, ODER einen Auftrag, der weniger Knoten ben\"otigt, als \"ubrig bleiben werden, wenn FiFo startet.
 \end{frame}
 
-\begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
-\begin{itemize}[<+->]
-	\item Gibt es einen Fall, in dem sich dies negativ auf die maximum lateness auswirkt?
-	\item \begin{verbatim}
-	Is fifo\_optimistic allways better than
-	fifo\_backfill by maximumLateness?
-	No! counterexample:
-	queueintT, processingT, realProcessingT, degreeOfParallelism
-	id: 0, qT: 1, pT: 3, rPT: 3, doP: 1
-	id: 1, qT: 0, pT: 3, rPT: 3, doP: 2
-	id: 2, qT: 0, pT: 1, rPT: 1, doP: 2
-	id: 3, qT: 0, pT: 1, rPT: 1, doP: 3
-	\end{verbatim}
-\end{itemize}
-\end{frame}
-
-\begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
+\begin{frame}[t,fragile]{Optimistic Backfilling immer besser?}
 \small
 \begin{verbatim}	
 	queueintT, processingT, realProcessingT, degreeOfParallelism
@@ -194,97 +178,73 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 \end{verbatim}
 \end{frame}
 
-\begin{frame}[t,fragile]{Optimistic Backfilling Nachteil?}
-	\begin{itemize}[<+->]
-		\item make span Konservatives Backfilling 29\% l\"anger
-		\item 4 Auftr\"age, 1 davon online, 3 Knoten
-		\item Konservativ schlechter Optimistisch:\\
-		4 Auftr\"age, 2 davon online, 3 Knoten
-		\item Kompliziertere Konstellationen sind (vermutlich) seltener
-		\item Vergleich mit Simulation: In ein paar Folien
-	\end{itemize} 
-\end{frame}
 
 \begin{frame}[t, fragile]{Konservativ vs Optimistisch}
-	\begin{itemize}
-		\item Utilization and Predictability in Scheduling the IBM SP2 with Backfilling
-		\footnote{Feitelson, Dror G. ; Weil, Ahuva M.: Utilization and pre-
+	\begin{itemize}[<+->]
+		\item 
+		''Results are that the performance (...) are practically identical.''	\footnote{Feitelson, Dror G. ; Weil, Ahuva M.: Utilization and pre-
 			dictability in scheduling the IBM SP2 with backfilling. In:
 			Proceedings of the First Merged International Parallel Proces-
 			sing Symposium and Symposium on Parallel and Distributed
-			Processing IEEE, 1998, S. 542–546}:\\
-		''Results are that the performance (...) are practically identical''
-		\item Attacking the bottlenecks of backfilling schedulers\footnote{Keleher, Peter J. ; Zotkin, Dmitry ; Perkovic, Dejan: At-
+			Processing IEEE, 1998, S. 542–546}
+		\item''This implies that there is significant difference between normalized distributions of job runtime estimates, and actual
+		running times.''\footnote{Keleher, Peter J. ; Zotkin, Dmitry ; Perkovic, Dejan: At-
 			tacking the bottlenecks of backfilling schedulers. In: Clus-
-			ter Computing 3 (2000), Nr. 4, S. 245–254}:\\
-		''This implies that there is significant difference between normalized distributions of job runtime estimates, and actual
-		running times.''
+			ter Computing 3 (2000), Nr. 4, S. 245–254}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}[t,fragile]{Gegenbeispiele Automatisch Finden}
-	\begin{itemize}
-		\item \alert{Anschauliche} Beispiele, in denen verschd. Algorithmen verschd. Entscheidungen treffen, helfen Intuition aufzubauen
-		\item Idealerweise ''For Free'' aus dem Simulationsmodell ableitbar, ohne das Modell zu \"ubersetzten 
+	\begin{itemize}[<+->]
+		\item \alert{Anschauliche} Beispiele bauen Intuition auf
+		\item Am besten ''For Free''
 		\item L\"osung: \alert{Property Based Testing}
 	\end{itemize}
 \end{frame}
-\begin{frame}[t,fragile]{Property Based Testing \footnote{Hughes, John ; Claessen, Koen: Quickcheck: a light-
+
+\begin{frame}[t, fragile]{Property Based Testing \footnote{Hughes, John ; Claessen, Koen: Quickcheck: a light-
 		weight tool for random testing of haskell programs. In:
 		Proceedings of the Fifth ACM SIGPLAN International Confe-
 		rence on Functional Programming, ICFP, 2000, S. 268–279}}
-	\begin{itemize}
-		\item Eigenschaft einer Funktion, die immer gelten soll
-		\item Zuf\"allige Eingaben ausprobiert, bis Eigenschaft verletzt wird
-		\item Beispiel verkleinern (shrinking) 
-	\end{itemize}
-\end{frame}
-
-\begin{frame}[t, fragile]{Beispiel}
-\begin{itemize}
-
+\begin{itemize}[<+->]
 	\item Funktion: \emph{reverse}
 	\item Eigenschaft: $reverse(x) == x$
 	\item Zuf\"allige Eingaben: [] , [1], [2,2], [4,2]\lightning
-	\item Verkleinern: 2 M\"oglichkeiten: Element l\"oschen oder Element verkleinern. 
 	\item Verkleiern (l\"oschen): [4,2] $\rightarrow$ [4] \lightning
 	\item Element Verkleinern: [4,2] $\rightarrow$ [1,2] $\rightarrow$ ... $\rightarrow$ [0,1]
 \end{itemize}
 \end{frame}
 
-\begin{frame}[t, fragile]{Neue M\"oglichkeiten}
-\begin{itemize}
+\begin{frame}[t, fragile]{PBT f\"ur Simulation}
+\begin{itemize}[<+->]
 	\item Testen der Implementation: FiFo nie besser als Konservatives Backfilling
-	\item Beliebig Eigenschaften Aufbauen: besser nach mehreren Zielfunktionen.
-	\item Monotonit\"at: System trifft bessere Entscheidungen, mit mehr Informationen: Fr\"uhere Ankuntszeiten $\implies$ nicht schlechtere Performance
+	\item Monotonit\"at: System trifft schlechtere  Entscheidungen, mit mehr Informationen?
 	\item Schneller Aufbau von Intuition bez. neuer Algorithmen
 \end{itemize}
 \end{frame}
 
 \begin{frame}[t, fragile]{Neue Algorithmen}
-\begin{itemize}
+\begin{itemize}[<+->]
 	\item ''-Fit'': Smallest-Fit, Greatest-Fit
-	\item Backfilling: Smallest-Backfill, Greatest-Backfill
-	\item Optimistisches Backfilling nach Smallest,Greatest
-	\item Backfilling nach zwei Funktionen; W\"ahle besten Kandidaten nach Funktion 1, falls nicht startbar, w\"ahle nach Funktion 2, ohne besten Kandidaten zu benachteiligen
-	\item Analog f\"ur Optimistisches Backfilling
+	\item (Optimistisches)-Backfilling: Smallest-Backfill, Greatest-Backfill
+	\item (Optimistisches)-Backfilling nach zwei Funktionen; W\"ahle besten Kandidaten nach Funktion 1, falls nicht startbar, w\"ahle nach Funktion 2, ohne besten Kandidaten zu benachteiligen
 \end{itemize}
 \end{frame}
 \begin{frame}[t, fragile]{Vergleich mit Simulation}
 	\begin{columns}
 		\begin{column}{0.5\paperwidth}
 			\vspace{0.5pt}
-			\includegraphics[width=\linewidth, clip]{images/Figure_5_1}
+			\includegraphics[width=\linewidth, clip]{images/Figure_7_1}
 		\end{column}
 		\begin{column}[c]{0.5\paperwidth}
-			\includegraphics[width=\linewidth, clip]{images/Figure_5_2}
+			\includegraphics[width=\linewidth, clip]{images/Figure_7_2}
 		\end{column}
 	\end{columns}
 \end{frame}
 
 \begin{frame}[t,fragile]{Qualitative Analyse nicht mehr M\"oglich}
-	\begin{itemize}
-		\item In allen Kombinationen 80 Scheduling Algorithmen
+	\begin{itemize}[<+->]
+		\item 80 Scheduling Algorithmen kombinierbar
 		\item Zu jedem Ergebnis l\"asst sich ein passendes Experiment finden
 		\item Algorithmen ohne konkretes Experiment vergleichen?
 	\end{itemize}
@@ -294,19 +254,46 @@ $Scheduling$-$Algorithmus : Warteliste \rightarrow Auftrag$\\
 		\vspace{0.5pt}
 		\includegraphics[width=\linewidth, clip]{images/SchedulerX.png}
 \end{frame}
-\begin{frame}[fragile]{PBT-Score\footnote{Rangkorrelations nach Spearman: -0.92 wenn mit Experiment 6 von Artndt et al. verglichen}}
+\begin{frame}[fragile]{PBT-Score}
 \vspace{0.5pt}
 \includegraphics[width=\linewidth, clip]{images/SchedulerXScore.png}
 \end{frame}
 
+\begin{frame}[t, fragile]{Vergleich PBT-score und Simulation\footnote{Rangkorrelations nach Spearman: -0.92 wenn mit Experiment 6 von Artndt et al. verglichen}}
+\begin{columns}
+	\begin{column}{0.5\paperwidth}
+		\vspace{0.5pt}
+		\includegraphics[width=\linewidth, clip]{images/Figure_5_1}
+	\end{column}
+	\begin{column}[c]{0.5\paperwidth}
+		\begin{table}[]
+			\resizebox{\textwidth}{!}{\begin{tabular}{lllll}
+					\hline
+					algorithm                         & area under curve & pbt score         & a.u.c. Rank & pbt Rank \\ \hline
+					fifo      						  & 25862.6322330097 & 0.756218905472637 & 1           & 9        \\
+					spt                               & 23798.8361165049 & 0.666666666666667 & 2          & 10        \\
+					lpt                               & 23054.2840776699 & 0.765625          & 4           & 8        \\
+					Fifo-fit                          & 21039.4811650485 & 1.20338983050847  & 8           & 3        \\
+					Fifo-back 						  & 21378.4883018868 & 0.866554054054054 & 5           & 8        \\
+					Fifo-optim                        & 21008.5106796117 & 1.28070175438597  & 9           & 2        \\
+					Spt-fit                           & 21211.5052427184 & 1.03174603174603  & 6           & 6        \\
+					Spt-back                          & 23685.2388349515 & 1.08196721311475  & 7           & 5        \\
+					Lpt-fit                           & 21073.0885436893 & 1.12727272727273  & 3           & 4        \\
+					Lpt-back                          & 20213.0893203883 & 1.48333333333333  & 10          & 1       \\ \hline
+			\end{tabular}}
+		\end{table}
+	\end{column}
+\end{columns}
+\end{frame}
+
 \section{Konklusion}
 \begin{frame}[t,fragile]{Konklusion}
-	\begin{itemize}
+	\begin{itemize}[<+->]
 		\item Funktionale Sichtweise n\"utzlich
 		\item PBT n\"utzlich, (fast) umsonst
 		\item Zu jedem Ergebnis ist ein Experiment generierbar
-		\item Deshalb problematisch, Algorithmen in beliebigen Situationen zu vergleichen
-		\item Experimente m\"ussen aus der Realit\"at abgeleitet werden
+		\item Algorithmen in beliebigen Situationen vergleichen problematisch
+		\item Experimente aus der Realit\"at ableiten
 		\item Algorithmen k\"onnen ohnke konkreten Fall verglichen werden
 	\end{itemize}
 \end{frame}
